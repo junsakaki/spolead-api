@@ -6,14 +6,32 @@ module V1
 
     # to do should be added mail_address into Teams Table
     def create
-      binding.pry
-      # binding.pry
-      # team = Team.new(params[:team])
-      # if team.save
-      #   # hogehoge
-      # else
-      #   # hogehoge
-      # endS
+      team = Team.new(teams_params)
+
+      if team.save
+        # when status OK
+        render 200
+      else
+        # when invalid status
+        render 500
+      end
     end
+
+    private
+    def teams_params
+        params.require(:team).permit(
+          :name, 
+          :mail_address,
+          :team_image, 
+          :sports_id, 
+          :prefecture, 
+          :city,
+          :street_number,
+          :team_type, 
+          :target_age_type, 
+          :team_information,           
+        )
+    end
+
   end
 end
