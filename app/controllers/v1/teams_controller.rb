@@ -3,6 +3,10 @@ module V1
     def index 
       render json: Team.all, each_serializer: V1::TeamSerializer
     end
+    
+    def show
+      render json: Team.find_by(id: params[:team_id]), each_serializer: V1::TeamSerializer
+    end
 
     # to do should be added mail_address into Teams Table
     def create
