@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_15_023425) do
+ActiveRecord::Schema.define(version: 2020_09_05_061556) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -31,6 +31,31 @@ ActiveRecord::Schema.define(version: 2020_08_15_023425) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "general_post"
+    t.integer "general_point"
+    t.text "policy_post"
+    t.integer "policy_point"
+    t.text "organization_post"
+    t.integer "organization_point"
+    t.text "activity_post"
+    t.integer "activity_point"
+    t.text "environment_post"
+    t.integer "environment_point"
+    t.text "event_post"
+    t.integer "event_point"
+    t.text "cost_post"
+    t.integer "cost_point"
+    t.integer "team_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "gender"
+    t.integer "age_group"
+    t.string "enrollment_period"
+    t.integer "player_flag"
   end
 
   create_table "teams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
