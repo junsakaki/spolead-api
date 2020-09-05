@@ -21,9 +21,23 @@ module V1
       end
     end
 
+    def update
+      team = Team.find_by(id: teams_params[:id])
+
+      team.update(teams_params)
+      if team.save
+        # when status OK
+        render 200
+      else
+        # when invalid status
+        render 500
+      end
+    end
+
     private
     def teams_params
         params.require(:team).permit(
+          :id,
           :name, 
           :mail_address,
           :team_image, 
