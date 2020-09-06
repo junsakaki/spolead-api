@@ -1,5 +1,10 @@
 module V1
   class ReviewsController < ApplicationController
+
+    def index
+      render json: Review.where(team_id: params[:team_id]), each_serializer: V1::ReviewSerializer
+    end
+
     def create
       review = Review.new(reviews_params)
 
