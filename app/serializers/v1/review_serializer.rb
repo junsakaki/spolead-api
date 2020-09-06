@@ -17,7 +17,7 @@ module V1
       :cost_point,
       :user_id,
       :team_id,
-      :updated_at,
+      :created_at,
       :gender,
       :age_group,
       :enrollment_period,
