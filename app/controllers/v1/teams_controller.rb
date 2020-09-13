@@ -1,7 +1,15 @@
 module V1
   class TeamsController < ApplicationController
     def index 
-      render json: Team.where(sports_id: params[:sports_id]), each_serializer: V1::TeamSerializer
+      if params[:sports_id]
+        # get Teams related to sportsId
+        team = Team.where(sports_id: params[:sports_id])
+      elsif params[:city_code]
+        # get Teams related to cityCodes
+        team = Team.where(city_code: params[:city_code])
+      end
+      render json: team, each_serializer: V1::TeamSerializer
+      # render json: Team.where(sports_id: params[:sports_id]), each_serializer: V1::TeamSerializer
     end
     
     def show
