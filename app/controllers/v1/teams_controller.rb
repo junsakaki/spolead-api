@@ -19,7 +19,6 @@ module V1
     # to do should be added mail_address into Teams Table
     def create
       team = Team.new(teams_params)
-
       if team.save
         # when status OK
         render 200
@@ -50,7 +49,9 @@ module V1
           :mail_address,
           :team_image, 
           :sports_id, 
+          :prefecture_code, 
           :prefecture, 
+          :city_code,
           :city,
           :street_number,
           :team_type, 
