@@ -1,5 +1,7 @@
 module V1
   class TeamsController < ApplicationController
+    PAGE_PER = 5
+
     def index 
       if params[:sports_id]
         # get Teams related to sportsId
@@ -8,8 +10,11 @@ module V1
         # get Teams related to cityCodes
         team = Team.where(city_code: params[:city_code])
       end
-      render json: team, each_serializer: V1::TeamSerializer
-      # render json: Team.where(sports_id: params[:sports_id]), each_serializer: V1::TeamSerializer
+      
+      # paginage by kaminari
+      paginated_team = team.page(params[:page]).per(PAGE_PER)
+
+      render json: paginated_team, each_serializer: V1::TeamSerializer
     end
     
     def show
@@ -56,7 +61,8 @@ module V1
           :street_number,
           :team_type, 
           :target_age_type, 
-          :team_information,           
+          :team_information,
+          :page         
         )
     end
 
