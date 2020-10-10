@@ -1,5 +1,7 @@
 module V1
   class ReviewSerializer < ActiveModel::Serializer
+    belongs_to :team, serializer: V1::TeamSerializer
+
     attributes :id, 
       :general_post, 
       :general_point,

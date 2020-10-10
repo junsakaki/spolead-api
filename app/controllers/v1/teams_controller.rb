@@ -4,16 +4,18 @@ module V1
     # include Pagenation
     # PAGE_PER = 5
 
-    def index 
+    def index
+      # team with reviews
+      teams = Team.preload(:reviews)
+
       if params[:sports_id]
         # get Teams filtered by sportsId
-        teams = Team.where(sports_id: params[:sports_id])
-        
+        teams = teams.where(sports_id: params[:sports_id])
       elsif params[:city_code]
         # get Teams filtered by cityCodes
         teams = Team.where(city_code: params[:city_code])
       end
-      
+
       # extract by search_word
       if(!!params[:search_word])
         teams = teams.search_columns(params[:search_word])
