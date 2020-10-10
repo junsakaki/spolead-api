@@ -2,7 +2,7 @@ module V1
   class ReviewsController < ApplicationController
 
     def index
-      render json: Review.where(team_id: params[:team_id]), each_serializer: V1::ReviewSerializer
+      render json: Review.where(team_id: params[:team_id]).order(updated_at: :desc), each_serializer: V1::ReviewSerializer
     end
 
     def create
@@ -10,6 +10,11 @@ module V1
 
       if review.save
         # when status OK
+        # calcurate team avarage_point posted review
+        team = Team.find(reviews_params[:team_id])
+        average_point = Review.where(team_id: team.id).average(:general_point).floor
+    
+        team.update(average_point: average_point)
         render 200
       else
         # when invalid status

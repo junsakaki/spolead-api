@@ -29,7 +29,7 @@ module V1
       # render_200(json)
       # render json: paginated_teams, each_serializer: V1::TeamSerializer
 
-      render json: teams, each_serializer: V1::TeamSerializer
+      render json: teams.order(created_at: :desc), each_serializer: V1::TeamSerializer
     end
     
     def show
