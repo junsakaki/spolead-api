@@ -20,6 +20,7 @@ module V1
       :user_id,
       :team_id,
       :created_at,
+      :updated_at,
       :gender,
       :age_group,
       :enrollment_period,
