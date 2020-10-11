@@ -16,7 +16,8 @@ module V1
       :target_age_type, 
       :team_information, 
       :created_at,
-      :updated_at
+      :updated_at,
+      :average_point
       # :latest_review_date
 
       # def id
