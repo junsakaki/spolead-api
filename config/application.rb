@@ -44,7 +44,7 @@ module App
       end
     end
 
-    config.hosts << 'spolead.com'
+    config.hosts << 'spolead-sv.net'
 
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
