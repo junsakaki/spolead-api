@@ -44,6 +44,8 @@ module App
       end
     end
 
+    config.hosts << 'spolead.com'
+
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
       'Access-Control-Allow-Origin' => 'https://www.spolead.com', # アクセス元のURL
