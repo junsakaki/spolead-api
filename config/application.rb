@@ -48,7 +48,7 @@ module App
 
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
-      'Access-Control-Allow-Origin' => 'https://www.spolead.com', # アクセス元のURL
+      'Access-Control-Allow-Origin' => 'https://spolead.com', # アクセス元のURL
       'Access-Control-Request-Method' => '*'
     }
 
