@@ -33,5 +33,24 @@ module App
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Permit cross origin
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins "*"
+        resource "*",
+          headers: :any,
+          methods: [:get, :post, :options, :head]
+      end
+    end
+
+    config.hosts << 'spolead-sv.net'
+
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Origin' => 'https://www.spolead.com', # アクセス元のURL
+      'Access-Control-Request-Method' => '*'
+    }
+
   end
 end

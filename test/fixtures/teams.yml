@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email: MyString
+  sports_id: 1
+  address: MyString
+  team_type: 1
+  target_age_type: 1
+  team_infomation: MyString
+
+two:
+  name: MyString
+  email: MyString
+  sports_id: 1
+  address: MyString
+  team_type: 1
+  target_age_type: 1
+  team_infomation: MyString

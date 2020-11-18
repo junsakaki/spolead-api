@@ -19,11 +19,20 @@ gem 'puma', '~> 3.11'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+# auth by devise
+gem 'devise'
+gem 'active_model_serializers'
+
+# Take measures CORS
+gem 'rack-cors'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
+
+gem 'kaminari'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -35,6 +44,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'pry-byebug'
+
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

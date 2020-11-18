@@ -1,0 +1,37 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  general_post: MyText
+  general_point: 1
+  policy_post: MyText
+  policy_point: 1
+  organization_post: MyText
+  organization_point: 1
+  activity_post: MyText
+  activity_point: 1
+  environment_post: MyText
+  environment_point: 1
+  event_post: MyText
+  event_point: 1
+  cost_post: MyText
+  cost_post: 1
+  team_id: 1
+  user_id: 1
+
+two:
+  general_post: MyText
+  general_point: 1
+  policy_post: MyText
+  policy_point: 1
+  organization_post: MyText
+  organization_point: 1
+  activity_post: MyText
+  activity_point: 1
+  environment_post: MyText
+  environment_point: 1
+  event_post: MyText
+  event_point: 1
+  cost_post: MyText
+  cost_post: 1
+  team_id: 1
+  user_id: 1
