@@ -17,7 +17,8 @@ module V1
       :team_information, 
       :created_at,
       :updated_at,
-      :average_point
+      :average_point,
+      :user_id
       # :latest_review_date
 
       # def id

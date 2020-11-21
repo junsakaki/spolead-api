@@ -1,5 +1,6 @@
 class Team < ApplicationRecord
   has_many :reviews
+  belongs_to :user
 
   scope :search_columns, ->(search_word) do
     where('name like ?', "%#{search_word}%").
