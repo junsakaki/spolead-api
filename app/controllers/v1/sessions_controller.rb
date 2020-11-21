@@ -24,6 +24,11 @@ module V1
 
     end
 
+    # def destroy
+    #   super
+    #   session[:keep_signed_out] = true
+    # end 
+
     private
 
     def invalid_email
