@@ -77,7 +77,8 @@ module V1
           :target_age_type, 
           :team_information,
           :search_word,
-          :page
+          :page,
+          :user_id
         )
     end
 
