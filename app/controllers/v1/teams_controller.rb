@@ -1,9 +1,5 @@
 module V1
   class TeamsController < ApplicationController
-    # want to add Pagenation latar
-    # include Pagenation
-    # PAGE_PER = 5
-
     def index
       # team with reviews
       teams = Team.preload(:reviews)
@@ -21,15 +17,20 @@ module V1
         teams = teams.search_columns(params[:search_word])
       end
 
-      # want to add function paginage by kaminari
-      # paginated_teams = teams.page(params[:page]).per(PAGE_PER)
-      # pagenation = resources_with_pagination(paginated_teams)
-      # json = V1::TeamSerializer.new(paginated_teams).serializable_hash.merge(pagenation)
+      # pagenate logic -----------------------------------------------------------------
+      page_per = 5 #display team number per 1page
+      page = params[:page] || 1 #start page number
+      paginated_teams = teams.page(page).per(page_per) #execute pagenation
+      total_pages = paginated_teams.total_pages #obtain all page number that paginated_teams teamss
+      # pagenate logic -----------------------------------------------------------------
+      
+      response = {
+        teams: paginated_teams.order(created_at: :desc), each_serializer: V1::TeamSerializer,
+        total_pages: total_pages 
+      }
       # binding.pry
-      # render_200(json)
-      # render json: paginated_teams, each_serializer: V1::TeamSerializer
+      render json: response
 
-      render json: teams.order(created_at: :desc), each_serializer: V1::TeamSerializer
     end
     
     def show
