@@ -18,7 +18,7 @@ module V1
       end
 
       # pagenate logic -----------------------------------------------------------------
-      page_per = 5 #display team number per 1page
+      page_per = 20 #display team number per 1page
       page = params[:page] || 1 #start page number
       paginated_teams = teams.page(page).per(page_per) #execute pagenation
       total_pages = paginated_teams.total_pages #obtain all page number that paginated_teams teamss
