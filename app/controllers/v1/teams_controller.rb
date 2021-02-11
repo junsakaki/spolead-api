@@ -9,7 +9,7 @@ module V1
         teams = teams.where(sports_id: params[:sports_id])
       elsif params[:city_code]
         # get Teams filtered by cityCodes
-        teams = Team.where(city_code: params[:city_code])
+        teams = teams.where(city_code: params[:city_code])
       end
 
       # extract by search_word
@@ -20,17 +20,12 @@ module V1
       # pagenate logic -----------------------------------------------------------------
       page_per = 20 #display team number per 1page
       page = params[:page] || 1 #start page number
-      paginated_teams = teams.page(page).per(page_per) #execute pagenation
+      paginated_teams = teams.order(created_at: :desc).page(page).per(page_per) #execute pagenation
       total_pages = paginated_teams.total_pages #obtain all page number that paginated_teams teamss
       # pagenate logic -----------------------------------------------------------------
       
-      response = {
-        teams: paginated_teams.order(created_at: :desc), each_serializer: V1::TeamSerializer,
-        total_pages: total_pages 
-      }
-      # binding.pry
-      render json: response
-
+      #meta has total_page infomation
+      render json: paginated_teams, each_serializer: V1::TeamSerializer, meta: total_pages
     end
     
     def show
