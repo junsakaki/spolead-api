@@ -24,6 +24,7 @@ module V1
       :gender,
       :age_group,
       :enrollment_period,
-      :player_flag
+      :player_flag,
+      :username
   end
 end
