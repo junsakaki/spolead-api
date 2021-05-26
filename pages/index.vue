@@ -6,7 +6,7 @@
   >
     <div class="page-header">
       <div class="page-header-title">
-        総合スポーツチーム口コミ情報サイト
+         総合スポーツチーム・クラブ 口コミポータル
       </div>
       <div class="page-header-title">
         <common-button @click="topPrefecture" button-size="large" button-color="primary">
