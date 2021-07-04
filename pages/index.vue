@@ -16,7 +16,7 @@
   >
     <div class="page-header">
       <div class="page-header-title">
-         育成年代向け総合スポーツチーム・クラブ 口コミポータル
+         地域スポーツチーム・クラブ総合口コミポータル
       </div>
       <div class="page-header-title">
         <common-button @click="topPrefecture" button-size="large" button-color="primary">
