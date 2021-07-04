@@ -1,12 +1,12 @@
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TERNFNLL4D"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-TERNFNLL4D');
-</script>
+  plugins: [
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: "process.env.GOOGLE_ANALYTICS_ID",//デフォルト値
+        head: true, //これ追加
+      },
+    },
+  ],
 
 <template>
   <v-layout
