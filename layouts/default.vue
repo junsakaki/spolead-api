@@ -56,7 +56,6 @@
       </v-container>
     </v-content>
     <v-footer
-      :fixed="fixed"
       color="primary lighten-1"
       padless
       app
@@ -77,7 +76,7 @@
           {{ link.title }}
         </v-btn>
         <v-col
-          class="primary lighten-2 py-4 text-center white--text"
+          class="primary lighten-2 py-4 text-center white--text copyright"
           cols="12"
         >
           <span>&copy; Spolead.All rights reserved 2020 {{ nowYear }}</span>
@@ -223,5 +222,15 @@ export default {
 .login-buttons {
   background: transparent;
   width: 100%;
+}
+.v-footer {
+  position: unset;
+}
+.copyright {
+  overflow: unset;
+  width: 100vw;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 12px;
 }
 </style>
