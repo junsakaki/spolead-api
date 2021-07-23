@@ -51,7 +51,7 @@
       </common-button>
     </v-app-bar>
     <v-content>
-      <v-container>
+      <v-container  v-resize="onResize" :class="isMobile && 'SP'">
         <nuxt />
       </v-container>
     </v-content>
@@ -195,6 +195,9 @@ export default {
       // }).catch((err) => {
       //   console.log('ERROR', err)
       // })
+    },
+    onResize () {
+      this.isMobile = this.$vuetify.breakpoint.smAndDown
     }
   }
 }
