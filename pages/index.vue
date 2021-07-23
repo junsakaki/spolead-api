@@ -16,9 +16,6 @@
   >
     <div class="page-header">
       <div class="page-header-title">
-         地域スポーツチーム・クラブ総合口コミポータル
-      </div>
-      <div class="page-header-title">
         <common-button @click="topPrefecture" button-size="large" button-color="primary">
           エリアから探す
         </common-button>
@@ -27,10 +24,14 @@
         </common-button>
       </div>
     </div>
+    <div class="page-title">
+         地域スポーツチーム・クラブ総合口コミポータル
+    </div>
     <v-img
       :src="require('~/assets/images/spolead-logo4.png')"
       :width="350"
       :aspect-ratio="16/6"
+      class="logo"
     />
     <v-flex
       xs12
@@ -43,7 +44,7 @@
       <v-col
         v-for="card in cards"
         :key="card.title"
-        :cols="card.flex"
+        :cols="3"
         @click="goTeamsPage(card.id)"
         class="sports"
       >
@@ -77,13 +78,13 @@ export default {
     return {
       token: '',
       cards: [
-        { id: 1, title: 'Soccer', src: require('~/assets/images/soccer.jpg'), flex: 3 },
-        { id: 2, title: 'Baseball', src: require('~/assets/images/baseball.jpg'), flex: 3 },
-        { id: 3, title: 'Basketball', src: require('~/assets/images/basketball.jpeg'), flex: 3 },
-        { id: 4, title: 'Volleyball', src: require('~/assets/images/volleyball.jpeg'), flex: 3 },
-        { id: 5, title: 'Dance', src: require('~/assets/images/dance.jpeg'), flex: 3 },
-        { id: 6, title: 'Rugby', src: require('~/assets/images/rugby.jpeg'), flex: 3 },
-        { id: 7, title: 'Swimming', src: require('~/assets/images/swimming.jpeg'), flex: 3 }
+        { id: 1, title: 'Soccer', src: require('~/assets/images/soccer.jpg') },
+        { id: 2, title: 'Baseball', src: require('~/assets/images/baseball.jpg') },
+        { id: 3, title: 'Basketball', src: require('~/assets/images/basketball.jpeg') },
+        { id: 4, title: 'Volleyball', src: require('~/assets/images/volleyball.jpeg') },
+        { id: 5, title: 'Dance', src: require('~/assets/images/dance.jpeg') },
+        { id: 6, title: 'Rugby', src: require('~/assets/images/rugby.jpeg') },
+        { id: 7, title: 'Swimming', src: require('~/assets/images/swimming.jpeg') }
       ]
     }
   },
@@ -116,12 +117,14 @@ export default {
 @import '~/assets/scss/page.scss';
 
 .page-header {
-  @include top-page-header
+  @include default-page-header;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 .page-title {
   width: 100%;
-  height: 13vh;
-  font-size: 56px;
+  font-size: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,5 +134,12 @@ export default {
   .sports {
     cursor: pointer;
   }
+}
+.SP .page-content .sports {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+.logo {
+  margin-top: 20px;
 }
 </style>
