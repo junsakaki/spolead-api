@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="page-title">
-      ユーザー登録ページ
+      アカウント登録
     </div>
     <v-flex
       xs12
@@ -54,8 +54,8 @@
         />
       </v-form>
     </v-flex>
-    <common-button @click="signUp" button-size="large" button-color="primary" button-width="25vw">
-      ユーザー登録
+    <common-button @click="signUp" button-size="large" button-color="primary" class="signup-button">
+      アカウント登録
     </common-button>
   </v-layout>
 </template>
@@ -147,10 +147,22 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.SP .page-title {
+  font-size: 32px;
+}
 .page-content {
   margin: 32px;
 }
 .v-input {
   width: 25vw;
+}
+.SP .v-input {
+  width: 75vw;
+}
+.signup-button {
+  width: 25vw;
+}
+.SP .signup-button {
+  width: 75vw;
 }
 </style>
