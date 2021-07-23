@@ -7,7 +7,7 @@
     <div class="page-header">
       <div class="page-header-title">
         <common-button @click="goSignupPage" button-color="primary" button-size="large">
-          アカウントの新規作成
+          アカウント登録
         </common-button>
       </div>
     </div>
@@ -43,7 +43,7 @@
         <!-- mypass -->
       </v-form>
     </v-flex>
-    <common-button @click="login" button-size="large" button-color="primary" button-width="25vw">
+    <common-button @click="login" button-size="large" button-color="primary" class="login-button">
       ログイン
     </common-button>
     <v-alert v-if="invalidAuth" type="error">
@@ -136,13 +136,30 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.SP .page-title {
+  width: 100%;
+  height: 13vh;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .page-content {
   margin: 32px;
 }
 .v-input {
   width: 25vw;
 }
+.SP .v-input {
+  width: 75vw;
+}
 .v-alert {
   margin: 32px;
+}
+.login-button {
+  width: 25vw;
+}
+.SP .login-button {
+  width: 75vw;
 }
 </style>
