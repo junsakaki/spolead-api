@@ -17,9 +17,10 @@
     > -->
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in !!token ? [...items, logoutItem] : [...items, ...loginItems]"
           :key="i"
           :to="item.to"
+          @click="item.onClick"
           router
           exact
         >
@@ -39,12 +40,13 @@
     >
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="token" /> -->
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" @click="$router.push('/')" style="cursor: pointer" />
+      <v-toolbar-title v-if="isMobile" @click="$router.push('/top')" class="toolbar SP">{{title}}<font class="sub-title SP">{{subTitle}}</font></v-toolbar-title>
+      <v-toolbar-title v-else @click="$router.push('/top')" style="cursor: pointer">{{subTitle + ' - ' + title}}</v-toolbar-title>
       <v-spacer />
-      <common-button @click="logOut" v-if="!!token" button-color="warning">
+      <common-button @click="logOut" v-if="!!token && !isMobile" button-color="warning">
         ログアウト
       </common-button>
-      <common-button @click="$router.push('/login')" v-else button-color="primary">
+      <common-button @click="$router.push('/login')" v-else-if="!isMobile" button-color="primary">
         チームを登録するにはログインが必要です
       </common-button>
     </v-app-bar>
@@ -108,7 +110,9 @@ export default {
           icon: 'mdi-apps',
           title: 'エリアから探す',
           to: '/topPrefecture'
-        },
+        }
+      ],
+      loginItems: [
         {
           icon: 'mdi-chart-bubble',
           title: 'ログイン',
@@ -120,6 +124,11 @@ export default {
           to: '/signup'
         }
       ],
+      logoutItem: {
+        icon: 'mdi-chart-bubble',
+        title: 'ログアウト',
+        onClick: () => this.logOut()
+      },
       footerLinks: [
         {
           title: 'ホーム',
@@ -141,7 +150,9 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: '総合スポーツチーム口コミ情報サイト​ - SPOLEAD'
+      title: 'SPOLEAD',
+      subTitle: '総合スポーツチーム口コミ情報サイト',
+      isMobile: this.$vuetify.breakpoint.smAndDown
     }
   },
   computed: {
@@ -197,5 +208,20 @@ export default {
   .common-button {
     margin-right: 20px;
   }
+}
+.toolbar {
+  cursor: pointer;
+}
+.toolbar.SP {
+  padding: 0 !important;
+  overflow: unset;
+}
+.sub-title.SP {
+  font-size: 10px;
+  margin-left: 4px;
+}
+.login-buttons {
+  background: transparent;
+  width: 100%;
 }
 </style>
