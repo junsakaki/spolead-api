@@ -29,7 +29,7 @@
     </div>
     <v-img
       :src="require('~/assets/images/spolead-logo4.png')"
-      :width="250"
+      :width="350"
       :aspect-ratio="16/6"
     />
     <v-flex
