@@ -18,7 +18,7 @@
       </div>
     </div>
     <v-img
-      :src="require('~/assets/images/spolead-logo3.png')"
+      :src="require('~/assets/images/spolead-logo4.png')"
       :width="250"
       :aspect-ratio="16/6"
     ></v-img>
