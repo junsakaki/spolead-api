@@ -51,14 +51,14 @@
               <v-rating v-model="team.average_point" readonly />
             </div>
             <div class="page-content-item-lists">
-              {{ team.team_information }}
+              <p v-html="transformTextToHtml(team.team_information)" />
             </div>
             <v-divider :inset="false" class="inner-divider" />
             <div class="page-content-item-lists grey--text">
               最新の口コミ評価({{ getLatestReview(team.reviews) ? new Date(getLatestReview(team.reviews).updated_at).toLocaleString() : 'まだ口コミがありません' }})
             </div>
             <div v-if="getLatestReview(team.reviews)" class="page-content-item-lists mx-6">
-              {{ getLatestReview(team.reviews).general_post }}
+              <p v-html="transformTextToHtml(getLatestReview(team.reviews).general_post)" />
             </div>
           </div>
         </div>
@@ -84,6 +84,7 @@ import CommonButton from '~/components/atoms/CommonButton.vue'
 import TeamRegistModal from '~/components/organisms/TeamRegistModal.vue'
 import SearchForm from '~/components/molecules/SearchForm.vue'
 import Pagination from '~/components/molecules/Pagination.vue'
+import transformTextToHtml from '~/pages/utils/transformTextToHtml'
 
 export default {
   components: {
@@ -95,6 +96,7 @@ export default {
   data () {
     return {
       colors,
+      transformTextToHtml,
       valid: true,
       nickname: '',
       email: '',

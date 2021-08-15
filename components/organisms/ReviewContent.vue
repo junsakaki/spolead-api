@@ -29,37 +29,37 @@
               <v-card-text>
                 総合：
                 <br />
-                {{ review.general_post }}
+                <p v-html="transformTextToHtml(review.general_post)" />
               </v-card-text>
               <v-card-text>
                 チーム方針：
                 <br />
-                {{ review.policy_post }}
+                <p v-html="transformTextToHtml(review.policy_post)" />
               </v-card-text>
               <v-card-text>
                 チーム体制：
                 <br />
-                {{ review.organization_post }}
+                <p v-html="transformTextToHtml(review.organization_post)" />
               </v-card-text>
               <v-card-text>
                 活動内容：
                 <br />
-                {{ review.activity_post }}
+                <p v-html="transformTextToHtml(review.activity_post)" />
               </v-card-text>
               <v-card-text>
                 チーム環境：
                 <br />
-                {{ review.environment_post }}
+                <p v-html="transformTextToHtml(review.environment_post)" />
               </v-card-text>
               <v-card-text>
                 イベント：
                 <br />
-                {{ review.event_post }}
+                <p v-html="transformTextToHtml(review.event_post)" />
               </v-card-text>
               <v-card-text>
                 費用：
                 <br />
-                {{ review.cost_post }}
+                <p v-html="transformTextToHtml(review.cost_post)" />
               </v-card-text>
             </v-card>
           </v-col>
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import transformTextToHtml from '~/pages/utils/transformTextToHtml'
 
 export default {
   components: {
@@ -82,6 +83,7 @@ export default {
   },
   data () {
     return {
+      transformTextToHtml,
       genderTypeList: [
         '男性',
         '女性'

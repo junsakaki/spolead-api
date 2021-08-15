@@ -72,7 +72,7 @@
                   <v-row justify="space-between">
                     <v-col cols="auto">
                       <!-- <div class="grey--text">チームトップ情報</div> -->
-                      <p>{{ team.team_information }}</p>
+                      <p v-html="transformTextToHtml(team.team_information)" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -146,6 +146,7 @@ import CommonButton from '~/components/atoms/CommonButton.vue'
 import TeamEditModal from '~/components/organisms/TeamEditModal.vue'
 import ReviewsRegistModal from '~/components/organisms/ReviewsRegistModal.vue'
 import ReviewContent from '~/components/organisms/ReviewContent.vue'
+import transformTextToHtml from '~/pages/utils/transformTextToHtml'
 
 export default {
   components: {
@@ -157,6 +158,7 @@ export default {
   data () {
     return {
       colors,
+      transformTextToHtml,
       tab: null,
       rating: 3,
       valid: true,
