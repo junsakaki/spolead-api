@@ -25,6 +25,8 @@
       <div class="page-content-item">
         <div class="page-content-item-header" style="display">
           {{ team.name }} ({{ team.prefecture }}{{ team.city }}{{ team.street_number }})
+          <v-chip color="primary" x-small>{{ teamTypeList[team.team_type] }}</v-chip>
+          <v-chip color="primary" x-small>{{ targetAgeList[team.target_age_type] }}</v-chip>
           <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
         </div>
         <div class="page-content-item-main">
@@ -106,7 +108,9 @@ export default {
       teams: [],
       searchWord: '',
       page: 1,
-      totalPages: 15
+      totalPages: 15,
+      targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学生'],
+      teamTypeList: [null, 'チーム', 'スクール']
     }
   },
   computed: {
