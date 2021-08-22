@@ -6,12 +6,12 @@
   >
     <div class="page-header">
       チーム一覧
-      <div class="page-header-title">
-        <SearchForm @execSearch="execSearch" />
-      </div>
       <common-button @click="showRegistTeamModal" v-if="isLogin" button-color="primary">
         チームを登録する
       </common-button>
+    </div>
+    <div class="page-header-title">
+      <SearchForm :class="isMobile && 'SP'" @execSearch="execSearch" />
     </div>
     <v-flex
       v-for="team in teams"
@@ -29,7 +29,7 @@
           <v-chip color="primary" x-small>{{ targetAgeList[team.target_age_type] }}</v-chip>
           <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
         </div>
-        <div class="page-content-item-main">
+        <div :class="`${isMobile && 'flex'} page-content-item-main`">
           <div class="page-content-item-list">
             <v-card class="d-inline-block mx-auto">
               <v-container>
@@ -110,7 +110,8 @@ export default {
       page: 1,
       totalPages: 15,
       targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学生'],
-      teamTypeList: [null, 'チーム', 'スクール']
+      teamTypeList: [null, 'チーム', 'スクール'],
+      isMobile: this.$vuetify.breakpoint.smAndDown
     }
   },
   computed: {
@@ -227,5 +228,13 @@ export default {
 }
 .v-input {
   width: 25vw;
+}
+.search-field.SP {
+  width: 100%;
+}
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
