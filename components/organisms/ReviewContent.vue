@@ -11,7 +11,7 @@
             <p>- 在籍年: {{ review.enrollment_period }}</p>
             <p>- あなたの立場: {{ displayIsPlayer }}</p>
 
-            <div class="d-flex justify-left align-center">
+            <div :class="`${!isMobile && 'd-flex justify-left align-center'}`">
               <v-rating v-model="review.general_point" readonly />
 
               <!-- due to comment out unnecessary?? -->
@@ -19,7 +19,7 @@
 
               <div>方針: {{ review.policy_point }}  体制: {{ review.organization_point }}  活動: {{ review.activity_point }}  環境: {{ review.environment_point }}  イベント: {{ review.event_point }}  費用: {{ review.cost_point }}</div>
             </div>
-            <v-card class="d-inline-block mx-auto" min-width="60vw">
+            <v-card class="d-inline-block mx-auto" min-width="60vw" :width="isMobile && '100%'">
               <v-card-title>
                 口コミ評価
               </v-card-title>
@@ -99,7 +99,8 @@ export default {
       playerFlagMap: [
         'プレーヤー',
         '保護者'
-      ]
+      ],
+      isMobile: this.$vuetify.breakpoint.smAndDown
     }
   },
   computed: {

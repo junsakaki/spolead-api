@@ -51,8 +51,8 @@
 
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <div class="page-content-item-main">
-              <div class="page-content-item-list">
+            <div :class="`page-content-item-main ${isMobile && 'SP'}`">
+              <div :class="`page-content-item-list ${isMobile && 'SP'}`">
                 <v-card class="d-inline-block mx-auto">
                   <v-container>
                     <v-row justify="space-between">
@@ -171,7 +171,8 @@ export default {
       team: {},
       reviewsList: [],
       sports_name: '',
-      showMoreInfo: true
+      showMoreInfo: true,
+      isMobile: this.$vuetify.breakpoint.smAndDown
     }
   },
   computed: {
@@ -308,14 +309,9 @@ export default {
 @import '~/assets/scss/page.scss';
 .page-header {
   @include default-page-header;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  &-sub {
-    .common-button {
-      width: 10vw;
-    }
-  }
+}
+.page-header-sub {
+  text-align: right;
 }
 .page-content {
   @include default-page-content;
@@ -330,5 +326,12 @@ export default {
   .tabs {
     margin: 24px 0px;
   }
+}
+.page-content-item-main.SP {
+  flex-direction: column;
+}
+.page-content-item-list.SP {
+  display: flex;
+  justify-content: center;
 }
 </style>
