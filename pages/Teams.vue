@@ -22,7 +22,7 @@
       flex-wrap
       class="page-content"
     >
-      <div class="page-content-item">
+      <div :class="`page-content-item ${isMobile && 'SP'}`">
         <div class="page-content-item-header" style="display">
           {{ team.name }} ({{ team.prefecture }}{{ team.city }}{{ team.street_number }})
           <v-chip color="primary" x-small>{{ teamTypeList[team.team_type] }}</v-chip>
@@ -236,5 +236,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.page-content-item {
+  width: 100%;
+}
+.page-content-item.SP {
+  width: fit-content;
 }
 </style>
