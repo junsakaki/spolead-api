@@ -21,6 +21,15 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-select
+                  v-model="player_flag"
+                  :items="playerFlagList"
+                  label="あなたの立場"
+                  item-text="playerType"
+                  item-value="playerFlag"
+                />
+              </v-col>              
+              <v-col cols="12" sm="6">
+                <v-select
                   v-model="gender_id"
                   :items="genderTypeList"
                   label="性別"
@@ -31,45 +40,23 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-select
+                  v-model="age_group"
+                  :items="ageGroupList"
+                  item-text="AgeGroupType"
+                  item-value="AgeGroupId"
+                  label="あなたの年代"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-select
                   v-model="enrollment_period"
                   :items="enrollmentPeriodList"
                   label="在籍年"
                 />
               </v-col>
-              <v-col cols="12">
-                <v-select
-                  v-model="age_group"
-                  :items="ageGroupList"
-                  item-text="AgeGroupType"
-                  item-value="AgeGroupId"
-                  label="カテゴリ"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  v-model="player_flag"
-                  :items="playerFlagList"
-                  label="あなたの立場"
-                  item-text="playerType"
-                  item-value="playerFlag"
-                />
-              </v-col>
               <v-card-title class="justify-space-between">
                 <span class="headline">チーム口コミ評価</span>
               </v-card-title>
-              <v-col cols="12">
-                <v-textarea
-                  v-model="general_post"
-                  autocomplete="総合評価"
-                  label="総合評価"
-                />
-                <div class="point-space">
-                  <span class="blue--text mr-2">
-                    ({{ general_point }})
-                  </span>
-                  <v-rating v-model="general_point" />
-                </div>
-              </v-col>
               <v-col cols="12">
                 <v-textarea
                   v-model="policy_post"
@@ -152,6 +139,19 @@
                     ({{ cost_point }})
                   </span>
                   <v-rating v-model="cost_point" />
+                </div>
+              </v-col>
+                <v-col cols="12">
+                <v-textarea
+                  v-model="general_post"
+                  autocomplete="総合評価"
+                  label="総合評価"
+                />
+                <div class="point-space">
+                  <span class="blue--text mr-2">
+                    ({{ general_point }})
+                  </span>
+                  <v-rating v-model="general_point" />
                 </div>
               </v-col>
             </v-row>

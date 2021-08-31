@@ -24,7 +24,7 @@ export const actions = {
         Authorization: localStorage.getItem('token')
       }
       if (reqData.api === 'getCityApi' || reqData.api === 'getPrefApi') {
-        req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
+        req.headers['X-API-KEY'] = 'UTcSHZB4MAnbEfmMQznGeiFmyapUsZjwhz9ulUrv'
       }
       console.log('request', req)
       axios(req)

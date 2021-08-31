@@ -30,8 +30,8 @@ export default {
     return {
       items: [
         {
-          title: '屋号',
-          content: 'SportsJunction / スポーツジャンクション',
+          title: '運営会社',
+          content: '株式会社スポーツジャンクション/SportsJunction Co. ',
           to: '',
           class: 'none'
         },

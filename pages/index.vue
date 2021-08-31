@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="page-title">
-         地域スポーツチーム・クラブ総合口コミポータル
+         総合スポーツチーム・クラブ口コミ情報ポータル
     </div>
     <v-img
       :src="require('~/assets/images/spolead-logo4.png')"

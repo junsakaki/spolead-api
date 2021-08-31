@@ -79,7 +79,7 @@
           class="primary lighten-2 py-4 text-center white--text copyright"
           cols="12"
         >
-          <span>&copy; Spolead.All rights reserved 2020 {{ nowYear }}</span>
+          <span>&copy; SpoLead.All rights reserved 2020 {{ nowYear }}</span>
         </v-col>
       </v-row>
     </v-footer>
@@ -149,8 +149,8 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'SPOLEAD',
-      subTitle: '総合スポーツチーム口コミ情報サイト',
+      title: 'SpoLead',
+      subTitle: '総合スポーツチーム・クラブ口コミ情報ポータル',
       isMobile: this.$vuetify.breakpoint.smAndDown
     }
   },
@@ -190,7 +190,7 @@ export default {
       this.$router.push('/')
       // due to local development
       // location.replace('http://localhost:8000/')
-      location.replace('https://spolead.com/')
+      location.replace('http://develop01.spolead-sv.net')
       //   }
       // }).catch((err) => {
       //   console.log('ERROR', err)
