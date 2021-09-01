@@ -40,8 +40,8 @@
     >
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="token" /> -->
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-if="isMobile" @click="$router.push('/top')" class="toolbar SP">{{title}}<font class="sub-title SP">{{subTitle}}</font></v-toolbar-title>
-      <v-toolbar-title v-else @click="$router.push('/top')" style="cursor: pointer">{{subTitle + ' - ' + title}}</v-toolbar-title>
+      <v-toolbar-title v-if="isMobile" @click="$router.push('/')" class="toolbar SP">{{title}}<font class="sub-title SP">{{subTitle}}</font></v-toolbar-title>
+      <v-toolbar-title v-else @click="$router.push('/')" style="cursor: pointer">{{subTitle + ' - ' + title}}</v-toolbar-title>
       <v-spacer />
       <common-button @click="logOut" v-if="!!token && !isMobile" button-color="warning">
         ログアウト
