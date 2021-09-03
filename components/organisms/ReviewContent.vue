@@ -93,12 +93,14 @@ export default {
         '小学生',
         '中学生',
         '高校生',
-        '大学生',
+        '大学・専門学生',
         '社会人'
       ],
       playerFlagMap: [
         'プレーヤー',
-        '保護者'
+        '保護者',
+        'チーム関係者',
+        'その他'
       ],
       isMobile: this.$vuetify.breakpoint.smAndDown
     }
