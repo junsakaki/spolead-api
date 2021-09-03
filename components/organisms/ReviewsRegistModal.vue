@@ -188,7 +188,7 @@ export default {
   data () {
     return {
       gender_id: '',
-      enrollment_period: '2015〜2020',
+      enrollment_period: '在籍中',
       age_group: '',
       player_flag: '',
       general_post: '',
@@ -211,19 +211,21 @@ export default {
         { gender: '男性', genderId: 1 },
         { gender: '女性', genderId: 2 }
       ],
-      enrollmentPeriodList: ['2015〜2021', '2010〜2014', '2005〜2009', '2000〜2004', 'それ以前'],
+      enrollmentPeriodList: ['在籍中,''2015〜2020', '2010〜2014', '2005〜2009', '2000〜2004', 'それ以前'],
 
       ageGroupList: [
         { AgeGroupType: 'キッズ', AgeGroupId: 1 },
         { AgeGroupType: '小学生', AgeGroupId: 2 },
         { AgeGroupType: '中学生', AgeGroupId: 3 },
         { AgeGroupType: '高校生', AgeGroupId: 4 },
-        { AgeGroupType: '大学生', AgeGroupId: 5 },
+        { AgeGroupType: '大学・専門学生', AgeGroupId: 5 },
         { AgeGroupType: '社会人', AgeGroupId: 6 }
       ],
       playerFlagList: [
         { playerType: 'プレーヤー', playerFlag: 1 },
-        { playerType: '保護者', playerFlag: 2 }
+        { playerType: '保護者', playerFlag: 2 },
+        { playerType: 'チーム関係者', playerFlag: 3 },
+        { playerType: 'その他', playerFlag: 4 }        
       ]
     }
   },
