@@ -225,7 +225,7 @@ export default {
         { playerType: 'プレーヤー', playerFlag: 1 },
         { playerType: '保護者', playerFlag: 2 },
         { playerType: 'チーム関係者', playerFlag: 3 },
-        { playerType: 'その他', playerFlag: 4 }        
+        { playerType: 'その他', playerFlag: 4 }
       ]
     }
   },
