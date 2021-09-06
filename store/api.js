@@ -24,12 +24,8 @@ export const actions = {
         Authorization: localStorage.getItem('token')
       }
       if (reqData.api === 'getCityApi' || reqData.api === 'getPrefApi') {
-<<<<<<< HEAD
-        req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
-=======
-         req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
->>>>>>> aba655d6a0101c6ee32a2fa8586f99d0054e40c7
-        //req.headers['X-API-KEY'] = 'UTcSHZB4MAnbEfmMQznGeiFmyapUsZjwhz9ulUrv'
+        //req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
+        req.headers['X-API-KEY'] = 'UTcSHZB4MAnbEfmMQznGeiFmyapUsZjwhz9ulUrv'
       }
       console.log('request', req)
       axios(req)

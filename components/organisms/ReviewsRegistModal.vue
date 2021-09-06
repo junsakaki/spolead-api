@@ -211,11 +211,7 @@ export default {
         { gender: '男性', genderId: 1 },
         { gender: '女性', genderId: 2 }
       ],
-<<<<<<< HEAD
-      enrollmentPeriodList: ['在籍中','2015〜2020', '2010〜2014', '2005〜2009', '2000〜2004', 'それ以前'],
-=======
       enrollmentPeriodList: ['在籍中', '2015〜2020', '2010〜2014', '2005〜2009', '2000〜2004', 'それ以前'],
->>>>>>> aba655d6a0101c6ee32a2fa8586f99d0054e40c7
 
       ageGroupList: [
         { AgeGroupType: 'キッズ', AgeGroupId: 1 },
