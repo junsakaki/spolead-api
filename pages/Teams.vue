@@ -109,7 +109,11 @@ export default {
       searchWord: '',
       page: 1,
       totalPages: 15,
+<<<<<<< HEAD
       targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学・専門学生','社会人'],
+=======
+      targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学・専門学生', '社会人'],
+>>>>>>> aba655d6a0101c6ee32a2fa8586f99d0054e40c7
       teamTypeList: [null, 'チーム', 'スクール'],
       isMobile: this.$vuetify.breakpoint.smAndDown
     }
