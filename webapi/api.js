@@ -1,8 +1,8 @@
 // localVer
-const foundation = 'http://develop01.spolead-sv.net/api/v1'
+//const foundation = 'http://develop01.spolead-sv.net/api/v1'
 
 // productionVer
-//const foundation = process.env.FOUNDATION
+const foundation = process.env.FOUNDATION
 
 export default {
   // 都道府県取得外部API
