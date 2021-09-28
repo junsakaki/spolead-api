@@ -5,9 +5,9 @@
     align-center
   >
     <div class="page-header">
-      チーム一覧
+      チーム・スクール 一覧
       <common-button @click="showRegistTeamModal" v-if="isLogin" button-color="primary">
-        チームを登録する
+        チーム・スクールを登録する
       </common-button>
     </div>
     <div class="page-header-title">
@@ -66,7 +66,7 @@
         </div>
         <div class="page-content-item-footer">
           <common-button @click="goTeamDetail(team.id)" button-color="primary">
-            チームの詳細を確認する
+            チーム・スクールの詳細を確認する
           </common-button>
         </div>
       </div>

@@ -18,7 +18,7 @@
       総合スポーツチーム口コミ情報サイト
     </div>
     <v-img
-      :src="require('~/assets/images/spolead-logo4.png')"
+      :src="require('~/assets/images/SpoLeader-logo.png')"
       :width="250"
       :aspect-ratio="16/6"
     ></v-img>

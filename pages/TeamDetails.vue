@@ -13,7 +13,7 @@
           口コミ投稿する
         </common-button>
         <common-button @click="showEditTeamModal" v-if="isTeamOwner" button-color="primary">
-          チーム編集
+          チーム・スクール編集
         </common-button>
       </div>
     </div>
@@ -71,7 +71,7 @@
                 <v-container>
                   <v-row justify="space-between">
                     <v-col cols="auto">
-                      <!-- <div class="grey--text">チームトップ情報</div> -->
+                      <!-- <div class="grey--text">チーム・スクールトップ情報</div> -->
                       <p v-html="transformTextToHtml(team.team_information)" />
                     </v-col>
                   </v-row>

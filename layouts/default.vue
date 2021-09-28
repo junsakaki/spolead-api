@@ -79,7 +79,7 @@
           class="primary lighten-2 py-4 text-center white--text copyright"
           cols="12"
         >
-          <span>&copy; SpoLead.All rights reserved 2020 {{ nowYear }}</span>
+          <span>&copy; SpoLeadeR.All rights reserved 2020 {{ nowYear }}</span>
         </v-col>
       </v-row>
     </v-footer>
@@ -149,8 +149,8 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'SpoLead',
-      subTitle: '総合スポーツチーム・クラブ口コミ情報ポータル',
+      title: 'SpoLeadeR',
+      subTitle: '総合スポーツチーム・スクール口コミ情報ポータル',
       isMobile: this.$vuetify.breakpoint.smAndDown
     }
   },
@@ -205,7 +205,7 @@ export default {
 </script>
 <style lang="scss">
 #app{
-  font-family: 'spolead';
+  font-family: 'spoleader';
 }
 .v-toolbar__content {
   .common-button {

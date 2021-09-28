@@ -25,10 +25,10 @@
       </div>
     </div>
     <div class="page-title">
-         総合スポーツチーム・クラブ口コミ情報ポータル
+         総合スポーツチーム・スクール口コミ情報ポータル
     </div>
     <v-img
-      :src="require('~/assets/images/spolead-logo4.png')"
+      :src="require('~/assets/images/SpoLeader-logo.png')"
       :width="350"
       :aspect-ratio="16/6"
       class="logo"
