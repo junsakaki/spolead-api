@@ -27,7 +27,7 @@
                   item-text="playerType"
                   item-value="playerFlag"
                 />
-              </v-col>              
+              </v-col>
               <v-col cols="12" sm="6">
                 <v-select
                   v-model="gender_id"
@@ -141,7 +141,7 @@
                   <v-rating v-model="cost_point" />
                 </div>
               </v-col>
-                <v-col cols="12">
+              <v-col cols="12">
                 <v-textarea
                   v-model="general_post"
                   autocomplete="総合評価"

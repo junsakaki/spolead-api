@@ -58,7 +58,7 @@ export default {
   axios: {
   },
   server: {
-    port: 8000, // デフォルト: 3000
+    port: 8000 // デフォルト: 3000
   },
   /*
   ** vuetify module configuration

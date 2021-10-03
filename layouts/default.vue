@@ -40,8 +40,14 @@
     >
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="token" /> -->
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-if="isMobile" @click="$router.push('/')" class="toolbar SP">{{title}}<font class="sub-title SP">{{subTitle}}</font></v-toolbar-title>
-      <v-toolbar-title v-else @click="$router.push('/')" style="cursor: pointer">{{subTitle + ' - ' + title}}</v-toolbar-title>
+      <v-toolbar-title v-if="isMobile" @click="$router.push('/')" class="toolbar SP">
+        {{ title }}<font class="sub-title SP">
+          {{ subTitle }}
+        </font>
+      </v-toolbar-title>
+      <v-toolbar-title v-else @click="$router.push('/')" style="cursor: pointer">
+        {{ subTitle + ' - ' + title }}
+      </v-toolbar-title>
       <v-spacer />
       <common-button @click="logOut" v-if="!!token && !isMobile" button-color="warning">
         ログアウト
@@ -51,7 +57,7 @@
       </common-button>
     </v-app-bar>
     <v-content>
-      <v-container  v-resize="onResize" :class="isMobile && 'SP'">
+      <v-container v-resize="onResize" :class="isMobile && 'SP'">
         <nuxt />
       </v-container>
     </v-content>
@@ -191,7 +197,7 @@ export default {
       // due to local development
       // location.replace('http://localhost:8000/')
       location.replace('https://spoleader.com/')
-      //location.replace('http://develop01.spolead-sv.net')
+      // location.replace('http://develop01.spolead-sv.net')
       //   }
       // }).catch((err) => {
       //   console.log('ERROR', err)

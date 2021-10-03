@@ -19,7 +19,7 @@
 
               <div>方針: {{ review.policy_point }}  体制: {{ review.organization_point }}  活動: {{ review.activity_point }}  環境: {{ review.environment_point }}  イベント: {{ review.event_point }}  費用: {{ review.cost_point }}</div>
             </div>
-            <v-card class="d-inline-block mx-auto" min-width="60vw" :width="isMobile && '100%'">
+            <v-card :width="isMobile && '100%'" class="d-inline-block mx-auto" min-width="60vw">
               <v-card-title>
                 口コミ評価
               </v-card-title>
@@ -28,37 +28,37 @@
               </v-card-subtitle> -->
               <v-card-text>
                 総合：
-                <br />
+                <br>
                 <p v-html="transformTextToHtml(review.general_post)" />
               </v-card-text>
               <v-card-text>
                 チーム方針：
-                <br />
+                <br>
                 <p v-html="transformTextToHtml(review.policy_post)" />
               </v-card-text>
               <v-card-text>
                 チーム体制：
-                <br />
+                <br>
                 <p v-html="transformTextToHtml(review.organization_post)" />
               </v-card-text>
               <v-card-text>
                 活動内容：
-                <br />
+                <br>
                 <p v-html="transformTextToHtml(review.activity_post)" />
               </v-card-text>
               <v-card-text>
                 チーム環境：
-                <br />
+                <br>
                 <p v-html="transformTextToHtml(review.environment_post)" />
               </v-card-text>
               <v-card-text>
                 イベント：
-                <br />
+                <br>
                 <p v-html="transformTextToHtml(review.event_post)" />
               </v-card-text>
               <v-card-text>
                 費用：
-                <br />
+                <br>
                 <p v-html="transformTextToHtml(review.cost_post)" />
               </v-card-text>
             </v-card>

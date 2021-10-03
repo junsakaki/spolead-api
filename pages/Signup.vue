@@ -122,7 +122,7 @@ export default {
               localStorage.setItem('loginDateTime', new Date())
               // location.replace('http://localhost:8000/')
               location.replace('https://spoleader.com/')
-              //location.replace('http://develop01.spolead-sv.net/')
+              // location.replace('http://develop01.spolead-sv.net/')
               console.log('token →', res.data.access_token)
             }
           })

@@ -25,8 +25,12 @@
       <div :class="`page-content-item ${isMobile && 'SP'}`">
         <div class="page-content-item-header" style="display">
           {{ team.name }} ({{ team.prefecture }}{{ team.city }}{{ team.street_number }})
-          <v-chip color="primary" x-small>{{ teamTypeList[team.team_type] }}</v-chip>
-          <v-chip color="primary" x-small>{{ targetAgeList[team.target_age_type] }}</v-chip>
+          <v-chip color="primary" x-small>
+            {{ teamTypeList[team.team_type] }}
+          </v-chip>
+          <v-chip color="primary" x-small>
+            {{ targetAgeList[team.target_age_type] }}
+          </v-chip>
           <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
         </div>
         <div :class="`${isMobile && 'flex'} page-content-item-main`">

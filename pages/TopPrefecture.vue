@@ -9,7 +9,7 @@
         <common-button @click="topSports" button-size="large" button-color="primary">
           スポーツから探す
         </common-button>
-        <common-button @click="registUserPage" button-size="large" v-if="token === ''">
+        <common-button @click="registUserPage" v-if="token === ''" button-size="large">
           ユーザー登録する
         </common-button>
       </div>
@@ -21,7 +21,7 @@
       :src="require('~/assets/images/SpoLeader-logo.png')"
       :width="250"
       :aspect-ratio="16/6"
-    ></v-img>
+    />
 
     <!-- select AREA component -->
     <v-flex
@@ -36,8 +36,8 @@
       <v-col
         v-for="card in cards"
         :key="card.title"
-        cols="3"
         @click="goPrefectureMode(card.id)"
+        cols="3"
         class="sports"
       >
         <v-card>
@@ -113,12 +113,6 @@ import CommonButton from '~/components/atoms/CommonButton.vue'
 export default {
   components: {
     CommonButton
-  },
-  created () {
-    this.token = localStorage.getItem('token')
-    // if (!this.token) {
-    //   this.$router.push('/login')
-    // }
   },
   data () {
     return {
@@ -201,6 +195,12 @@ export default {
         { id: 47, title: '沖縄県', flex: 3 }
       ]
     }
+  },
+  created () {
+    this.token = localStorage.getItem('token')
+    // if (!this.token) {
+    //   this.$router.push('/login')
+    // }
   },
   methods: {
     registUserPage () {

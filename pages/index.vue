@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="page-title">
-         総合スポーツチーム・スクール口コミ情報ポータル
+      総合スポーツチーム・スクール口コミ情報ポータル
     </div>
     <v-img
       :src="require('~/assets/images/SpoLeader-logo.png')"

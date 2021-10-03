@@ -2,8 +2,8 @@
   <div class="search-field">
     <!-- <label for="group_name">{{ label }}</label> -->
     <v-text-field
-      label="検索(チーム名、都道府県、市区町村)"
       v-model="searchWord"
+      label="検索(チーム名、都道府県、市区町村)"
     />
     <common-button @click="execSearch(searchWord)" button-color="primary">
       検索
