@@ -102,12 +102,12 @@ export default {
       this.$router.push('/login')
     },
     goTeamsPage (sportsId) {
-      this.$router.push({ name: 'Teams', params: { sportsId } })
+      this.$router.push({ name: 'teams', params: { sportsId } })
       localStorage.setItem('sportsId', sportsId)
       localStorage.setItem('cityCode', '')
     },
     topPrefecture () {
-      this.$router.push('/topPrefecture')
+      this.$router.push('/top-prefecture')
     }
   }
 }

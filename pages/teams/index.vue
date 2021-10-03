@@ -90,7 +90,7 @@ import CommonButton from '~/components/atoms/CommonButton.vue'
 import TeamRegistModal from '~/components/organisms/TeamRegistModal.vue'
 import SearchForm from '~/components/molecules/SearchForm.vue'
 import Pagination from '~/components/molecules/Pagination.vue'
-import transformTextToHtml from '~/pages/utils/transformTextToHtml'
+import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
   components: {
@@ -163,7 +163,7 @@ export default {
     },
     goTeamDetail (teamId) {
       localStorage.setItem('teamId', teamId)
-      this.$router.push('TeamDetails')
+      this.$router.push(`teams/${teamId}`)
     },
     showRegistTeamModal () {
       this.registTeamModal = true

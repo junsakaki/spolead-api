@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import transformTextToHtml from '~/pages/utils/transformTextToHtml'
+import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
   components: {

@@ -114,7 +114,7 @@ export default {
         {
           icon: 'mdi-apps',
           title: 'エリアから探す',
-          to: '/topPrefecture'
+          to: '/top-prefecture'
         }
       ],
       loginItems: [
@@ -141,15 +141,15 @@ export default {
         },
         {
           title: 'お問い合わせ',
-          to: '/ContactForm'
+          to: '/contact-form'
         },
         {
           title: '利用規約',
-          to: '/TermOfService'
+          to: '/term-of-service'
         },
         {
           title: '運営管理',
-          to: '/MasterInformation'
+          to: '/master-information'
         }
       ],
       miniVariant: false,
