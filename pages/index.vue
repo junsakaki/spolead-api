@@ -102,7 +102,7 @@ export default {
       this.$router.push('/login')
     },
     goTeamsPage (sportsId) {
-      this.$router.push({ name: 'teams', params: { sportsId } })
+      this.$router.push({ name: 'teams', params: { sportsId }, query: { sportsId } })
       localStorage.setItem('sportsId', sportsId)
       localStorage.setItem('cityCode', '')
     },
