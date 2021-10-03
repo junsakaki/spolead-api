@@ -120,7 +120,7 @@
       </div>
       <v-divider :inset="false" />
     </v-flex>
-    <common-button @click="$router.push('/Teams')">
+    <common-button @click="$router.push('/teams')">
       戻る
     </common-button>
     <!-- <common-button v-if="showMoreInfo" @click="moveToReview" button-size="large" button-color="primary" button-width="25vw">
@@ -146,7 +146,7 @@ import CommonButton from '~/components/atoms/CommonButton.vue'
 import TeamEditModal from '~/components/organisms/TeamEditModal.vue'
 import ReviewsRegistModal from '~/components/organisms/ReviewsRegistModal.vue'
 import ReviewContent from '~/components/organisms/ReviewContent.vue'
-import transformTextToHtml from '~/pages/utils/transformTextToHtml'
+import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
   components: {
