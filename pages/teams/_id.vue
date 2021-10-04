@@ -38,13 +38,13 @@
           dark
           class="tabs"
         >
-          <v-tab @change="changeTab(1)">
+          <v-tab @change="changeTab(0)">
             トップ
           </v-tab>
-          <v-tab id="reviews" @change="changeTab(2)">
+          <v-tab id="reviews" @change="changeTab(1)">
             口コミ
           </v-tab>
-          <v-tab @change="changeTab(3)">
+          <v-tab @change="changeTab(2)">
             活動場所
           </v-tab>
         </v-tabs>
@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
 import CommonButton from '~/components/atoms/CommonButton.vue'
 import TeamEditModal from '~/components/organisms/TeamEditModal.vue'
@@ -164,7 +165,7 @@ export default {
     return {
       colors,
       transformTextToHtml,
-      tab: null,
+      tab: Number(queryString.parse(location.search).tab),
       rating: 3,
       valid: true,
       nickname: '',
@@ -249,11 +250,7 @@ export default {
         })
     },
     changeTab (number) {
-      if (number === 2 || number === 3) {
-        this.showMoreInfo = false
-      } else {
-        this.showMoreInfo = true
-      }
+      this.$router.push({ path: location.pathname, query: { tab: number } })
     },
     goLoginPage () {
       this.$router.push('/login')
