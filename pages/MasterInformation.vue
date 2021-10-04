@@ -31,7 +31,7 @@ export default {
       items: [
         {
           title: '運営会社',
-          content: '株式会社スポーツジャンクション/SportsJunction Co.Ltd.. ',
+          content: '株式会社スポーツジャンクション/SportsJunction Co.,Ltd.',
           to: '',
           class: 'none'
         },
