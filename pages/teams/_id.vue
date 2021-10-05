@@ -120,7 +120,7 @@
       </div>
       <v-divider :inset="false" />
     </v-flex>
-    <common-button @click="$router.push('/teams')">
+    <common-button @click="$router.push({ name: 'teams', params: { sportsId: team.sports_id }, query: { sportsId: team.sports_id } })">
       戻る
     </common-button>
     <!-- <common-button v-if="showMoreInfo" @click="moveToReview" button-size="large" button-color="primary" button-width="25vw">
