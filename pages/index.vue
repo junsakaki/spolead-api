@@ -71,21 +71,19 @@
 import CommonButton from '~/components/atoms/CommonButton.vue'
 
 export default {
+  head () {
+    return {
+      title: 'spolead',
+      titleTemplate: ''
+    }
+  },
   components: {
     CommonButton
   },
   data () {
     return {
       token: '',
-      cards: [
-        { id: 1, title: 'Soccer', src: require('~/assets/images/soccer.jpg') },
-        { id: 2, title: 'Baseball', src: require('~/assets/images/baseball.jpg') },
-        { id: 3, title: 'Basketball', src: require('~/assets/images/basketball.jpeg') },
-        { id: 4, title: 'Volleyball', src: require('~/assets/images/volleyball.jpeg') },
-        { id: 5, title: 'Dance', src: require('~/assets/images/dance.jpeg') },
-        { id: 6, title: 'Rugby', src: require('~/assets/images/rugby.jpeg') },
-        { id: 7, title: 'Swimming', src: require('~/assets/images/swimming.jpeg') }
-      ]
+      cards: this.$SPORTS
     }
   },
   created () {

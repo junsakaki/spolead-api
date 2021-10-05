@@ -109,8 +109,11 @@
 
 <script>
 export default {
-  data: () => ({
-  })
+  head () {
+    return {
+      title: '利用規約 | '
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

@@ -111,6 +111,11 @@
 import CommonButton from '~/components/atoms/CommonButton.vue'
 
 export default {
+  head () {
+    return {
+      title: 'エリアから探す | '
+    }
+  },
   components: {
     CommonButton
   },

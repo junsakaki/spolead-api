@@ -57,6 +57,11 @@ import { colors } from '~/assets/js/Colors.js'
 import CommonButton from '~/components/atoms/CommonButton.vue'
 
 export default {
+  head () {
+    return {
+      title: 'ログイン | '
+    }
+  },
   components: {
     CommonButton
   },
