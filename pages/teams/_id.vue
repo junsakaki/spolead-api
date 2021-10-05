@@ -250,7 +250,7 @@ export default {
         })
     },
     changeTab (number) {
-      this.$router.push({ path: location.pathname, query: { tab: number } })
+      this.$router.replace({ path: location.pathname, query: { tab: number } })
     },
     goLoginPage () {
       this.$router.push('/login')
