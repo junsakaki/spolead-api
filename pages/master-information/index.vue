@@ -26,6 +26,11 @@
 
 <script>
 export default {
+  head () {
+    return {
+      title: '運営管理 | '
+    }
+  },
   data () {
     return {
       items: [

@@ -93,6 +93,11 @@ import Pagination from '~/components/molecules/Pagination.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
+  head () {
+    return {
+      title: `${this.params.sports_id ? this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).titleJP : ''}${this.params.city_code ?? ''}のチーム・スクール一覧 | `
+    }
+  },
   components: {
     CommonButton,
     SearchForm,
@@ -115,7 +120,8 @@ export default {
       totalPages: 15,
       targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学・専門学生', '社会人'],
       teamTypeList: [null, 'チーム', 'スクール'],
-      isMobile: this.$vuetify.breakpoint.smAndDown
+      isMobile: this.$vuetify.breakpoint.smAndDown,
+      params: {}
     }
   },
   computed: {
@@ -140,6 +146,7 @@ export default {
           city_code: localStorage.getItem('cityCode')
         }
       }
+      this.params = params
 
       params.search_word = this.searchWord
       params.page = this.page

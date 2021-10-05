@@ -149,6 +149,11 @@ import ReviewContent from '~/components/organisms/ReviewContent.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
+  head () {
+    return {
+      title: `${this.team.name}の${this.team.team_type === 1 ? 'チーム' : this.team.team_type === 2 ? 'スクール' : ''}情報 | `
+    }
+  },
   components: {
     CommonButton,
     TeamEditModal,
