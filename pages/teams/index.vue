@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
 import CommonButton from '~/components/atoms/CommonButton.vue'
 import TeamRegistModal from '~/components/organisms/TeamRegistModal.vue'
@@ -95,7 +96,7 @@ import transformTextToHtml from '~/utils/transformTextToHtml'
 export default {
   head () {
     return {
-      title: `${this.params.sports_id ? this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).titleJP : ''}${this.params.city_code ?? ''}のチーム・スクール一覧 | `
+      title: `${this.params.sports_id ? this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).titleJP : ''}${this.params.city_code ?? ''}のチーム・スクール一覧（${this.page}ページ目） | `
     }
   },
   components: {
@@ -116,7 +117,7 @@ export default {
       registTeamModal: false,
       teams: [],
       searchWord: '',
-      page: 1,
+      page: queryString.parse(location.search).page ? Number(queryString.parse(location.search).page) : 1,
       totalPages: 15,
       targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学・専門学生', '社会人'],
       teamTypeList: [null, 'チーム', 'スクール'],
@@ -208,6 +209,8 @@ export default {
     },
     execPagination (page) {
       this.page = page
+      console.log(this.$router.params)
+      this.$router.push({ name: 'teams', params: { sportsId: localStorage.getItem('sportsId') }, query: { sportsId: localStorage.getItem('sportsId'), page } })
       this.getTeams()
     }
   }
