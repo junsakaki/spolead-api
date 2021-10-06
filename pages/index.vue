@@ -73,7 +73,7 @@ import CommonButton from '~/components/atoms/CommonButton.vue'
 export default {
   head () {
     return {
-      title: 'spolead',
+      title: 'SpoLeadeR',
       titleTemplate: ''
     }
   },
