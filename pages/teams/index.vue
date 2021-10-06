@@ -96,7 +96,7 @@ import transformTextToHtml from '~/utils/transformTextToHtml'
 export default {
   head () {
     return {
-      title: `${this.params.sports_id ? this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).titleJP : ''}${this.params.city_code ?? ''}のチーム・スクール一覧（${this.page}ページ目） | `
+      title: `${this.params.sports_id ? this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).title : ''}${this.params.city_code ?? ''}のチーム・スクール一覧（${this.page}ページ目） | `
     }
   },
   components: {
