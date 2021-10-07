@@ -1,61 +1,30 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <!-- <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-      v-if="token"
-    > -->
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in !!token ? [...items, logoutItem] : [...items, ...loginItems]"
-          :key="i"
-          :to="item.to"
-          @click="item.onClick"
-          router
-          exact
+    <div :class="`header ${$route.path === '/' ? 'fixed' : ''}`">
+      <router-link to="/" class="logo">
+        <img
+          :src="require('~/assets/images/SpoLeader-logo.png')"
+          :width="130"
+          :aspect-ratio="16/6"
+          class="logo"
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="token" /> -->
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-if="isMobile" @click="$router.push('/')" class="toolbar SP">
-        {{ title }}<font class="sub-title SP">
-          {{ subTitle }}
-        </font>
-      </v-toolbar-title>
-      <v-toolbar-title v-else @click="$router.push('/')" style="cursor: pointer">
-        {{ subTitle + ' - ' + title }}
-      </v-toolbar-title>
-      <v-spacer />
-      <common-button @click="logOut" v-if="!!token && !isMobile" button-color="warning">
-        ログアウト
-      </common-button>
-      <common-button @click="$router.push('/login')" v-else-if="!isMobile" button-color="primary">
-        チームを登録するにはログインが必要です
-      </common-button>
-    </v-app-bar>
+      </router-link>
+      <div v-if="!['/login', '/signup'].includes($route.path)">
+        <div v-if="token" class="links">
+          <a @click="logOut" class="link logout">
+            ログアウト
+          </a>
+        </div>
+        <div v-else class="links">
+          <router-link to="/signup" class="link signup">
+            アカウント登録
+          </router-link>
+          <router-link to="/login" class="link login">
+            ログイン
+          </router-link>
+        </div>
+      </div>
+    </div>
     <v-content>
       <v-container v-resize="onResize" :class="isMobile && 'SP'">
         <nuxt />
@@ -93,11 +62,7 @@
 </template>
 
 <script>
-import CommonButton from '~/components/atoms/CommonButton.vue'
 export default {
-  components: {
-    CommonButton
-  },
   data () {
     return {
       token: '',
@@ -242,5 +207,37 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 12px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  padding-left: 12px;
+  margin: 0 72px;
+  background-color: white;
+  width: -webkit-fill-available;
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  .links {
+    display: flex;
+  }
+  .link {
+    font-size: 14px;
+    padding: 18px 12px;
+    color: white;
+    text-decoration: none;
+  }
+  .link.login, .link.logout {
+    background-color: #ef4848;
+  }
+  .link.signup {
+    background-color: #43464a;
+  }
+}
+.header.fixed {
+  position: fixed;
+  box-shadow: 0px 7.5px 18px 1.2px rgb(0 0 0 / 12%);
 }
 </style>

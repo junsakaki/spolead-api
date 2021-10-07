@@ -14,15 +14,14 @@
     justify-center
     align-center
   >
-    <div class="page-title">
-      総合スポーツチーム・スクール口コミ情報ポータル
+    <div class="page-header">
+      <div class="layer" />
+      <div class="page-title">
+        総合 スポーツチーム・スクール
+        <br>
+        口コミ情報ポータル
+      </div>
     </div>
-    <v-img
-      :src="require('~/assets/images/SpoLeader-logo.png')"
-      :width="350"
-      :aspect-ratio="16/6"
-      class="logo"
-    />
     <div class="page-content">
       <div class="h2 text-left page-content-title">
         スポーツから探す
@@ -226,13 +225,6 @@ export default {
   align-items: center;
   justify-content: flex-end;
 }
-.page-title {
-  width: 100%;
-  font-size: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .page-content {
   width: 100%;
   margin: 32px;
@@ -266,5 +258,32 @@ export default {
 }
 .city-select-area {
   padding: 12px;
+}
+.page-header {
+  position: relative;
+  width: 100vw;
+  height: 50vh;
+  margin-top: -72px;
+  background-color: blue;
+  background-image: url('../assets/images/soccer.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: default;
+  .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #40404075;
+  }
+  .page-title {
+    position: absolute;
+    bottom: 16px;
+    left: 96px;
+    font-size: 32px;
+    color: white;
+  }
 }
 </style>
