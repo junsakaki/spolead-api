@@ -1,32 +1,8 @@
 <template>
   <v-app dark>
-    <div :class="`header ${$route.path === '/' ? 'fixed' : ''}`">
-      <router-link to="/" class="logo">
-        <img
-          :src="require('~/assets/images/SpoLeader-logo.png')"
-          :width="130"
-          :aspect-ratio="16/6"
-          class="logo"
-        >
-      </router-link>
-      <div v-if="!['/login', '/signup'].includes($route.path)">
-        <div v-if="token" class="links">
-          <a @click="logOut" class="link logout">
-            ログアウト
-          </a>
-        </div>
-        <div v-else class="links">
-          <router-link to="/signup" class="link signup">
-            アカウント登録
-          </router-link>
-          <router-link to="/login" class="link login">
-            ログイン
-          </router-link>
-        </div>
-      </div>
-    </div>
+    <Header :token="token" />
     <v-content>
-      <v-container v-resize="onResize" :class="isMobile && 'SP'">
+      <v-container :class="$vuetify.breakpoint.smAndDown && 'SP'">
         <nuxt />
       </v-container>
     </v-content>
@@ -62,7 +38,12 @@
 </template>
 
 <script>
+import Header from '~/components/organisms/Header.vue'
+
 export default {
+  components: {
+    Header
+  },
   data () {
     return {
       token: '',
@@ -121,8 +102,7 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'SpoLeadeR',
-      subTitle: '総合スポーツチーム・スクール口コミ情報ポータル',
-      isMobile: this.$vuetify.breakpoint.smAndDown
+      subTitle: '総合スポーツチーム・スクール口コミ情報ポータル'
     }
   },
   computed: {
@@ -167,9 +147,6 @@ export default {
       // }).catch((err) => {
       //   console.log('ERROR', err)
       // })
-    },
-    onResize () {
-      this.isMobile = this.$vuetify.breakpoint.smAndDown
     }
   }
 }
