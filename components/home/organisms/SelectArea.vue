@@ -85,7 +85,7 @@
       </div>
       <!-- select CITY component -->
       <div v-else-if="mode === 'city'">
-        <div class="city-select-area">
+        <div class="city-select-area SP">
           <div class="area-title">
             {{ selectedPrefecture.title }}の市区町村一覧
           </div>
@@ -256,6 +256,9 @@ export default {
 }
 .page-content .page-content-title.SP {
   font-size: 14px;
+  .back {
+    font-size: 12px;
+  }
 }
 .area-title {
   font-size: 14px;
@@ -309,5 +312,10 @@ export default {
       }
     }
   }
+}
+.city-select-area.SP .link {
+  padding: 2px;
+  margin: 0 4px;
+  font-size: 12px;
 }
 </style>
