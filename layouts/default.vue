@@ -155,6 +155,9 @@ export default {
 #app{
   font-family: 'spoleader';
 }
+.v-main {
+  padding: 0 !important;
+}
 .v-toolbar__content {
   .common-button {
     margin-right: 20px;

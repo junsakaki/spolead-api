@@ -14,130 +14,23 @@
     justify-center
     align-center
   >
-    <div class="page-header">
-      <div class="layer" />
-      <div class="page-title">
-        総合 スポーツチーム・スクール
-        <br>
-        口コミ情報ポータル
-      </div>
-    </div>
-    <div class="page-content">
-      <div class="h2 text-left page-content-title">
-        スポーツから探す
-      </div>
-      <v-flex
-        xs12
-        sm8
-        md6
-        d-flex
-        flex-wrap
-        class="sports-area"
-      >
-        <v-col
-          v-for="card in cards"
-          :key="card.title"
-          :cols="3"
-          @click="goTeamsPage(card.id)"
-          class="cards"
-        >
-          <v-card>
-            <v-img
-              :src="card.src"
-              class="white--text align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
-            >
-              <v-card-title v-text="card.title" />
-            </v-img>
-          </v-card>
-        </v-col>
-      </v-flex>
-    </div>
-
-    <div class="page-content">
-      <div width="100%" class="h2 text-left page-content-title">
-        エリアから探す
-        <a v-if="mode == 'city'" @click="backMode">
-          <font class="back">都道府県一覧に戻る</font>
-        </a>
-      </div>
-      <!-- select PREFECTURE component -->
-      <div v-if="mode === 'prefecture'">
-        <v-flex
-          d-flex
-          flex-wrap
-        >
-          <v-col
-            v-for="prefecture in topPrefecture"
-            :key="prefecture.id"
-            :cols="4"
-            class="cards"
-          >
-            <v-card @click="goCitySelect(prefecture)">
-              <v-img
-                :src="prefecture.src"
-                class="white--text align-end"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="200px"
-              >
-                <v-card-title v-text="prefecture.title" />
-              </v-img>
-            </v-card>
-          </v-col>
-        </v-flex>
-        <v-flex
-          d-flex
-          flex-wrap
-        >
-          <v-col
-            v-for="area in areas"
-            :key="area.id"
-            :cols="6"
-          >
-            <div class="area-title">
-              {{ area.title }}
-            </div>
-            <v-flex
-              d-flex
-              flex-wrap
-            >
-              <a
-                v-for="prefecture in area.prefectures"
-                :key="prefecture.id"
-                @click="goCitySelect(prefecture)"
-                class="link"
-              >
-                {{ prefecture.title }}
-              </a>
-            </v-flex>
-          </v-col>
-        </v-flex>
-      </div>
-      <!-- select CITY component -->
-      <div v-else-if="mode === 'city'">
-        <div class="city-select-area">
-          <div class="area-title">
-            {{ selectedPrefecture.title }}の市区町村一覧
-          </div>
-          <v-flex d-flex flex-wrap class="list">
-            <a
-              v-for="city in cityCards"
-              :key="city.cityCode"
-              @click="showTeamsRelatedToCity(city.cityCode)"
-              class="link"
-            >
-              {{ city.cityName }}
-            </a>
-          </v-flex>
-        </div>
-      </div>
-    </div>
+    <HomeHeader />
+    <SelectSports />
+    <SelectArea />
   </v-layout>
 </template>
 
 <script>
+import HomeHeader from '~/components/home/organisms/HomeHeader.vue'
+import SelectSports from '~/components/home/organisms/SelectSports.vue'
+import SelectArea from '~/components/home/organisms/SelectArea.vue'
+
 export default {
+  components: {
+    HomeHeader,
+    SelectSports,
+    SelectArea
+  },
   head () {
     return {
       title: 'SpoLeadeR',
