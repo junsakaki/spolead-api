@@ -65,7 +65,7 @@
                     v-for="prefecture in area.prefectures"
                     :key="prefecture.id"
                     @click="goCitySelect(prefecture)"
-                    class="link"
+                    class="area-link"
                   >
                     {{ prefecture.title }}
                   </a>
@@ -94,7 +94,7 @@
               v-for="city in cityCards"
               :key="city.cityCode"
               @click="showTeamsRelatedToCity(city.cityCode)"
-              class="link"
+              class="area-link"
             >
               {{ city.cityName }}
             </a>
@@ -153,7 +153,7 @@
                 v-for="prefecture in area.prefectures"
                 :key="prefecture.id"
                 @click="goCitySelect(prefecture)"
-                class="link"
+                class="area-link"
               >
                 {{ prefecture.title }}
               </a>
@@ -172,7 +172,7 @@
               v-for="city in cityCards"
               :key="city.cityCode"
               @click="showTeamsRelatedToCity(city.cityCode)"
-              class="link"
+              class="area-link"
             >
               {{ city.cityName }}
             </a>
@@ -239,7 +239,7 @@ export default {
 .page-content {
   width: 100%;
   margin: 32px;
-  .link {
+  .area-link {
     cursor: pointer;
     margin-right: 16px;
   }
@@ -290,7 +290,7 @@ export default {
   .area {
     padding: 4px 12px;
   }
-  .link {
+  .area-link {
     padding: 0;
     margin: 0 4px;
     font-size: 12px;
@@ -313,7 +313,7 @@ export default {
     }
   }
 }
-.city-select-area.SP .link {
+.city-select-area.SP .area-link {
   padding: 2px;
   margin: 0 4px;
   font-size: 12px;
