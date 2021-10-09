@@ -220,4 +220,8 @@ export default {
   position: fixed;
   box-shadow: 0px 7.5px 18px 1.2px rgb(0 0 0 / 12%);
 }
+.breadcrumbs {
+  width: 100%;
+  padding: 0 0 12px !important;
+}
 </style>

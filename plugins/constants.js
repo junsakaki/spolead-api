@@ -210,8 +210,19 @@ const TOP_PREFECTURE = [
   { id: 40, title: '福岡県', src: require('~/assets/images/fukuoka.jpeg') }
 ]
 
+const BREADCRUMBS = [
+  {
+    text: 'SpoLeadeR',
+    link: true,
+    exact: true,
+    disabled: false,
+    to: { path: '/' }
+  }
+]
+
 export default (context, inject) => {
   inject('SPORTS', SPORTS)
   inject('AREA', AREA)
   inject('TOP_PREFECTURE', TOP_PREFECTURE)
+  inject('BREADCRUMBS', BREADCRUMBS)
 }

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-card>
+    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
+    <v-card class="master-information-card">
       <v-container>
         <v-card-title>運営管理</v-card-title>
 
@@ -58,6 +63,13 @@ export default {
           to: '/ContactForm',
           class: 'ablelink'
         }
+      ],
+      breadcrumbs: [
+        ...this.$BREADCRUMBS,
+        {
+          text: '運営管理',
+          disabled: true
+        }
       ]
     }
   }
@@ -91,5 +103,8 @@ td {
 }
 .ablelink {
   cursor: pointer;
+}
+.master-information-card .container {
+  margin: 0;
 }
 </style>

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-card>
+    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
+    <v-card class="term-of-service-container">
       <v-container>
         <h2>SpoLeadeRとは・・・</h2>
         <div>
@@ -113,6 +118,17 @@ export default {
     return {
       title: '利用規約 | '
     }
+  },
+  data () {
+    return {
+      breadcrumbs: [
+        ...this.$BREADCRUMBS,
+        {
+          text: '利用規約',
+          disabled: true
+        }
+      ]
+    }
   }
 }
 </script>
@@ -130,11 +146,10 @@ p {
 .indent-box {
   padding-left: 20px;
 }
-.container {
-  margin-top: 2em;
+.term-of-service-container {
+  padding: 24px;
   div {
     padding: 1em;
   }
-
 }
 </style>

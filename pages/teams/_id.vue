@@ -4,6 +4,11 @@
     justify-center
     align-center
   >
+    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
     <div class="page-header">
       <div class="page-header-title">
         {{ team.name }}
@@ -178,7 +183,23 @@ export default {
       reviewsList: [],
       sports_name: '',
       showMoreInfo: true,
-      isMobile: this.$vuetify.breakpoint.smAndDown
+      isMobile: this.$vuetify.breakpoint.smAndDown,
+      breadcrumbs: [
+        ...this.$BREADCRUMBS,
+        {
+          text: `${this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).title}のチーム・スクール一覧`,
+          link: true,
+          exact: true,
+          disabled: false,
+          to: {
+            path: `/teams?sportsId=${this.team.sports_id}&cityCode=${this.team.city_code}`
+          }
+        },
+        {
+          text: `${this.team.name}の${this.team.team_type === 1 ? 'チーム' : this.team.team_type === 2 ? 'スクール' : ''}情報`,
+          disabled: false
+        }
+      ]
     }
   },
   computed: {
