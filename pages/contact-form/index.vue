@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-card>
+    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
+    <v-card class="contact-form-card">
       <v-container>
         <iframe
           src="https://docs.google.com/forms/d/e/1FAIpQLSdHfvzlZ6sh20zblUbUHEbWUZLVsFUEhfrcyscFDoVQ1JRjGw/viewform?embedded=true"
@@ -21,6 +26,17 @@ export default {
     return {
       title: 'お問い合わせ | '
     }
+  },
+  data () {
+    return {
+      breadcrumbs: [
+        ...this.$BREADCRUMBS,
+        {
+          text: 'お問い合わせ',
+          disabled: true
+        }
+      ]
+    }
   }
 }
 </script>
@@ -34,5 +50,8 @@ p {
   justify-content: center;
   align-content: center;
   margin-top: 24px
+}
+.contact-form-card .container {
+  margin: 0;
 }
 </style>

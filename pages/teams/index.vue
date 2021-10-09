@@ -4,9 +4,13 @@
     justify-center
     align-center
   >
+    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
     <div class="page-header">
-      チーム・スクール 一覧
-      <common-button @click="showRegistTeamModal" v-if="isLogin" button-color="primary">
+      <common-button @click="showRegistTeamModal" button-color="primary">
         チーム・スクールを登録する
       </common-button>
     </div>
@@ -122,7 +126,14 @@ export default {
       targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学・専門学生', '社会人'],
       teamTypeList: [null, 'チーム', 'スクール'],
       isMobile: this.$vuetify.breakpoint.smAndDown,
-      params: {}
+      params: {},
+      breadcrumbs: [
+        ...this.$BREADCRUMBS,
+        {
+          text: 'チーム・スクール一覧',
+          disabled: true
+        }
+      ]
     }
   },
   computed: {
@@ -220,10 +231,10 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/scss/page.scss';
 .page-header {
-  @include default-page-header;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  width: 100%;
 }
 .page-content {
   @include default-page-content;
