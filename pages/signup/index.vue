@@ -3,17 +3,8 @@
     column
     justify-center
     align-center
+    class="page-container"
   >
-    <div class="page-header">
-      <div class="page-header-title">
-        <common-button @click="goLoginPage" button-color="primary" button-size="large">
-          既にアカウントをお持ちですか？
-        </common-button>
-      </div>
-    </div>
-    <div class="page-title">
-      アカウント登録
-    </div>
     <v-flex
       xs12
       sm8
@@ -22,10 +13,19 @@
       flex-wrap
       class="page-content"
     >
+      <router-link to="/">
+        <img
+          :src="require('~/assets/images/SpoLeader-logo.png')"
+          :aspect-ratio="16/6"
+          width="80%"
+          class="logo"
+        >
+      </router-link>
       <v-form
         ref="form"
         v-model="valid"
         lazy-validation
+        class="signup-form"
       >
         <v-text-field
           v-model="nickname"
@@ -53,10 +53,16 @@
           required
         />
       </v-form>
+      <common-button @click="signUp" button-size="large" button-color="primary" class="signup-button">
+        アカウント登録
+      </common-button>
+      <div class="login">
+        すでにアカウントをお持ちですか？&nbsp;
+        <router-link to="/login">
+          ログインする
+        </router-link>
+      </div>
     </v-flex>
-    <common-button @click="signUp" button-size="large" button-color="primary" class="signup-button">
-      アカウント登録
-    </common-button>
   </v-layout>
 </template>
 
@@ -139,36 +145,44 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/scss/page.scss';
-.page-header {
-  @include default-page-header;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.page-title {
-  width: 100%;
-  height: 13vh;
-  font-size: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.SP .page-title {
-  font-size: 32px;
+.page-container {
+  position: relative;
+  height: 100vh;
 }
 .page-content {
-  margin: 32px;
+  position: absolute;
+  padding: 0 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
 }
 .v-input {
-  width: 25vw;
+  width: 100%;
+  margin: 16px 0;
+  padding: 0;
 }
-.SP .v-input {
-  width: 75vw;
+.v-alert {
+  margin: 32px;
 }
 .signup-button {
-  width: 25vw;
+  width: 100%;
 }
-.SP .signup-button {
-  width: 75vw;
+.login {
+  margin-top: 60px;
+  padding-top: 24px;
+  text-align: center;
+  color: #00000099;
+  border-top: solid 1px #00000026;
+  a {
+    text-decoration: none;
+  }
+}
+.SP .login {
+  font-size: 12px;
+}
+.signup-form {
+  margin-top: 24px;
+}
+.logo {
+  margin: 0 auto;
 }
 </style>

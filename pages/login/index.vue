@@ -3,17 +3,8 @@
     column
     justify-center
     align-center
+    class="page-container"
   >
-    <div class="page-header">
-      <div class="page-header-title">
-        <common-button @click="goSignupPage" button-color="primary" button-size="large">
-          アカウント登録
-        </common-button>
-      </div>
-    </div>
-    <div class="page-title">
-      ログインページ
-    </div>
     <v-flex
       xs12
       sm8
@@ -22,10 +13,19 @@
       flex-wrap
       class="page-content"
     >
+      <router-link to="/">
+        <img
+          :src="require('~/assets/images/SpoLeader-logo.png')"
+          :aspect-ratio="16/6"
+          width="80%"
+          class="logo"
+        >
+      </router-link>
       <v-form
         ref="form"
         v-model="valid"
         lazy-validation
+        class="login-form"
       >
         <v-text-field
           v-model="email"
@@ -33,22 +33,26 @@
           label="メールアドレス"
           required
         />
-        <!-- user@example.com -->
         <v-text-field
           v-model="password"
           :rules="passwordRules"
           label="パスワード"
           required
         />
-        <!-- mypass -->
       </v-form>
+      <common-button @click="login" button-size="large" button-color="primary" class="login-button">
+        ログイン
+      </common-button>
+      <v-alert v-if="invalidAuth" type="error">
+        認証情報が正しくありません。
+      </v-alert>
+      <div class="signup">
+        アカウントをお持ちでないですか？&nbsp;
+        <router-link to="/signup">
+          登録する
+        </router-link>
+      </div>
     </v-flex>
-    <common-button @click="login" button-size="large" button-color="primary" class="login-button">
-      ログイン
-    </common-button>
-    <v-alert v-if="invalidAuth" type="error">
-      認証情報が正しくありません。
-    </v-alert>
   </v-layout>
 </template>
 
@@ -110,9 +114,6 @@ export default {
           })
       }
     },
-    goSignupPage () {
-      this.$router.push('/signup')
-    },
     validate () {
       return this.$refs.form.validate()
     },
@@ -128,44 +129,44 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/scss/page.scss';
-.page-header {
-  @include default-page-header;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.page-title {
-  width: 100%;
-  height: 13vh;
-  font-size: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.SP .page-title {
-  width: 100%;
-  height: 13vh;
-  font-size: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.page-container {
+  position: relative;
+  height: 100vh;
 }
 .page-content {
-  margin: 32px;
+  position: absolute;
+  padding: 0 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
 }
 .v-input {
-  width: 25vw;
-}
-.SP .v-input {
-  width: 75vw;
+  width: 100%;
+  margin: 16px 0;
+  padding: 0;
 }
 .v-alert {
   margin: 32px;
 }
 .login-button {
-  width: 25vw;
+  width: 100%;
 }
-.SP .login-button {
-  width: 75vw;
+.signup {
+  margin-top: 60px;
+  padding-top: 24px;
+  text-align: center;
+  color: #00000099;
+  border-top: solid 1px #00000026;
+  a {
+    text-decoration: none;
+  }
+}
+.SP .signup {
+  font-size: 12px;
+}
+.login-form {
+  margin-top: 24px;
+}
+.logo {
+  margin: 0 auto;
 }
 </style>
