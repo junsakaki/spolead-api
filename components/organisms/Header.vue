@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!['/login', '/signup'].includes($route.path)">
     <div v-if="$vuetify.breakpoint.smAndDown" class="header SP">
       <router-link to="/" class="logo">
         <img
@@ -9,7 +9,7 @@
           class="logo"
         >
       </router-link>
-      <div v-if="!['/login', '/signup'].includes($route.path)">
+      <div>
         <a v-if="token" @click="logOut" class="icon-button">
           <v-icon small>
             mdi-lock-open
@@ -33,7 +33,7 @@
           class="logo"
         >
       </router-link>
-      <div v-if="!['/login', '/signup'].includes($route.path)">
+      <div>
         <div v-if="token" class="links">
           <a @click="logOut" class="link logout">
             ログアウト
