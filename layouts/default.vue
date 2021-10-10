@@ -6,6 +6,7 @@
         <nuxt />
       </v-container>
     </v-content>
+    <ScrollTopButton />
     <v-footer
       color="primary lighten-1"
       padless
@@ -39,10 +40,12 @@
 
 <script>
 import Header from '~/components/organisms/Header.vue'
+import ScrollTopButton from '~/components/shared/atoms/ScrollTopButton.vue'
 
 export default {
   components: {
-    Header
+    Header,
+    ScrollTopButton
   },
   data () {
     return {
