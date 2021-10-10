@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import CommonButton from '~/components/atoms/CommonButton.vue'
+import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 
 export default {
   components: {

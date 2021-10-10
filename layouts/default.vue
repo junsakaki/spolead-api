@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Header from '~/components/organisms/Header.vue'
+import Header from '~/components/shared/organisms/Header.vue'
 import ScrollTopButton from '~/components/shared/atoms/ScrollTopButton.vue'
 
 export default {

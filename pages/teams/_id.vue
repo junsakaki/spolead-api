@@ -148,10 +148,10 @@
 <script>
 import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
-import CommonButton from '~/components/atoms/CommonButton.vue'
-import TeamEditModal from '~/components/organisms/TeamEditModal.vue'
-import ReviewsRegistModal from '~/components/organisms/ReviewsRegistModal.vue'
-import ReviewContent from '~/components/organisms/ReviewContent.vue'
+import CommonButton from '~/components/shared/atoms/CommonButton.vue'
+import TeamEditModal from '~/components/teams/organisms/TeamEditModal.vue'
+import ReviewsRegistModal from '~/components/teams/organisms/ReviewsRegistModal.vue'
+import ReviewContent from '~/components/teams/organisms/ReviewContent.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {

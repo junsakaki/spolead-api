@@ -58,7 +58,7 @@
 
 <script>
 import { colors } from '~/assets/js/Colors.js'
-import CommonButton from '~/components/atoms/CommonButton.vue'
+import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 
 export default {
   head () {
