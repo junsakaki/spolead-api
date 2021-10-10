@@ -91,10 +91,10 @@
 <script>
 import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
-import CommonButton from '~/components/atoms/CommonButton.vue'
-import TeamRegistModal from '~/components/organisms/TeamRegistModal.vue'
-import SearchForm from '~/components/molecules/SearchForm.vue'
-import Pagination from '~/components/molecules/Pagination.vue'
+import CommonButton from '~/components/shared/atoms/CommonButton.vue'
+import TeamRegistModal from '~/components/teams/organisms/TeamRegistModal.vue'
+import SearchForm from '~/components/teams/molecules/SearchForm.vue'
+import Pagination from '~/components/teams/molecules/Pagination.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
