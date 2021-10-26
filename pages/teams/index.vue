@@ -9,81 +9,88 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <div class="page-header">
+    <div v-if="!isLoading && !isError" class="page-header">
       <common-button @click="showRegistTeamModal" button-color="primary">
         チーム・スクールを登録する
       </common-button>
     </div>
-    <div class="page-header-title">
-      <SearchForm :class="isMobile && 'SP'" @execSearch="execSearch" />
-    </div>
-    <v-flex
-      v-for="team in teams"
-      :key="team.id"
-      xs12
-      sm8
-      md6
-      flex-wrap
-      class="page-content"
-    >
-      <div :class="`page-content-item ${isMobile && 'SP'}`">
-        <div class="page-content-item-header" style="display">
-          {{ team.name }} ({{ team.prefecture }}{{ team.city }}{{ team.street_number }})
-          <v-chip color="primary" x-small>
-            {{ teamTypeList[team.team_type] }}
-          </v-chip>
-          <v-chip color="primary" x-small>
-            {{ targetAgeList[team.target_age_type] }}
-          </v-chip>
-          <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
-        </div>
-        <div :class="`${isMobile && 'flex'} page-content-item-main`">
-          <div class="page-content-item-list">
-            <v-card class="d-inline-block mx-auto">
-              <v-container>
-                <v-row justify="space-between">
-                  <v-col cols="auto">
-                    <v-img
-                      :src="team.team_image ? team.team_image : ''"
-                      height="200"
-                      width="200"
-                    />
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card>
-          </div>
-          <div class="page-content-item-list">
-            <div v-if="team.average_point" class="page-content-item-lists">
-              <span class="text--lighten-2 mr-1">
-                ({{ team.average_point }})
-              </span>
-              <v-rating v-model="team.average_point" readonly />
-            </div>
-            <div class="page-content-item-lists">
-              <p v-html="transformTextToHtml(team.team_information)" />
-            </div>
-            <v-divider :inset="false" class="inner-divider" />
-            <div class="page-content-item-lists grey--text">
-              最新の口コミ評価({{ getLatestReview(team.reviews) ? new Date(getLatestReview(team.reviews).updated_at).toLocaleString() : 'まだ口コミがありません' }})
-            </div>
-            <div v-if="getLatestReview(team.reviews)" class="page-content-item-lists mx-6">
-              <p v-html="transformTextToHtml(getLatestReview(team.reviews).general_post)" />
-            </div>
-          </div>
-        </div>
-        <div class="page-content-item-footer">
-          <common-button @click="goTeamDetail(team.id)" button-color="primary">
-            チーム・スクールの詳細を確認する
-          </common-button>
-        </div>
+    <div v-if="teams.length > 0">
+      <div class="page-header-title">
+        <SearchForm :class="isMobile && 'SP'" @execSearch="execSearch" />
       </div>
-      <v-divider :inset="false" />
-    </v-flex>
-    <!-- <common-button button-size="large" button-color="primary" button-width="25vw">
-      ユーザー登録
-    </common-button> -->
-    <Pagination @execPagination="execPagination" :totalPages="totalPages" :page="page" />
+      <v-flex
+        v-for="team in teams"
+        :key="team.id"
+        xs12
+        sm8
+        md6
+        flex-wrap
+        class="page-content"
+      >
+        <div :class="`page-content-item ${isMobile && 'SP'}`">
+          <div class="page-content-item-header" style="display">
+            {{ team.name }} ({{ team.prefecture }}{{ team.city }}{{ team.street_number }})
+            <v-chip color="primary" x-small>
+              {{ teamTypeList[team.team_type] }}
+            </v-chip>
+            <v-chip color="primary" x-small>
+              {{ targetAgeList[team.target_age_type] }}
+            </v-chip>
+            <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
+          </div>
+          <div :class="`${isMobile && 'flex'} page-content-item-main`">
+            <div class="page-content-item-list">
+              <v-card class="d-inline-block mx-auto">
+                <v-container>
+                  <v-row justify="space-between">
+                    <v-col cols="auto">
+                      <v-img
+                        :src="team.team_image ? team.team_image : ''"
+                        height="200"
+                        width="200"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </div>
+            <div class="page-content-item-list">
+              <div v-if="team.average_point" class="page-content-item-lists">
+                <span class="text--lighten-2 mr-1">
+                  ({{ team.average_point }})
+                </span>
+                <v-rating v-model="team.average_point" readonly />
+              </div>
+              <div class="page-content-item-lists">
+                <p v-html="transformTextToHtml(team.team_information)" />
+              </div>
+              <v-divider :inset="false" class="inner-divider" />
+              <div class="page-content-item-lists grey--text">
+                最新の口コミ評価({{ getLatestReview(team.reviews) ? new Date(getLatestReview(team.reviews).updated_at).toLocaleString() : 'まだ口コミがありません' }})
+              </div>
+              <div v-if="getLatestReview(team.reviews)" class="page-content-item-lists mx-6">
+                <p v-html="transformTextToHtml(getLatestReview(team.reviews).general_post)" />
+              </div>
+            </div>
+          </div>
+          <div class="page-content-item-footer">
+            <common-button @click="goTeamDetail(team.id)" button-color="primary">
+              チーム・スクールの詳細を確認する
+            </common-button>
+          </div>
+        </div>
+        <v-divider :inset="false" />
+      </v-flex>
+      <!-- <common-button button-size="large" button-color="primary" button-width="25vw">
+        ユーザー登録
+      </common-button> -->
+      <Pagination @execPagination="execPagination" :totalPages="totalPages" :page="page" />
+    </div>
+    <div else class="skelton-area">
+      <span v-if="isError" class="red--text">チーム一覧の取得に失敗しました</span>
+      <TeamsSkelton v-if="isLoading" />
+      <span v-if="!isError && !isLoading" class="grey--text">登録されているチームはありません</span>
+    </div>
     <team-regist-modal :dialog="registTeamModal" @registTeam="registTeam" />
   </v-layout>
 </template>
@@ -95,6 +102,7 @@ import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 import TeamRegistModal from '~/components/teams/organisms/TeamRegistModal.vue'
 import SearchForm from '~/components/teams/molecules/SearchForm.vue'
 import Pagination from '~/components/teams/molecules/Pagination.vue'
+import TeamsSkelton from '~/components/teams/organisms/TeamsSkelton.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
@@ -107,7 +115,8 @@ export default {
     CommonButton,
     SearchForm,
     TeamRegistModal,
-    Pagination
+    Pagination,
+    TeamsSkelton
   },
   data () {
     return {
@@ -133,7 +142,9 @@ export default {
           text: 'チーム・スクール一覧',
           disabled: true
         }
-      ]
+      ],
+      isLoading: false,
+      isError: false
     }
   },
   computed: {
@@ -146,6 +157,8 @@ export default {
   },
   methods: {
     getTeams () {
+      this.isLoading = true
+      this.isError = false
       let params = {}
       // get Teams related to sportsId
       if (localStorage.getItem('sportsId')) {
@@ -168,6 +181,7 @@ export default {
           api: 'teamIndex',
           params
         }).then((res) => {
+          this.isLoading = false
           if (res.status === 200) {
             scrollTo(0, 0)
             this.teams = res.data.teams
@@ -175,6 +189,9 @@ export default {
             console.log('this.teams  ', this.teams)
             console.log('this.total_pages  ', this.totalPages)
           }
+        }).catch(() => {
+          this.isLoading = false
+          this.isError = true
         })
     },
     goLoginPage () {
@@ -267,5 +284,9 @@ export default {
 }
 .page-content-item.SP {
   width: fit-content;
+}
+.skelton-area {
+  width: 100%;
+  text-align: center;
 }
 </style>
