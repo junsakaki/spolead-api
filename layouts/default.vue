@@ -7,33 +7,17 @@
       </v-container>
     </v-content>
     <ScrollTopButton />
-    <v-footer
-      color="primary lighten-1"
-      padless
-      app
-    >
-      <v-row
-        justify="center"
-        no-gutters
-      >
-        <v-btn
-          v-for="(link,i) in footerLinks"
-          :key="i"
-          :to="link.to"
-          color="white"
-          text
-          rounded
-          class="my-2"
-        >
-          {{ link.title }}
-        </v-btn>
-        <v-col
-          class="primary lighten-2 py-4 text-center white--text copyright"
-          cols="12"
-        >
-          <span>&copy; SpoLeadeR.All rights reserved 2020 {{ nowYear }}</span>
-        </v-col>
-      </v-row>
+    <v-footer padless app>
+      <div class="footer-links">
+        <div v-for="link in footerLinks" :key="link.title" class="link white--text">
+          <router-link :to="link.to">
+            {{ link.title }}
+          </router-link>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <span class="grey--text">&copy; SpoLeadeR.All rights reserved 2020 {{ nowYear }}</span>
+      </div>
     </v-footer>
   </v-app>
 </template>
@@ -99,6 +83,14 @@ export default {
         {
           title: '運営管理',
           to: '/master-information'
+        },
+        {
+          title: 'サイトマップ',
+          to: '/sitemap'
+        },
+        {
+          title: 'チーム登録するにはログインが必要です',
+          to: '/login'
         }
       ],
       miniVariant: false,
@@ -226,5 +218,30 @@ export default {
 .breadcrumbs {
   width: 100%;
   padding: 0 0 12px !important;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 20px 12px;
+  .link {
+    font-size: 12px;
+    padding: 4px 8px;
+    a {
+      text-decoration: none;
+    }
+    &:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+  }
+}
+.footer-copyright {
+  font-size: 10px;
+  text-align: center;
+  width: 100%;
+  padding: 8px 0;
+  background-color: white;
 }
 </style>
