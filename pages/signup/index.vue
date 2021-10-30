@@ -134,7 +134,6 @@ export default {
               // location.replace('http://localhost:8000/')
               location.replace('https://spolead.com/')
               // location.replace('http://develop01.spolead-sv.net/')
-              console.log('token →', res.data.access_token)
             }
           })
       }

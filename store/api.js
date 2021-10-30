@@ -27,14 +27,11 @@ export const actions = {
         req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
         // req.headers['X-API-KEY'] = 'UTcSHZB4MAnbEfmMQznGeiFmyapUsZjwhz9ulUrv'
       }
-      console.log('request', req)
       axios(req)
         .then((response) => {
-          console.log('response', response)
           resolve(response)
         })
         .catch((err) => {
-          console.log(err)
           reject(err)
         })
     })

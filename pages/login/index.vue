@@ -87,8 +87,6 @@ export default {
   },
   methods: {
     login () {
-      console.log('store', this.$store)
-      console.log('validate', this.validate())
       if (this.validate()) {
         this.$store
           .dispatch('api/apiRequest', {
@@ -99,17 +97,14 @@ export default {
             }
           }).then((res) => {
             if (res.status === 200) {
-              console.log('res', res)
               localStorage.setItem('token', res.data.user.access_token)
               localStorage.setItem('userId', res.data.user.user_id)
               localStorage.setItem('loginDateTime', new Date())
-              console.log('token →', res.data.access_token)
               // location.replace('http://localhost:8000/')
               location.replace('https://spolead.com/')
               // location.replace('http://develop01.spolead-sv.net/')
             }
-          }).catch((err) => {
-            console.log('ERROR', err)
+          }).catch(() => {
             this.invalidAuth = true
           })
       }

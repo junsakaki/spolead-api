@@ -183,7 +183,6 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data.result)
             this.prefectureList = response.data.result
           }
         })
@@ -198,7 +197,6 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data.result)
             this.cityList = response.data.result
           }
         })
@@ -242,8 +240,6 @@ export default {
       } else {
         this.team_image = ''
       }
-
-      console.log('team_image', this.team_image)
     },
     getBase64 (file) {
       return new Promise((resolve, reject) => {
@@ -257,23 +253,18 @@ export default {
       this.$emit('registTeam')
     },
     selectPref (prefCode) {
-      console.log('prefCode', prefCode)
       this.getCityApi(prefCode)
 
       const prefecture = this.prefectureList.filter(function (pref) {
         return pref.prefCode === prefCode
       })
       this.prefecture = prefecture[0].prefName
-      console.log('pref Name', this.prefecture)
     },
     selectCity (cityCode) {
-      console.log('cityCode', cityCode)
-
       const cityName = this.cityList.filter(function (city) {
         return city.cityCode === cityCode
       })
       this.city = cityName[0].cityName
-      console.log('city Name', this.city)
     }
   }
 }

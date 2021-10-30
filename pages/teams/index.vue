@@ -184,8 +184,6 @@ export default {
             scrollTo(0, 0)
             this.teams = res.data.teams
             this.totalPages = res.data.meta
-            console.log('this.teams  ', this.teams)
-            console.log('this.total_pages  ', this.totalPages)
           }
         }).catch(() => {
           this.isLoading = false
@@ -210,7 +208,6 @@ export default {
       this.registTeamModal = false
     },
     execSearch (searchWord) {
-      console.log('searching by', searchWord)
       this.searchWord = searchWord
       this.page = 1
       this.getTeams()
@@ -235,7 +232,6 @@ export default {
     },
     execPagination (page) {
       this.page = page
-      console.log(this.$router.params)
       this.$router.push({ name: 'teams', params: { sportsId: localStorage.getItem('sportsId') }, query: { sportsId: localStorage.getItem('sportsId'), page } })
       this.getTeams()
     },

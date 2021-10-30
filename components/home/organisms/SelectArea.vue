@@ -202,9 +202,7 @@ export default {
       localStorage.setItem('cityCode', cityCode)
     },
     goCitySelect (pref) {
-      console.log('prefId', pref.id)
       this.mode = 'city'
-      console.log('mode', this.mode)
       this.$store
         .dispatch('api/apiRequest', {
           api: 'getCityApi',
@@ -214,7 +212,6 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data.result)
             this.cityCards = response.data.result
             this.selectedPrefecture = pref
             localStorage.setItem('selectedCity', JSON.stringify(response.data.result))
