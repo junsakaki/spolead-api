@@ -184,22 +184,9 @@ export default {
       sports_name: '',
       showMoreInfo: true,
       isMobile: this.$vuetify.breakpoint.smAndDown,
-      breadcrumbs: [
-        ...this.$BREADCRUMBS,
-        {
-          text: `${this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).title}のチーム・スクール一覧`,
-          link: true,
-          exact: true,
-          disabled: false,
-          to: {
-            path: `/teams?sportsId=${this.team.sports_id}&cityCode=${this.team.city_code}`
-          }
-        },
-        {
-          text: `${this.team.name}の${this.team.team_type === 1 ? 'チーム' : this.team.team_type === 2 ? 'スクール' : ''}情報`,
-          disabled: false
-        }
-      ]
+      breadcrumbs: [],
+      selectedCity: undefined,
+      pageTitle: undefined
     }
   },
   computed: {
@@ -236,8 +223,10 @@ export default {
   },
   created () {
     console.log('TeamDetailparams', this.$route.params)
+    const { prefCode, cityCode } = this.$route.query
     this.getTeamDetail()
     this.getReviews()
+    this.getCityData({ prefCode, cityCode })
   },
   methods: {
     getTeamDetail () {
@@ -323,6 +312,47 @@ export default {
     },
     moveToReview () {
       document.getElementById('reviews').click()
+    },
+    getCityData ({ prefCode, cityCode }) {
+      if (!prefCode || !cityCode) {
+        this.selectedCity = undefined
+      }
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'getCityApi',
+          params: {
+            prefCode
+          }
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            this.selectedCity = response.data.result.find(city => city.cityCode === cityCode)
+            this.pageTitle = this.getPrevPageTitle({ isBreadcrumbs: false })
+            this.breadcrumbs = [
+              ...this.$BREADCRUMBS,
+              {
+                text: this.getPrevPageTitle({ isBreadcrumbs: true }),
+                link: true,
+                exact: true,
+                disabled: false,
+                to: {
+                  path: `/teams?${this.$route.query.sportsId ? `sportsId=${this.$route.query.sportsId}` : ''}${this.$route.query.cityCode ? `cityCode=${this.$route.query.cityCode}` : ''}`
+                }
+              },
+              {
+                text: `${this.team.name}の${this.team.team_type === 1 ? 'チーム' : this.team.team_type === 2 ? 'スクール' : ''}情報`,
+                disabled: true
+              }
+            ]
+          }
+        })
+    },
+    getPrevPageTitle ({ isBreadcrumbs }) {
+      const { sportsId, page } = this.$route.query
+      const sportsTitle = sportsId ? this.$SPORTS.find(item => item.id === Number(sportsId)).title : undefined
+      const cityName = this.selectedCity?.cityName ?? undefined
+      const pageNum = page ? `（${page}ページ目）` : undefined
+      return `${sportsTitle ?? ''}${cityName ?? ''}のチーム・スクール${pageNum ?? ''}${isBreadcrumbs ? '' : ' | '}`
     }
   }
 }
