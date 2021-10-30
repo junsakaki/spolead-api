@@ -197,7 +197,7 @@ export default {
   },
   methods: {
     showTeamsRelatedToCity (cityCode) {
-      this.$router.push({ name: 'teams', params: { cityCode }, query: { cityCode } })
+      this.$router.push({ name: 'teams', params: { prefCode: this.selectedPrefecture.id, cityCode }, query: { prefCode: this.selectedPrefecture.id, cityCode } })
       localStorage.setItem('sportsId', '')
       localStorage.setItem('cityCode', cityCode)
     },

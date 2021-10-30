@@ -108,7 +108,7 @@ import transformTextToHtml from '~/utils/transformTextToHtml'
 export default {
   head () {
     return {
-      title: `${this.params.sports_id ? this.$SPORTS.find(item => item.id === Number(this.params.sports_id)).title : ''}${this.params.city_code ?? ''}のチーム・スクール一覧（${this.page}ページ目） | `
+      title: this.pageTitle
     }
   },
   components: {
@@ -136,15 +136,11 @@ export default {
       teamTypeList: [null, 'チーム', 'スクール'],
       isMobile: this.$vuetify.breakpoint.smAndDown,
       params: {},
-      breadcrumbs: [
-        ...this.$BREADCRUMBS,
-        {
-          text: 'チーム・スクール一覧',
-          disabled: true
-        }
-      ],
+      breadcrumbs: [],
       isLoading: false,
-      isError: false
+      isError: false,
+      selectedCity: undefined,
+      pageTitle: undefined
     }
   },
   computed: {
@@ -153,7 +149,9 @@ export default {
     }
   },
   created () {
+    const { prefCode, cityCode } = this.$route.query
     this.getTeams()
+    this.getCityData({ prefCode, cityCode })
   },
   methods: {
     getTeams () {
@@ -199,7 +197,7 @@ export default {
     },
     goTeamDetail (teamId) {
       localStorage.setItem('teamId', teamId)
-      this.$router.push(`teams/${teamId}`)
+      this.$router.push({ path: `teams/${teamId}`, query: { ...this.$route.query, page: this.page } })
     },
     showRegistTeamModal () {
       this.registTeamModal = true
@@ -240,6 +238,38 @@ export default {
       console.log(this.$router.params)
       this.$router.push({ name: 'teams', params: { sportsId: localStorage.getItem('sportsId') }, query: { sportsId: localStorage.getItem('sportsId'), page } })
       this.getTeams()
+    },
+    getCityData ({ prefCode, cityCode }) {
+      if (!prefCode || !cityCode) {
+        this.selectedCity = undefined
+      }
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'getCityApi',
+          params: {
+            prefCode
+          }
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            this.selectedCity = response.data.result.find(city => city.cityCode === cityCode)
+            this.pageTitle = this.getPageTitle({ isBreadcrumbs: false })
+            this.breadcrumbs = [
+              ...this.$BREADCRUMBS,
+              {
+                text: this.getPageTitle({ isBreadcrumbs: true }),
+                disabled: true
+              }
+            ]
+          }
+        })
+    },
+    getPageTitle ({ isBreadcrumbs }) {
+      const { sportsId } = this.$route.query
+      const sportsTitle = sportsId ? this.$SPORTS.find(item => item.id === Number(sportsId)).title : undefined
+      const cityName = this.selectedCity?.cityName ?? undefined
+      const page = this.page ? `（${this.page}ページ目）` : undefined
+      return `${sportsTitle ?? ''}${cityName ?? ''}のチーム・スクール${page ?? ''}${isBreadcrumbs ? '' : ' | '}`
     }
   }
 }
