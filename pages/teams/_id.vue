@@ -197,9 +197,6 @@ export default {
       const loginDateTime = new Date(localStorage.getItem('loginDateTime'))
       let unreadCount = 0
       this.reviewsList.map((review) => {
-        console.log('post DAte', new Date(review.created_at).getTime())
-        console.log('login DAte', loginDateTime.getTime())
-        console.log('test', new Date(review.created_at) > loginDateTime.getTime())
         if (new Date(review.created_at).getTime() > loginDateTime) {
           unreadCount += 1
         }
@@ -208,8 +205,6 @@ export default {
     },
     isTeamOwner () {
       // TODO: need to get from access_token
-      console.log('teams user_id', this.team.user_id)
-      console.log('storage user_id', localStorage.getItem('userId'))
       return String(this.team.user_id) === localStorage.getItem('userId')
     }
     // computed avarage point but unnecessary this point.
@@ -222,7 +217,6 @@ export default {
     // }
   },
   created () {
-    console.log('TeamDetailparams', this.$route.params)
     const { prefCode, cityCode } = this.$route.query
     this.getTeamDetail()
     this.getReviews()
@@ -237,10 +231,8 @@ export default {
             team_id: localStorage.getItem('teamId')
           }
         }).then((res) => {
-          console.log(res)
           if (res.status === 200) {
             this.team = res.data.team
-            console.log(this.team)
             this.whichSports()
           }
         })
@@ -253,7 +245,6 @@ export default {
             team_id: localStorage.getItem('teamId')
           }
         }).then((res) => {
-          console.log(res)
           if (res.status === 200) {
             this.reviewsList = res.data.reviews
           }

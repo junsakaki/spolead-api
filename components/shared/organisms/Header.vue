@@ -87,8 +87,6 @@ export default {
       location.replace('https://spoleader.com/')
       // location.replace('http://develop01.spolead-sv.net')
       //   }
-      // }).catch((err) => {
-      //   console.log('ERROR', err)
       // })
     }
   }
