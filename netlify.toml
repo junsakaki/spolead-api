@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://spolead.com/*"
+  to = "https://spoleader.com/*"
+  status = 301
+  force = true
