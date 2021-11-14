@@ -35,16 +35,25 @@
       </router-link>
       <div>
         <div v-if="token" class="links">
-          <a @click="logOut" class="link logout">
-            ログアウト
+          <a @click="logOut" class="link icon-button">
+            <v-icon small>
+              mdi-lock-open
+            </v-icon>
+            <p>ログアウト</p>
           </a>
         </div>
         <div v-else class="links">
-          <router-link to="/signup" class="link signup">
-            アカウント登録
+          <router-link to="/signup" class="link icon-button">
+            <v-icon small>
+              mdi-account
+            </v-icon>
+            <p>アカウント登録</p>
           </router-link>
-          <router-link to="/login" class="link login">
-            ログイン
+          <router-link to="/login" class="link icon-button">
+            <v-icon small>
+              mdi-lock
+            </v-icon>
+            <p>ログイン</p>
           </router-link>
         </div>
       </div>
@@ -122,12 +131,6 @@ export default {
   padding: 18px 12px;
   color: white;
   text-decoration: none;
-}
-.link.login, .link.logout {
-  background-color: #ef4848;
-}
-.link.signup {
-  background-color: #43464a;
 }
 .icon-button {
   display: flex;
