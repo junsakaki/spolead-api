@@ -32,7 +32,7 @@
   height: 50vh;
   margin-top: -72px;
   background-color: blue;
-  background-image: url('../../../assets/images/soccer.jpg');
+  background-image: url('../../../assets/images/top.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
