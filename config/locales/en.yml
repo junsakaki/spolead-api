@@ -31,3 +31,4 @@
 
 en:
   hello: "Hello world"
+  user_create_error: ""

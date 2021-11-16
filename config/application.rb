@@ -44,6 +44,8 @@ module App
       end
     end
 
+    config.active_job.queue_adapter = :delayed_job
+
     config.hosts << 'spolead-sv.net'
 
     config.action_dispatch.default_headers = {
@@ -52,5 +54,11 @@ module App
       'Access-Control-Request-Method' => '*'
     }
 
+    config.before_configuration do
+      env_file = File.join(Rails.root, 'config', "#{Rails.env}.yml")
+      YAML.load(File.open(env_file)).each do |key, value|
+      ENV[key.to_s] = value
+      end if File.exists?(env_file)
+    end
   end
 end
