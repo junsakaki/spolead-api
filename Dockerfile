@@ -3,6 +3,7 @@ ENV LANG C.UTF-8
 
 # install required libraries
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs shared-mime-info
 
 RUN gem install bundler -v 2.0.2
 

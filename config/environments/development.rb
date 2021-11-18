@@ -42,6 +42,17 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # smtpの情報を記載
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   :user_name => 'XXXXXXXXXXXXXXXXXXXXxx',
+  #   :password => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+  #   :address => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+  #   :domain => 'xxxxxxxxxxxxxx',
+  #   :port => 587,
+  #   :authentication => 'plain',
+  #   :enable_starttls_auto => true,
+  # }
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
