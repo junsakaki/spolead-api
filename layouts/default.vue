@@ -9,7 +9,7 @@
     <ScrollTopButton />
     <v-footer padless app>
       <div class="footer-links">
-        <div v-for="link in footerLinks" :key="link.title" class="link white--text">
+        <div v-for="link in filteredFooterLinks()" :key="link.title" class="link white--text">
           <router-link :to="link.to">
             {{ link.title }}
           </router-link>
@@ -87,10 +87,6 @@ export default {
         {
           title: 'サイトマップ',
           to: '/sitemap'
-        },
-        {
-          title: 'チーム登録するにはログインが必要です',
-          to: '/login'
         }
       ],
       miniVariant: false,
@@ -140,6 +136,25 @@ export default {
       // location.replace('http://develop01.spolead-sv.net')
       //   }
       // })
+    },
+    filteredFooterLinks () {
+      if (this.token) {
+        return [
+          ...this.footerLinks,
+          {
+            title: 'チームを登録する',
+            to: '/teams/new'
+          }
+        ]
+      } else {
+        return [
+          ...this.footerLinks,
+          {
+            title: 'チーム登録するにはログインが必要です',
+            to: '/login'
+          }
+        ]
+      }
     }
   }
 }
