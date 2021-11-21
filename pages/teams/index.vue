@@ -10,7 +10,7 @@
       </template>
     </v-breadcrumbs>
     <div v-if="teams.length > 0" class="container">
-      <SearchForm :class="$vuetify.breakpoint.smAndDown && 'SP'" @execSearch="execSearch" />
+      <SearchForm @execSearch="execSearch" />
       <v-flex
         v-for="team in teams"
         :key="team.id"
