@@ -1,13 +1,23 @@
 <template>
-  <div class="search-field">
-    <!-- <label for="group_name">{{ label }}</label> -->
-    <v-text-field
-      v-model="searchWord"
-      label="検索(チーム名、都道府県、市区町村)"
-    />
-    <common-button @click="execSearch(searchWord)" button-color="primary">
-      検索
-    </common-button>
+  <div>
+    <div v-if="$vuetify.breakpoint.smAndDown" class="search-field">
+      <!-- <label for="group_name">{{ label }}</label> -->
+      <v-text-field
+        v-model="searchWord"
+        @keydown.enter="execSearch(searchWord)"
+        label="検索(チーム名、都道府県、市区町村)"
+      />
+    </div>
+    <div v-else class="search-field">
+      <!-- <label for="group_name">{{ label }}</label> -->
+      <v-text-field
+        v-model="searchWord"
+        label="検索(チーム名、都道府県、市区町村)"
+      />
+      <common-button @click="execSearch(searchWord)" button-color="primary">
+        検索
+      </common-button>
+    </div>
   </div>
 </template>
 
