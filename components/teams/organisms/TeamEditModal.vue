@@ -3,8 +3,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="600px" persistent>
       <v-card>
-        <v-card-title class="justify-space-between">
-          <span class="headline">チーム編集フォーム</span>
+        <v-card-title class="justify-end">
           <small><span style="color: red;">*</span>は必須項目です</small>
         </v-card-title>
         <v-card-text>
@@ -92,13 +91,12 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn @click="closeModal" color="blue darken-1" text>
-            Close
+        <v-card-actions class="d-flex justify-center">
+          <v-btn @click="updateTeam" color="primary" dark>
+            保存
           </v-btn>
-          <v-btn @click="updateTeam" color="blue darken-1" text>
-            Save
+          <v-btn @click="closeModal" color="grey" dark>
+            キャンセル
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -212,6 +210,9 @@ export default {
         })
     },
     updateTeam () {
+      if (!this.name || !this.mail_address || !this.sports_id) {
+        return
+      }
       this.$store
         .dispatch('api/apiRequest', {
           api: 'teamEdit',

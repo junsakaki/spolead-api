@@ -21,11 +21,11 @@
           <div class="hover-filter" />
           <div class="page-content-item-header" style="display">
             {{ team.name }} {{ `${team.prefecture ? '(' + team.prefecture + team.city + team.street_number + ')' : ''}` }}
-            <v-chip v-if="teamTypeList[team.team_type]" color="primary" x-small>
-              {{ teamTypeList[team.team_type] }}
+            <v-chip v-if="getTeamType(team.team_type)" color="primary" x-small>
+              {{ getTeamType(team.team_type) }}
             </v-chip>
-            <v-chip v-if="targetAgeList[team.target_age_type]" color="primary" x-small>
-              {{ targetAgeList[team.target_age_type] }}
+            <v-chip v-if="getTargetAgeType(team.target_age_type)" color="primary" x-small>
+              {{ getTargetAgeType(team.target_age_type) }}
             </v-chip>
             <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
           </div>
@@ -37,12 +37,6 @@
               </div>
             </div>
             <div class="page-content-item-list">
-              <div v-if="team.average_point" class="page-content-item-lists">
-                <span class="text--lighten-2 mr-1">
-                  ({{ team.average_point }})
-                </span>
-                <v-rating v-model="team.average_point" readonly />
-              </div>
               <div class="page-content-item-lists">
                 <p v-if="team.team_information" v-html="transformTextToHtml(team.team_information)" />
                 <div v-else class="grey--text">
@@ -50,6 +44,12 @@
                 </div>
               </div>
               <v-divider :inset="false" class="inner-divider" />
+              <div v-if="team.average_point" class="page-content-item-lists">
+                <span class="text--lighten-2 mr-1">
+                  ({{ team.average_point }})
+                </span>
+                <v-rating v-model="team.average_point" readonly />
+              </div>
               <div class="page-content-item-lists grey--text">
                 最新の口コミ評価({{ getLatestReview(team.reviews) ? new Date(getLatestReview(team.reviews).updated_at).toLocaleString() : 'まだ口コミがありません' }})
               </div>
@@ -104,8 +104,6 @@ export default {
       searchWord: '',
       page: queryString.parse(location.search).page ? Number(queryString.parse(location.search).page) : 1,
       totalPages: 15,
-      targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学・専門学生', '社会人'],
-      teamTypeList: [null, 'チーム', 'スクール'],
       params: {},
       breadcrumbs: [],
       isLoading: false,
@@ -231,6 +229,18 @@ export default {
     },
     getToken () {
       this.token = localStorage.getItem('token')
+    },
+    getTeamType (targetTeamType) {
+      if (!targetTeamType) {
+        return
+      }
+      return this.$TEAM_TYPE.find(item => item.typeId === targetTeamType).teamType
+    },
+    getTargetAgeType (targetAgeType) {
+      if (!targetAgeType) {
+        return
+      }
+      return this.$TARGET_AGE.find(item => item.ageId === targetAgeType).targetAgeType
     }
   }
 }
