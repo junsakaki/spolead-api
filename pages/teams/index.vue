@@ -20,22 +20,19 @@
         <v-card @click="goTeamDetail(team.id)" class="page-content-item">
           <div class="hover-filter" />
           <div class="page-content-item-header" style="display">
-            {{ team.name }} ({{ team.prefecture }}{{ team.city }}{{ team.street_number }})
-            <v-chip color="primary" x-small>
+            {{ team.name }} {{ `${team.prefecture ? '(' + team.prefecture + team.city + team.street_number + ')' : ''}` }}
+            <v-chip v-if="teamTypeList[team.team_type]" color="primary" x-small>
               {{ teamTypeList[team.team_type] }}
             </v-chip>
-            <v-chip color="primary" x-small>
+            <v-chip v-if="targetAgeList[team.target_age_type]" color="primary" x-small>
               {{ targetAgeList[team.target_age_type] }}
             </v-chip>
             <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
           </div>
           <div :class="`${$vuetify.breakpoint.smAndDown && 'flex'} page-content-item-main`">
             <div class="page-content-item-list">
-              <v-img
-                :src="team.team_image ? team.team_image : ''"
-                height="200"
-                width="200"
-              />
+              <v-img v-if="team.team_image" :src="team.team_image ? team.team_image : ''" width="200" height="200" />
+              <div v-else class="team-no-image" />
             </div>
             <div class="page-content-item-list">
               <div v-if="team.average_point" class="page-content-item-lists">
@@ -45,7 +42,10 @@
                 <v-rating v-model="team.average_point" readonly />
               </div>
               <div class="page-content-item-lists">
-                <p v-html="transformTextToHtml(team.team_information)" />
+                <p v-if="team.team_information" v-html="transformTextToHtml(team.team_information)" />
+                <div v-else class="grey--text">
+                  情報がありません
+                </div>
               </div>
               <v-divider :inset="false" class="inner-divider" />
               <div class="page-content-item-lists grey--text">
@@ -294,5 +294,10 @@ export default {
 .skelton-area {
   width: 100%;
   text-align: center;
+}
+.team-no-image {
+  width: 200px;
+  height: 200px;
+  background: gray;
 }
 </style>
