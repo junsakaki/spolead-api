@@ -32,7 +32,9 @@
           <div :class="`${$vuetify.breakpoint.smAndDown && 'flex'} page-content-item-main`">
             <div class="page-content-item-list">
               <v-img v-if="team.team_image" :src="team.team_image ? team.team_image : ''" width="200" height="200" />
-              <div v-else class="team-no-image" />
+              <div v-else class="team-no-image">
+                No image
+              </div>
             </div>
             <div class="page-content-item-list">
               <div v-if="team.average_point" class="page-content-item-lists">
@@ -296,8 +298,12 @@ export default {
   text-align: center;
 }
 .team-no-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 200px;
   height: 200px;
   background: gray;
+  color: white;
 }
 </style>
