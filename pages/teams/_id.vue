@@ -1,170 +1,148 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
-      <template v-slot:divider>
-        <v-icon>mdi-chevron-right</v-icon>
-      </template>
-    </v-breadcrumbs>
-    <div class="page-header">
-      <div class="page-header-title">
-        {{ team.name }}
-      </div>
-      <div class="page-header-sub">
-        <common-button @click="showRegistReviewsModal" button-color="primary">
-          口コミ投稿する
-        </common-button>
-        <common-button @click="showEditTeamModal" v-if="isTeamOwner" button-color="primary">
-          チーム・スクール編集
-        </common-button>
-      </div>
-    </div>
-    <v-flex
-      xs12
-      sm8
-      md6
-      flex-wrap
-      class="page-content"
-    >
-      <div class="page-content-item">
-        <div class="page-content-item-header">
-          {{ team.name }}（{{ team.prefecture }} {{ team.city }}）
+  <v-layout>
+    <div v-if="Object.keys(team).length > 0" class="page-container">
+      <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+        <template v-slot:divider>
+          <v-icon>mdi-chevron-right</v-icon>
+        </template>
+      </v-breadcrumbs>
+      <div class="page-header d-flex justify-space-between">
+        <div class="page-header-title">
+          {{ team.name }}
         </div>
-        <div class="page-content-item-header">
-          活動エリア：{{ team.prefecture }} {{ team.city }}/ジャンル：{{ sports_name }}
+        <div class="page-header-sub">
+          <v-btn
+            @click="showEditTeamModal"
+            v-if="isTeamOwner"
+            icon
+            color="primary"
+          >
+            <v-icon>mdi-pen</v-icon>
+          </v-btn>
         </div>
-        <v-tabs
-          v-model="tab"
-          fixed-tabs
-          background-color="primary"
-          dark
-          class="tabs"
-        >
-          <v-tab @change="changeTab(0)">
-            トップ
-          </v-tab>
-          <v-tab id="reviews" @change="changeTab(1)">
-            口コミ
-          </v-tab>
-          <v-tab @change="changeTab(2)">
-            活動場所
-          </v-tab>
-        </v-tabs>
+      </div>
+      <v-flex
+        flex-wrap
+        class="page-content"
+      >
+        <div class="page-content-item">
+          <div :class="`page-content-item-header ${$vuetify.breakpoint.smAndDown && 'SP'}`">
+            <div>活動エリア：{{ team.prefecture }} {{ team.city }}</div>
+            <div>ジャンル：{{ getSportsName() }}</div>
+            <div>対象: {{ getTargetAgeType(team.target_age_type) }}</div>
+            <div>形態: {{ getTeamType(team.team_type) }}</div>
+          </div>
+          <v-tabs
+            v-model="tab"
+            fixed-tabs
+            background-color="primary"
+            dark
+            class="tabs"
+          >
+            <v-tab @change="changeTab(0)">
+              トップ
+            </v-tab>
+            <v-tab id="reviews" @change="changeTab(1)">
+              口コミ
+            </v-tab>
+            <v-tab @change="changeTab(2)">
+              アクセス
+            </v-tab>
+          </v-tabs>
 
-        <v-tabs-items v-model="tab">
-          <v-tab-item>
-            <div :class="`page-content-item-main ${isMobile && 'SP'}`">
-              <div :class="`page-content-item-list ${isMobile && 'SP'}`">
-                <v-card class="d-inline-block mx-auto">
-                  <v-container>
-                    <v-row justify="space-between">
-                      <v-col cols="auto">
-                        <v-img
-                          :src="team.team_image ? team.team_image : ''"
-                          height="200"
-                          width="200"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card>
+          <v-tabs-items v-model="tab">
+            <v-tab-item>
+              <div :class="`page-content-item-main ${$vuetify.breakpoint.smAndDown && 'SP'}`">
+                <div :class="`page-content-item-list ${$vuetify.breakpoint.smAndDown && 'SP'}`">
+                  <v-img
+                    :src="team.team_image ? team.team_image : ''"
+                    height="200"
+                    width="200"
+                  />
+                </div>
+                <div class="page-content-item-list">
+                  <p v-html="transformTextToHtml(team.team_information)" />
+                </div>
               </div>
-              <div class="page-content-item-list">
-                <v-container>
-                  <v-row justify="space-between">
-                    <v-col cols="auto">
-                      <!-- <div class="grey--text">チーム・スクールトップ情報</div> -->
-                      <p v-html="transformTextToHtml(team.team_information)" />
-                    </v-col>
-                  </v-row>
-                </v-container>
+              <div class="page-content-item-footer">
+                <!-- <common-button @click="moveToReview" v-if="unreadReviewCount > 0" button-color="primary">
+                  口コミ情報（最新{{ unreadReviewCount }}件）
+                </common-button> -->
               </div>
-            </div>
-            <div class="page-content-item-footer">
-              <!-- <common-button @click="moveToReview" v-if="unreadReviewCount > 0" button-color="primary">
-                口コミ情報（最新{{ unreadReviewCount }}件）
-              </common-button> -->
-            </div>
-          </v-tab-item>
-          <v-tab-item>
-            <!-- display reviews as much as review count -->
-            <div v-for="review in reviewsList" :key="review.id">
-              <review-content :review="review" />
-            </div>
-          </v-tab-item>
-          <v-tab-item>
-            <div class="page-content-item-main">
-              <div class="page-content-item-list">
-                <v-container>
-                  <v-row justify="space-between">
-                    <v-col cols="auto">
-                      <h1>{{ team.name }}の活動場所</h1>
-                      <div class="d-flex justify-left align-center" />
-                      <v-card class="d-inline-block mx-auto" min-width="60vw">
-                        <iframe
-                          :src="googleMap"
-                          frameborder="0"
-                          scrolling="no"
-                          marginheight="0"
-                          marginwidth="0"
-                          width="100%"
-                          height="450"
-                        />
-                        <v-card-title>{{ team.prefecture }}{{ team.city }}{{ team.street_number }}</v-card-title>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-container>
+            </v-tab-item>
+            <v-tab-item>
+              <button @click="showRegistReviewsModal" class="review-post-button">
+                + 口コミを投稿する
+              </button>
+              <!-- display reviews as much as review count -->
+              <div v-if="reviewsList.length > 0">
+                <div v-for="review in reviewsList" :key="review.id">
+                  <review-content :review="review" />
+                </div>
               </div>
-            </div>
-          </v-tab-item>
-        </v-tabs-items>
-      </div>
-      <v-divider :inset="false" />
-    </v-flex>
-    <common-button @click="$router.push({ name: 'teams', params: { sportsId: team.sports_id }, query: { sportsId: team.sports_id } })">
-      戻る
-    </common-button>
-    <!-- <common-button v-if="showMoreInfo" @click="moveToReview" button-size="large" button-color="primary" button-width="25vw">
-      口コミをもっと見る
-    </common-button> -->
-    <team-edit-modal
-      v-if="editTeamModal"
-      :dialog="editTeamModal"
-      :team="team"
-      @teamEdit="teamEdit"
-    />
-    <reviews-regist-modal
-      :dialog="registReviewsModal"
-      @registReview="registReview"
-      :teamId="team.id"
-    />
+              <div v-else>
+                <div class="grey--text text-center">
+                  まだ口コミがありません
+                </div>
+              </div>
+            </v-tab-item>
+            <v-tab-item>
+              <div class="address">{{ team.prefecture }}{{ team.city }}{{ team.street_number }}</div>
+              <iframe
+                :src="googleMap"
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                width="100%"
+                height="450"
+              />
+            </v-tab-item>
+          </v-tabs-items>
+        </div>
+      </v-flex>
+      <!-- <common-button v-if="showMoreInfo" @click="moveToReview" button-size="large" button-color="primary" button-width="25vw">
+        口コミをもっと見る
+      </common-button> -->
+      <team-edit-modal
+        v-if="editTeamModal"
+        :dialog="editTeamModal"
+        :team="team"
+        @teamEdit="teamEdit"
+      />
+      <reviews-regist-modal
+        :dialog="registReviewsModal"
+        @registReview="registReview"
+        :teamId="team.id"
+      />
+    </div>
+    <div v-else class="skelton-area">
+      <span v-if="isError" class="red--text">チーム情報の取得に失敗しました</span>
+      <TeamDetailSkelton v-if="isLoading" />
+    </div>
   </v-layout>
 </template>
 
 <script>
 import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
-import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 import TeamEditModal from '~/components/teams/organisms/TeamEditModal.vue'
 import ReviewsRegistModal from '~/components/teams/organisms/ReviewsRegistModal.vue'
 import ReviewContent from '~/components/teams/organisms/ReviewContent.vue'
+import TeamDetailSkelton from '~/components/teams/organisms/TeamDetailSkelton.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
   head () {
     return {
-      title: `${this.team.name}の${this.team.team_type === 1 ? 'チーム' : this.team.team_type === 2 ? 'スクール' : ''}情報 | `
+      title: this.pageTitle
     }
   },
   components: {
-    CommonButton,
     TeamEditModal,
     ReviewsRegistModal,
-    ReviewContent
+    ReviewContent,
+    TeamDetailSkelton
   },
   data () {
     return {
@@ -186,7 +164,9 @@ export default {
       isMobile: this.$vuetify.breakpoint.smAndDown,
       breadcrumbs: [],
       selectedCity: undefined,
-      pageTitle: undefined
+      pageTitle: undefined,
+      isLoading: false,
+      isError: false
     }
   },
   computed: {
@@ -224,17 +204,23 @@ export default {
   },
   methods: {
     getTeamDetail () {
+      this.isLoading = true
+      this.isError = false
       this.$store
         .dispatch('api/apiRequest', {
           api: 'teamShow',
           params: {
-            team_id: localStorage.getItem('teamId')
+            team_id: this.$route.params.id
           }
         }).then((res) => {
+          this.isLoading = false
           if (res.status === 200) {
             this.team = res.data.team
-            this.whichSports()
           }
+          this.pageTitle = this.getPageTitle({ isBreadcrumbs: false })
+        }).catch(() => {
+          this.isLoading = false
+          this.isError = true
         })
     },
     getReviews () {
@@ -242,7 +228,7 @@ export default {
         .dispatch('api/apiRequest', {
           api: 'reviewIndex',
           params: {
-            team_id: localStorage.getItem('teamId')
+            team_id: this.$route.params.id
           }
         }).then((res) => {
           if (res.status === 200) {
@@ -250,8 +236,11 @@ export default {
           }
         })
     },
+    getPageTitle ({ isBreadcrumbs }) {
+      return `${this.team.name}の${this.team.team_type === 1 ? 'チーム' : this.team.team_type === 2 ? 'スクール' : ''}情報 | `
+    },
     changeTab (number) {
-      this.$router.replace({ path: location.pathname, query: { tab: number } })
+      this.$router.replace({ path: location.pathname, query: { ...this.$route.query, tab: number } })
     },
     goLoginPage () {
       this.$router.push('/login')
@@ -274,32 +263,8 @@ export default {
       this.editTeamModal = false
       this.registReviewsModal = false
     },
-    whichSports () {
-      if (this.team !== {}) {
-        switch (this.team.sports_id) {
-          case 1:
-            this.sports_name = 'サッカー'
-            break
-          case 2:
-            this.sports_name = '野球'
-            break
-          case 3:
-            this.sports_name = 'バスケットボール'
-            break
-          case 4:
-            this.sports_name = 'バレーボール'
-            break
-          case 5:
-            this.sports_name = 'ダンス'
-            break
-          case 6:
-            this.sports_name = 'ラグビー'
-            break
-          case 7:
-            this.sports_name = 'スイミング'
-            break
-        }
-      }
+    getSportsName () {
+      return this.$SPORTS.find(item => item.id === this.team.sports_id).title ?? ''
     },
     moveToReview () {
       document.getElementById('reviews').click()
@@ -344,21 +309,45 @@ export default {
       const cityName = this.selectedCity?.cityName ?? undefined
       const pageNum = page ? `（${page}ページ目）` : undefined
       return `${sportsTitle ?? ''}${cityName ?? ''}のチーム・スクール${pageNum ?? ''}${isBreadcrumbs ? '' : ' | '}`
+    },
+    getTeamType (targetTeamType) {
+      if (!targetTeamType) {
+        return
+      }
+      return this.$TEAM_TYPE.find(item => item.typeId === targetTeamType).teamType
+    },
+    getTargetAgeType (targetAgeType) {
+      if (!targetAgeType) {
+        return
+      }
+      return this.$TARGET_AGE.find(item => item.ageId === targetAgeType).targetAgeType
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
 @import '~/assets/scss/page.scss';
 .page-header {
   @include default-page-header;
+  height: unset;
+  border-bottom: solid 1px #b3b3b38a;
 }
 .page-header-sub {
   text-align: right;
 }
 .page-content {
   @include default-page-content;
+  margin: 0 32px;
   &-item {
     &-footer {
       justify-content: flex-start;
@@ -371,11 +360,46 @@ export default {
     margin: 24px 0px;
   }
 }
+.page-content-item-header {
+  display: flex;
+  justify-content: end;
+  margin: 0;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #0000008a;
+  div {
+    margin-right: 16px;
+  }
+}
+.page-content-item-header.SP {
+  flex-direction: column;
+}
+.page-content-item {
+  padding: 0;
+}
 .page-content-item-main.SP {
   flex-direction: column;
 }
 .page-content-item-list.SP {
   display: flex;
   justify-content: center;
+  padding-bottom: 12px;
+}
+.skelton-area {
+  width: 100%;
+  text-align: center;
+}
+.review-post-button {
+  margin-bottom: 12px;
+  border: dashed 2px #0000008a;
+  padding: 12px 24px;
+  width: 100%;
+  color: #0000008a;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.address {
+  margin-bottom: 12px;
 }
 </style>

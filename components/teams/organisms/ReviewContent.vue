@@ -1,72 +1,84 @@
 <template>
-  <div class="page-content-item-main">
-    <div class="page-content-item-list">
-      <v-container>
-        <v-row justify="space-between">
-          <v-col cols="auto">
-            <h1>{{ displayusername }} さんの口コミ</h1>
-            <!-- <h2>性別: {{ displayGender }}  年代: {{ displayAgeGroup }}  在籍年: {{ review.enrollment_period }}  あなたの立場: {{ displayIsPlayer }}</h2> -->
-            <p>- 性別: {{ displayGender }}</p>
-            <p>- 年代: {{ displayAgeGroup }}</p>
-            <p>- 在籍年: {{ review.enrollment_period }}</p>
-            <p>- あなたの立場: {{ displayIsPlayer }}</p>
+  <v-card class="review-card">
+    <p class="reviewer-name">
+      {{ displayusername }} さんの口コミ
+    </p>
+    <p class="reviewer-status">
+      性別: {{ displayGender }}
+    </p>
+    <p class="reviewer-status">
+      年代: {{ displayAgeGroup }}
+    </p>
+    <p class="reviewer-status">
+      在籍年: {{ review.enrollment_period }}
+    </p>
+    <p class="reviewer-status">
+      あなたの立場: {{ displayIsPlayer }}
+    </p>
 
-            <div :class="`${!isMobile && 'd-flex justify-left align-center'}`">
-              <v-rating v-model="review.general_point" readonly />
+    <v-divider />
 
-              <!-- due to comment out unnecessary?? -->
-              <!-- <div>{{ general_point }}</div> -->
+    <div :class="!$vuetify.breakpoint.smAndDown && 'd-flex justify-left align-center'">
+      <div class="d-flex">
+        <v-rating v-model="review.general_point" readonly />
+        <button v-if="!isShowReviewScoreDetail" @click="showReviewScoreDetail" class="show-review-score-detail-button">
+          詳細
+        </button>
+      </div>
 
-              <div>方針: {{ review.policy_point }}  体制: {{ review.organization_point }}  活動: {{ review.activity_point }}  環境: {{ review.environment_point }}  イベント: {{ review.event_point }}  費用: {{ review.cost_point }}</div>
-            </div>
-            <v-card :width="isMobile && '100%'" class="d-inline-block mx-auto" min-width="60vw">
-              <v-card-title>
-                口コミ評価
-              </v-card-title>
-              <!-- <v-card-subtitle>
-                評価理由
-              </v-card-subtitle> -->
-              <v-card-text>
-                総合：
-                <br>
-                <p v-html="transformTextToHtml(review.general_post)" />
-              </v-card-text>
-              <v-card-text>
-                チーム方針：
-                <br>
-                <p v-html="transformTextToHtml(review.policy_post)" />
-              </v-card-text>
-              <v-card-text>
-                チーム体制：
-                <br>
-                <p v-html="transformTextToHtml(review.organization_post)" />
-              </v-card-text>
-              <v-card-text>
-                活動内容：
-                <br>
-                <p v-html="transformTextToHtml(review.activity_post)" />
-              </v-card-text>
-              <v-card-text>
-                チーム環境：
-                <br>
-                <p v-html="transformTextToHtml(review.environment_post)" />
-              </v-card-text>
-              <v-card-text>
-                イベント：
-                <br>
-                <p v-html="transformTextToHtml(review.event_post)" />
-              </v-card-text>
-              <v-card-text>
-                費用：
-                <br>
-                <p v-html="transformTextToHtml(review.cost_post)" />
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+      <!-- due to comment out unnecessary?? -->
+      <!-- <div>{{ general_point }}</div> -->
+
+      <div v-if="isShowReviewScoreDetail" class="review-score-detail">
+        方針: {{ review.policy_point }}  体制: {{ review.organization_point }}  活動: {{ review.activity_point }}  環境: {{ review.environment_point }}  イベント: {{ review.event_point }}  費用: {{ review.cost_point }}
+      </div>
     </div>
-  </div>
+
+    <v-divider />
+
+    <v-card-text v-if="!!review.general_post">
+      <div class="review-category-title">
+        総合
+      </div>
+      <p v-html="transformTextToHtml(review.general_post)" />
+    </v-card-text>
+    <v-card-text v-if="!!review.policy_post">
+      <div class="review-category-title">
+        チーム方針
+      </div>
+      <p v-html="transformTextToHtml(review.policy_post)" />
+    </v-card-text>
+    <v-card-text v-if="!!review.organization_post">
+      <div class="review-category-title">
+        チーム体制
+      </div>
+      <p v-html="transformTextToHtml(review.organization_post)" />
+    </v-card-text>
+    <v-card-text v-if="!!review.activity_post">
+      <div class="review-category-title">
+        活動内容
+      </div>
+      <p v-html="transformTextToHtml(review.activity_post)" />
+    </v-card-text>
+    <v-card-text v-if="!!review.environment_post">
+      <div class="review-category-title">
+        チーム環境
+      </div>
+      <p v-html="transformTextToHtml(review.environment_post)" />
+    </v-card-text>
+    <v-card-text v-if="!!review.event_post">
+      <div class="review-category-title">
+        イベント
+      </div>
+      <p v-html="transformTextToHtml(review.event_post)" />
+    </v-card-text>
+    <v-card-text v-if="!!review.cost_post">
+      <div class="review-category-title">
+        費用
+      </div>
+      <p v-html="transformTextToHtml(review.cost_post)" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -102,7 +114,7 @@ export default {
         'チーム関係者',
         'その他'
       ],
-      isMobile: this.$vuetify.breakpoint.smAndDown
+      isShowReviewScoreDetail: false
     }
   },
   computed: {
@@ -118,19 +130,38 @@ export default {
     displayIsPlayer () {
       return this.review.player_flag !== null ? this.playerFlagMap[this.review.player_flag - 1] : '非公開'
     }
-
-  },
-  mounted () {
-  },
-  created () {
   },
   methods: {
+    showReviewScoreDetail () {
+      this.isShowReviewScoreDetail = true
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 p {
+  font-size: 16px;
   margin: 4px 0px 4px 12px;
+}
+.review-card {
+  margin-bottom: 24px;
+  padding: 12px;
+}
+.reviewer-status {
+  font-size: 14px;
+}
+.show-review-score-detail-button {
+  font-size: 12px;
+  color: #1976d2;
+  text-decoration: underline;
+  margin-left: 8px;
+}
+.review-score-detail {
+  font-size: 12px;
+  padding-left: 12px;
+}
+.review-category-title {
+  border-bottom: solid 1px #0000008a;
 }
 </style>
