@@ -40,9 +40,10 @@ export default {
 .search-field {
   display: flex;
   justify-content: space-around;
-  height: 32px;
-  width: 35vw;
+  width: 100%;
+  max-width: 400px;
   padding: 4px;
+  margin: 12px auto;
   label {
     font-size: 32px;
   }

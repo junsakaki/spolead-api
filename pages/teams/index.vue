@@ -9,25 +9,21 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <div v-if="!isLoading && !isError" class="page-header">
+    <!-- <div v-if="!isLoading && !isError && token" class="page-header">
       <common-button @click="showRegistTeamModal" button-color="primary">
         チーム・スクールを登録する
       </common-button>
-    </div>
-    <div v-if="teams.length > 0">
-      <div class="page-header-title">
-        <SearchForm :class="isMobile && 'SP'" @execSearch="execSearch" />
-      </div>
+    </div> -->
+    <div v-if="teams.length > 0" class="container">
+      <SearchForm :class="$vuetify.breakpoint.smAndDown && 'SP'" @execSearch="execSearch" />
       <v-flex
         v-for="team in teams"
         :key="team.id"
-        xs12
-        sm8
-        md6
         flex-wrap
         class="page-content"
       >
-        <div :class="`page-content-item ${isMobile && 'SP'}`">
+        <v-card @click="goTeamDetail(team.id)" class="page-content-item">
+          <div class="hover-filter" />
           <div class="page-content-item-header" style="display">
             {{ team.name }} ({{ team.prefecture }}{{ team.city }}{{ team.street_number }})
             <v-chip color="primary" x-small>
@@ -38,21 +34,13 @@
             </v-chip>
             <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
           </div>
-          <div :class="`${isMobile && 'flex'} page-content-item-main`">
+          <div :class="`${$vuetify.breakpoint.smAndDown && 'flex'} page-content-item-main`">
             <div class="page-content-item-list">
-              <v-card class="d-inline-block mx-auto">
-                <v-container>
-                  <v-row justify="space-between">
-                    <v-col cols="auto">
-                      <v-img
-                        :src="team.team_image ? team.team_image : ''"
-                        height="200"
-                        width="200"
-                      />
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card>
+              <v-img
+                :src="team.team_image ? team.team_image : ''"
+                height="200"
+                width="200"
+              />
             </div>
             <div class="page-content-item-list">
               <div v-if="team.average_point" class="page-content-item-lists">
@@ -73,23 +61,15 @@
               </div>
             </div>
           </div>
-          <div class="page-content-item-footer">
-            <common-button @click="goTeamDetail(team.id)" button-color="primary">
-              チーム・スクールの詳細を確認する
-            </common-button>
-          </div>
-        </div>
+        </v-card>
         <v-divider :inset="false" />
       </v-flex>
-      <!-- <common-button button-size="large" button-color="primary" button-width="25vw">
-        ユーザー登録
-      </common-button> -->
       <Pagination @execPagination="execPagination" :totalPages="totalPages" :page="page" />
     </div>
     <div else class="skelton-area">
       <span v-if="isError" class="red--text">チーム一覧の取得に失敗しました</span>
       <TeamsSkelton v-if="isLoading" />
-      <span v-if="!isError && !isLoading" class="grey--text">登録されているチームはありません</span>
+      <span v-if="(!isError && !isLoading) && teams.length === 0" class="grey--text">登録されているチームはありません</span>
     </div>
     <team-regist-modal :dialog="registTeamModal" @registTeam="registTeam" />
   </v-layout>
@@ -98,7 +78,6 @@
 <script>
 import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
-import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 import TeamRegistModal from '~/components/teams/organisms/TeamRegistModal.vue'
 import SearchForm from '~/components/teams/molecules/SearchForm.vue'
 import Pagination from '~/components/teams/molecules/Pagination.vue'
@@ -112,7 +91,6 @@ export default {
     }
   },
   components: {
-    CommonButton,
     SearchForm,
     TeamRegistModal,
     Pagination,
@@ -134,13 +112,13 @@ export default {
       totalPages: 15,
       targetAgeList: [null, 'キッズ', '小学生', '中学生', '高校生', '大学・専門学生', '社会人'],
       teamTypeList: [null, 'チーム', 'スクール'],
-      isMobile: this.$vuetify.breakpoint.smAndDown,
       params: {},
       breadcrumbs: [],
       isLoading: false,
       isError: false,
       selectedCity: undefined,
-      pageTitle: undefined
+      pageTitle: undefined,
+      token: undefined
     }
   },
   computed: {
@@ -152,6 +130,7 @@ export default {
     const { prefCode, cityCode } = this.$route.query
     this.getTeams()
     this.getCityData({ prefCode, cityCode })
+    this.getToken()
   },
   methods: {
     getTeams () {
@@ -231,6 +210,8 @@ export default {
       return latestReview === '' ? false : latestReview
     },
     execPagination (page) {
+      window.scroll(0, 0)
+      this.teams = []
       this.page = page
       this.$router.push({ name: 'teams', params: { sportsId: localStorage.getItem('sportsId') }, query: { sportsId: localStorage.getItem('sportsId'), page } })
       this.getTeams()
@@ -266,6 +247,9 @@ export default {
       const cityName = this.selectedCity?.cityName ?? undefined
       const page = this.page ? `（${this.page}ページ目）` : undefined
       return `${sportsTitle ?? ''}${cityName ?? ''}のチーム・スクール${page ?? ''}${isBreadcrumbs ? '' : ' | '}`
+    },
+    getToken () {
+      this.token = localStorage.getItem('token')
     }
   }
 }
@@ -273,6 +257,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/scss/page.scss';
+.container {
+  width: 100%;
+}
 .page-header {
   display: flex;
   align-items: center;
@@ -281,6 +268,7 @@ export default {
 }
 .page-content {
   @include default-page-content;
+  margin: 0 auto 12px;
   &-item {
     &-footer {
       justify-content: flex-end;
@@ -306,10 +294,23 @@ export default {
   align-items: center;
 }
 .page-content-item {
+  position: relative;
   width: 100%;
-}
-.page-content-item.SP {
-  width: fit-content;
+  cursor: pointer;
+  .hover-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #1976d2;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    &:hover {
+      opacity: 0.1;
+      transition: opacity 0.1s ease-in-out;
+    }
+  }
 }
 .skelton-area {
   width: 100%;
