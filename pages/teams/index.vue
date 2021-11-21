@@ -9,11 +9,6 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <!-- <div v-if="!isLoading && !isError && token" class="page-header">
-      <common-button @click="showRegistTeamModal" button-color="primary">
-        チーム・スクールを登録する
-      </common-button>
-    </div> -->
     <div v-if="teams.length > 0" class="container">
       <SearchForm :class="$vuetify.breakpoint.smAndDown && 'SP'" @execSearch="execSearch" />
       <v-flex
@@ -71,14 +66,12 @@
       <TeamsSkelton v-if="isLoading" />
       <span v-if="(!isError && !isLoading) && teams.length === 0" class="grey--text">登録されているチームはありません</span>
     </div>
-    <team-regist-modal :dialog="registTeamModal" @registTeam="registTeam" />
   </v-layout>
 </template>
 
 <script>
 import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
-import TeamRegistModal from '~/components/teams/organisms/TeamRegistModal.vue'
 import SearchForm from '~/components/teams/molecules/SearchForm.vue'
 import Pagination from '~/components/teams/molecules/Pagination.vue'
 import TeamsSkelton from '~/components/teams/organisms/TeamsSkelton.vue'
@@ -92,7 +85,6 @@ export default {
   },
   components: {
     SearchForm,
-    TeamRegistModal,
     Pagination,
     TeamsSkelton
   },
@@ -169,22 +161,9 @@ export default {
           this.isError = true
         })
     },
-    goLoginPage () {
-      this.$router.push('/login')
-    },
     goTeamDetail (teamId) {
       localStorage.setItem('teamId', teamId)
       this.$router.push({ path: `teams/${teamId}`, query: { ...this.$route.query, page: this.page } })
-    },
-    showRegistTeamModal () {
-      this.registTeamModal = true
-    },
-    registTeam () {
-      this.getTeams()
-      this.closeModal()
-    },
-    closeModal () {
-      this.registTeamModal = false
     },
     execSearch (searchWord) {
       this.searchWord = searchWord

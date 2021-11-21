@@ -119,9 +119,25 @@ const BREADCRUMBS = [
   }
 ]
 
+const TARGET_AGE = [
+  { targetAgeType: 'キッズ', ageId: 1 },
+  { targetAgeType: '小学生', ageId: 2 },
+  { targetAgeType: '中学生', ageId: 3 },
+  { targetAgeType: '高校生', ageId: 4 },
+  { targetAgeType: '大学・専門学生', ageId: 5 },
+  { targetAgeType: '社会人', ageId: 6 }
+]
+
+const TEAM_TYPE = [
+  { teamType: 'チーム', typeId: 1 },
+  { teamType: 'スクール', typeId: 2 }
+]
+
 export default (context, inject) => {
   inject('SPORTS', SPORTS)
   inject('AREA', AREA)
   inject('TOP_PREFECTURE', TOP_PREFECTURE)
   inject('BREADCRUMBS', BREADCRUMBS)
+  inject('TARGET_AGE', TARGET_AGE)
+  inject('TEAM_TYPE', TEAM_TYPE)
 }
