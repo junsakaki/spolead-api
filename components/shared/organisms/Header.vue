@@ -14,13 +14,17 @@
           <v-icon small>
             mdi-lock-open
           </v-icon>
-          <p>ログアウト</p>
+          <p class="icon-button-link">
+            ログアウト
+          </p>
         </a>
         <router-link v-else class="icon-button" to="/login">
           <v-icon small>
             mdi-lock
           </v-icon>
-          <p>ログイン</p>
+          <p class="icon-button-link">
+            ログイン
+          </p>
         </router-link>
       </div>
     </div>
@@ -39,7 +43,9 @@
             <v-icon small>
               mdi-lock-open
             </v-icon>
-            <p>ログアウト</p>
+            <p class="icon-button-link">
+              ログアウト
+            </p>
           </a>
         </div>
         <div v-else class="links">
@@ -47,13 +53,17 @@
             <v-icon small>
               mdi-account
             </v-icon>
-            <p>アカウント登録</p>
+            <p class="icon-button-link">
+              アカウント登録
+            </p>
           </router-link>
           <router-link to="/login" class="link icon-button">
             <v-icon small>
               mdi-lock
             </v-icon>
-            <p>ログイン</p>
+            <p class="icon-button-link">
+              ログイン
+            </p>
           </router-link>
         </div>
       </div>
@@ -137,9 +147,9 @@ export default {
   flex-direction: column;
   text-decoration: none;
   color: #0000008A  !important;
-  p {
+  .icon-button-link {
     display: block;
-    margin: 0;
+    margin: 0 !important; //.v-application p の定義に上書きされる可能性があるため!important
     font-size: 10px;
     text-align: center;
   }

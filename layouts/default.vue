@@ -7,7 +7,7 @@
       </v-container>
     </v-content>
     <ScrollTopButton />
-    <v-footer padless app>
+    <v-footer padless>
       <div class="footer-links">
         <div v-for="link in filteredFooterLinks()" :key="link.title" class="link white--text">
           <router-link :to="link.to">
