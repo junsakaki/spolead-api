@@ -4,12 +4,12 @@
     justify-center
     align-center
   >
-    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
-      <template v-slot:divider>
-        <v-icon>mdi-chevron-right</v-icon>
-      </template>
-    </v-breadcrumbs>
     <div v-if="teams.length > 0" class="container">
+      <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+        <template v-slot:divider>
+          <v-icon>mdi-chevron-right</v-icon>
+        </template>
+      </v-breadcrumbs>
       <SearchForm @execSearch="execSearch" />
       <v-flex
         v-for="team in teams"
