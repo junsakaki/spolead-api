@@ -52,7 +52,7 @@ export default {
     googleAnalytics: {
       id: 'G-NXPNETVMNR'
     }
-  }
+  },
   /*
   ** Nuxt.js modules
   */
