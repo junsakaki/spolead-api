@@ -18,7 +18,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [{
+      async: true,
+      src: "https://www.googletagmanager.com/gtag/js?id=G-TERNFNLL4D"},
+      {
+        innerHTML: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-TERNFNLL4D');`
+      }
+    ],
   },
   /*
   ** Customize the progress-bar color
