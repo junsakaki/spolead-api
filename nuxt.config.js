@@ -21,9 +21,9 @@ export default {
     ],
     script: [{
       async: true,
-      src: "https://www.googletagmanager.com/gtag/js?id=G-TERNFNLL4D"},
+      src: "https://www.googletagmanager.com/gtag/js?id=G-NXPNETVMNR"},
       {
-        innerHTML: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-TERNFNLL4D');`
+        innerHTML: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-NXPNETVMNR');`
       }
     ]
   },
