@@ -3,5 +3,3 @@
   to = "https://spoleader.com"
   status = 301
   force = true
-[build.environment]
-  NODE_VERSION = "12.22.0"
