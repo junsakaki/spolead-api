@@ -19,11 +19,18 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
-    script: [{
-      async: true,
-      src: "https://www.googletagmanager.com/gtag/js?id=G-NXPNETVMNR"},
+    script: [
       {
-        innerHTML: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-NXPNETVMNR');`
+          src: "https://www.googletagmanager.com/gtag/js?id=G-NXPNETVMNR",
+          async: true
+      },
+      {
+          src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8350542131012326",
+          async: true,
+          crossorigin: "anonymous"
+      },
+      {
+          innerHTML: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-NXPNETVMNR');`
       }
     ]
   },
