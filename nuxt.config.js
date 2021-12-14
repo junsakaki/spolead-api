@@ -49,29 +49,14 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/vuetify'
   ],
-  googleAnalytics: {
-    id: 'G-NXPNETVMNR',
-  },
-  publicRuntimeConfig: {
-    googleAnalytics: {
-      id: 'G-NXPNETVMNR'
-    }
-  },
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    ['@nuxtjs/google-adsense', {
-      id: process.env.GA_ADSENSE_ID,
-      pageLevelAds: true,
-      analyticsUacct: 'G-NXPNETVMNR', // アナリティクスと連携する場合のみ必要
-      analyticsDomainName: 'spoleader.com'                 // アナリティクスと連携する場合のみ必要
-    }]
+    '@nuxtjs/axios'
   ],
   /*
   ** Axios module configuration
