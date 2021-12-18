@@ -4,12 +4,12 @@
       <router-link to="/" class="logo">
         <img
           :src="require('~/assets/images/SpoLeader-logo.png')"
-          :width="80"
+          :width="120"
           :aspect-ratio="16/6"
           class="logo"
         >
       </router-link>
-      <div>
+      <div class="icon-button-wrapper SP">
         <a v-if="token" @click="logOut" class="icon-button">
           <v-icon small>
             mdi-lock-open
@@ -32,7 +32,7 @@
       <router-link to="/" class="logo">
         <img
           :src="require('~/assets/images/SpoLeader-logo.png')"
-          :width="130"
+          :width="150"
           :aspect-ratio="16/6"
           class="logo"
         >
@@ -122,7 +122,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 12px;
   }
 }
 .fixed {
@@ -141,6 +140,9 @@ export default {
   padding: 18px 12px;
   color: white;
   text-decoration: none;
+}
+.icon-button-wrapper.SP {
+  padding-right: 12px;
 }
 .icon-button {
   display: flex;
