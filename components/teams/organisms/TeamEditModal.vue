@@ -25,34 +25,34 @@
                 />
                 <v-col cols="12">
                   <v-file-input
-                    @change="upload"
                     label="イメージ画像"
                     prepend-icon="mdi-camera"
+                    @change="upload"
                   />
                 </v-col>
               </v-col>
               <v-col cols="12" sm="6">
                 <!-- get Pref from API -->
                 <v-select
-                  @change="selectPref(prefecture_code)"
                   v-model="prefecture_code"
                   :items="prefectureList"
                   item-text="prefName"
                   item-value="prefCode"
                   label="都道府県"
                   required
+                  @change="selectPref(prefecture_code)"
                 />
               </v-col>
               <v-col cols="12" sm="6">
                 <!-- get City from API -->
                 <v-select
-                  @change="selectCity(city_code)"
                   v-model="city_code"
                   :items="cityList"
                   item-text="cityName"
                   item-value="cityCode"
                   label="区市町村"
                   required
+                  @change="selectCity(city_code)"
                 />
               </v-col>
               <v-col cols="12">
@@ -92,10 +92,10 @@
           </v-container>
         </v-card-text>
         <v-card-actions class="d-flex justify-center">
-          <v-btn @click="updateTeam" color="primary" dark>
+          <v-btn color="primary" dark @click="updateTeam">
             保存
           </v-btn>
-          <v-btn @click="closeModal" color="grey" dark>
+          <v-btn color="grey" dark @click="closeModal">
             キャンセル
           </v-btn>
         </v-card-actions>

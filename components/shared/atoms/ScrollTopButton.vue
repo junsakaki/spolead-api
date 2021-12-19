@@ -2,11 +2,11 @@
   <transition name="scroll-top-button">
     <div v-show="buttonActive" class="scroll-top-button">
       <v-btn
-        @click="scrollTop"
         fab
         dark
         small
         color="primary"
+        @click="scrollTop"
       >
         <v-icon dark>
           mdi-chevron-up

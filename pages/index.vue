@@ -31,12 +31,6 @@ export default {
     SelectSports,
     SelectArea
   },
-  head () {
-    return {
-      title: 'SpoLeadeR',
-      titleTemplate: ''
-    }
-  },
   data () {
     return {
       token: '',
@@ -46,6 +40,12 @@ export default {
       topPrefecture: this.$TOP_PREFECTURE,
       cityCards: [],
       selectedPrefecture: { title: '' }
+    }
+  },
+  head () {
+    return {
+      title: 'SpoLeadeR',
+      titleTemplate: ''
     }
   },
   created () {

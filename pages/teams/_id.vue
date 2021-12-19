@@ -2,7 +2,7 @@
   <v-layout>
     <div v-if="Object.keys(team).length > 0" class="page-container">
       <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
-        <template v-slot:divider>
+        <template #divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
@@ -12,10 +12,10 @@
         </div>
         <div class="page-header-sub">
           <v-btn
-            @click="showEditTeamModal"
             v-if="isTeamOwner"
             icon
             color="primary"
+            @click="showEditTeamModal"
           >
             <v-icon>mdi-pen</v-icon>
           </v-btn>
@@ -71,7 +71,7 @@
               </div>
             </v-tab-item>
             <v-tab-item>
-              <button @click="showRegistReviewsModal" class="review-post-button">
+              <button class="review-post-button" @click="showRegistReviewsModal">
                 + 口コミを投稿する
               </button>
               <!-- display reviews as much as review count -->
@@ -87,7 +87,9 @@
               </div>
             </v-tab-item>
             <v-tab-item>
-              <div class="address">{{ team.prefecture }}{{ team.city }}{{ team.street_number }}</div>
+              <div class="address">
+                {{ team.prefecture }}{{ team.city }}{{ team.street_number }}
+              </div>
               <iframe
                 :src="googleMap"
                 frameborder="0"
@@ -111,9 +113,10 @@
         @teamEdit="teamEdit"
       />
       <reviews-regist-modal
+        v-if="registReviewsModal"
         :dialog="registReviewsModal"
+        :team-id="team.id"
         @registReview="registReview"
-        :teamId="team.id"
       />
     </div>
     <div v-else class="skelton-area">
@@ -133,11 +136,6 @@ import TeamDetailSkelton from '~/components/teams/organisms/TeamDetailSkelton.vu
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
-  head () {
-    return {
-      title: this.pageTitle
-    }
-  },
   components: {
     TeamEditModal,
     ReviewsRegistModal,
@@ -169,6 +167,11 @@ export default {
       isError: false
     }
   },
+  head () {
+    return {
+      title: this.pageTitle
+    }
+  },
   computed: {
     googleMap () {
       return `https://maps.google.co.jp/maps?q=${this.team.prefecture + this.team.city + this.team.street_number}&output=embed&t=m&z=16&hl=ja`
@@ -176,7 +179,7 @@ export default {
     unreadReviewCount () {
       const loginDateTime = new Date(localStorage.getItem('loginDateTime'))
       let unreadCount = 0
-      this.reviewsList.map((review) => {
+      this.reviewsList.forEach((review) => {
         if (new Date(review.created_at).getTime() > loginDateTime) {
           unreadCount += 1
         }

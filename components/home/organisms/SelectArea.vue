@@ -17,8 +17,8 @@
             v-for="prefecture in topPrefecture.slice(0,6)"
             :key="`prefecture-${prefecture.id}`"
             :cols="4"
-            @click="goCitySelect(prefecture)"
             class="cards"
+            @click="goCitySelect(prefecture)"
           >
             <v-card class="card">
               <v-img
@@ -64,8 +64,8 @@
                   <a
                     v-for="prefecture in area.prefectures"
                     :key="prefecture.id"
-                    @click="goCitySelect(prefecture)"
                     class="area-link"
+                    @click="goCitySelect(prefecture)"
                   >
                     {{ prefecture.title }}
                   </a>
@@ -93,8 +93,8 @@
             <a
               v-for="city in cityCards"
               :key="city.cityCode"
-              @click="showTeamsRelatedToCity(city.cityCode)"
               class="area-link"
+              @click="showTeamsRelatedToCity(city.cityCode)"
             >
               {{ city.cityName }}
             </a>
@@ -152,8 +152,8 @@
               <a
                 v-for="prefecture in area.prefectures"
                 :key="prefecture.id"
-                @click="goCitySelect(prefecture)"
                 class="area-link"
+                @click="goCitySelect(prefecture)"
               >
                 {{ prefecture.title }}
               </a>
@@ -171,8 +171,8 @@
             <a
               v-for="city in cityCards"
               :key="city.cityCode"
-              @click="showTeamsRelatedToCity(city.cityCode)"
               class="area-link"
+              @click="showTeamsRelatedToCity(city.cityCode)"
             >
               {{ city.cityName }}
             </a>

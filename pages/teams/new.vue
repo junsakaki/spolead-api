@@ -5,7 +5,7 @@
     align-center
   >
     <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
-      <template v-slot:divider>
+      <template #divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
@@ -41,33 +41,33 @@
             </v-col>
             <v-col cols="12">
               <v-file-input
-                @change="upload"
                 label="イメージ画像"
                 prepend-icon="mdi-camera"
+                @change="upload"
               />
             </v-col>
             <v-col cols="12" sm="6">
               <!-- get Pref from API -->
               <v-select
-                @change="selectPref(prefecture_code)"
                 v-model="prefecture_code"
                 :items="prefectureList"
                 item-text="prefName"
                 item-value="prefCode"
                 label="都道府県"
                 required
+                @change="selectPref(prefecture_code)"
               />
             </v-col>
             <v-col cols="12" sm="6">
               <!-- get City from API -->
               <v-select
-                @change="selectCity(city_code)"
                 v-model="city_code"
                 :items="cityList"
                 item-text="cityName"
                 item-value="cityCode"
                 label="区市町村"
                 required
+                @change="selectCity(city_code)"
               />
             </v-col>
             <v-col cols="12">
@@ -106,7 +106,7 @@
           </v-container>
         </v-card-text>
         <v-card-actions class="submit-button-area">
-          <common-button @click="regTeam" class="submit-button" button-color="primary">
+          <common-button class="submit-button" button-color="primary" @click="regTeam">
             チームを登録する
           </common-button>
         </v-card-actions>
@@ -196,8 +196,6 @@ export default {
         })
     },
     regTeam () {
-      console.log(this.name, this.mail_address, this.sports_id)
-      console.log(!this.name || !this.mail_address || !this.sports_id)
       if (!this.name || !this.mail_address || !this.sports_id) {
         return
       }

@@ -20,8 +20,8 @@
 
     <div :class="!$vuetify.breakpoint.smAndDown && 'd-flex justify-left align-center'">
       <div class="d-flex">
-        <v-rating v-model="review.general_point" readonly />
-        <button v-if="!isShowReviewScoreDetail" @click="showReviewScoreDetail" class="show-review-score-detail-button">
+        <v-rating :value="review.general_point" readonly />
+        <button v-if="!isShowReviewScoreDetail" class="show-review-score-detail-button" @click="showReviewScoreDetail">
           詳細
         </button>
       </div>

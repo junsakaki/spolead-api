@@ -53,7 +53,7 @@
           required
         />
       </v-form>
-      <common-button @click="signUp" button-size="large" button-color="primary" class="signup-button">
+      <common-button button-size="large" button-color="primary" class="signup-button" @click="signUp">
         アカウント登録
       </common-button>
       <div class="login">
@@ -71,11 +71,6 @@ import { colors } from '~/assets/js/Colors.js'
 import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 
 export default {
-  head () {
-    return {
-      title: 'アカウント登録 | '
-    }
-  },
   components: {
     CommonButton
   },
@@ -101,6 +96,11 @@ export default {
       passwordConfirmRules: [
         v => (v === this.password) || 'パスワードが一致しません。'
       ]
+    }
+  },
+  head () {
+    return {
+      title: 'アカウント登録 | '
     }
   },
   methods: {

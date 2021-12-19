@@ -16,8 +16,8 @@
           v-for="card in cards"
           :key="`sports-${card.id}`"
           :cols="4"
-          @click="goTeamsPage(card.id)"
           class="cards"
+          @click="goTeamsPage(card.id)"
         >
           <v-card class="card">
             <v-img
@@ -50,8 +50,8 @@
           v-for="card in cards"
           :key="card.title"
           :cols="3"
-          @click="goTeamsPage(card.id)"
           class="cards"
+          @click="goTeamsPage(card.id)"
         >
           <v-card class="card">
             <v-img

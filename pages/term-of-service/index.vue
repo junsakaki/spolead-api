@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
-      <template v-slot:divider>
+      <template #divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
@@ -114,11 +114,6 @@
 
 <script>
 export default {
-  head () {
-    return {
-      title: '利用規約 | '
-    }
-  },
   data () {
     return {
       breadcrumbs: [
@@ -128,6 +123,11 @@ export default {
           disabled: true
         }
       ]
+    }
+  },
+  head () {
+    return {
+      title: '利用規約 | '
     }
   }
 }

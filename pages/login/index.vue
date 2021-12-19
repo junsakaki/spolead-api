@@ -40,7 +40,7 @@
           required
         />
       </v-form>
-      <common-button @click="login" button-size="large" button-color="primary" class="login-button">
+      <common-button button-size="large" button-color="primary" class="login-button" @click="login">
         ログイン
       </common-button>
       <v-alert v-if="invalidAuth" type="error">
@@ -61,11 +61,6 @@ import { colors } from '~/assets/js/Colors.js'
 import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 
 export default {
-  head () {
-    return {
-      title: 'ログイン | '
-    }
-  },
   components: {
     CommonButton
   },
@@ -83,6 +78,11 @@ export default {
         v => (v && v.length >= 5) || 'パスワードは6文字以上です。'
       ],
       invalidAuth: false
+    }
+  },
+  head () {
+    return {
+      title: 'ログイン | '
     }
   },
   methods: {

@@ -4,8 +4,8 @@
       <!-- <label for="group_name">{{ label }}</label> -->
       <v-text-field
         v-model="searchWord"
-        @keydown.enter="execSearch(searchWord)"
         label="検索(チーム名、都道府県、市区町村)"
+        @keydown.enter="execSearch(searchWord)"
       />
     </div>
     <div v-else class="search-field">
@@ -14,7 +14,7 @@
         v-model="searchWord"
         label="検索(チーム名、都道府県、市区町村)"
       />
-      <common-button @click="execSearch(searchWord)" button-color="primary">
+      <common-button button-color="primary" @click="execSearch(searchWord)">
         検索
       </common-button>
     </div>

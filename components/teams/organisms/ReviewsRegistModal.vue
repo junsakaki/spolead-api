@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog :value="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title class="justify-space-between">
           <span class="headline">口コミ投稿フォーム</span>
@@ -159,10 +159,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="closeModal" color="blue darken-1" text>
+          <v-btn color="blue darken-1" text @click="closeModal">
             やめる
           </v-btn>
-          <v-btn @click="postReview" color="blue darken-1" text>
+          <v-btn color="blue darken-1" text @click="postReview">
             投稿する
           </v-btn>
         </v-card-actions>

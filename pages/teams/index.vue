@@ -6,7 +6,7 @@
   >
     <div v-if="teams.length > 0" class="container">
       <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
-        <template v-slot:divider>
+        <template #divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
@@ -17,7 +17,7 @@
         flex-wrap
         class="page-content"
       >
-        <v-card @click="goTeamDetail(team.id)" class="page-content-item">
+        <v-card class="page-content-item" @click="goTeamDetail(team.id)">
           <div class="hover-filter" />
           <div class="page-content-item-header" style="display">
             {{ team.name }} {{ `${team.prefecture ? '(' + team.prefecture + team.city + team.street_number + ')' : ''}` }}
@@ -61,7 +61,7 @@
         </v-card>
         <v-divider :inset="false" />
       </v-flex>
-      <Pagination @execPagination="execPagination" :totalPages="totalPages" :page="page" />
+      <Pagination :total-pages="totalPages" :page="page" @execPagination="execPagination" />
     </div>
     <div else class="skelton-area">
       <span v-if="isError" class="red--text">チーム一覧の取得に失敗しました</span>
@@ -80,11 +80,6 @@ import TeamsSkelton from '~/components/teams/organisms/TeamsSkelton.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
-  head () {
-    return {
-      title: this.pageTitle
-    }
-  },
   components: {
     SearchForm,
     Pagination,
@@ -111,6 +106,11 @@ export default {
       selectedCity: undefined,
       pageTitle: undefined,
       token: undefined
+    }
+  },
+  head () {
+    return {
+      title: this.pageTitle
     }
   },
   computed: {

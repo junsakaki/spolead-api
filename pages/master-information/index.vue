@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
-      <template v-slot:divider>
+      <template #divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
@@ -10,7 +10,7 @@
         <v-card-title>運営管理</v-card-title>
 
         <v-simple-table>
-          <template v-slot:default>
+          <template #default>
             <tbody>
               <tr
                 v-for="(item, i) in items"
@@ -31,11 +31,6 @@
 
 <script>
 export default {
-  head () {
-    return {
-      title: '運営管理 | '
-    }
-  },
   data () {
     return {
       items: [
@@ -71,6 +66,11 @@ export default {
           disabled: true
         }
       ]
+    }
+  },
+  head () {
+    return {
+      title: '運営管理 | '
     }
   }
 }

@@ -3,8 +3,8 @@
     <v-pagination
       v-model="internalPage"
       :length="totalPages"
-      @input="execPagination"
       :total-visible="7"
+      @input="execPagination"
     />
   </div>
 </template>

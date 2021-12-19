@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="click" :color="buttonColor" :width="buttonWidth" large class="common-button">
+  <v-btn :color="buttonColor" :width="buttonWidth" large class="common-button" @click="click">
     <slot />
   </v-btn>
 </template>

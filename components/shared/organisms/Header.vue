@@ -3,14 +3,14 @@
     <div v-if="$vuetify.breakpoint.smAndDown" class="header SP">
       <router-link to="/" class="logo">
         <img
-          :src="require('~/assets/images/SpoLeader-logo.png')"
+          src="~/assets/images/SpoLeader-logo.png"
           :width="120"
           :aspect-ratio="16/6"
           class="logo"
         >
       </router-link>
       <div class="icon-button-wrapper SP">
-        <a v-if="token" @click="logOut" class="icon-button">
+        <a v-if="token" class="icon-button" @click="logOut">
           <v-icon small>
             mdi-lock-open
           </v-icon>
@@ -31,7 +31,7 @@
     <div v-else :class="`header ${$route.path === '/' ? 'fixed' : ''}`">
       <router-link to="/" class="logo">
         <img
-          :src="require('~/assets/images/SpoLeader-logo.png')"
+          src="~/assets/images/SpoLeader-logo.png"
           :width="150"
           :aspect-ratio="16/6"
           class="logo"
@@ -39,7 +39,7 @@
       </router-link>
       <div>
         <div v-if="token" class="links">
-          <a @click="logOut" class="link icon-button">
+          <a class="link icon-button" @click="logOut">
             <v-icon small>
               mdi-lock-open
             </v-icon>
@@ -142,7 +142,7 @@ export default {
   text-decoration: none;
 }
 .icon-button-wrapper.SP {
-  padding-right: 12px;
+  padding-right: 14px;
 }
 .icon-button {
   display: flex;
