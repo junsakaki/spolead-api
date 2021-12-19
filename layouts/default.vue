@@ -83,11 +83,11 @@ export default {
         {
           title: '運営管理',
           to: '/master-information'
+        },
+        {
+          title: 'サイトマップ',
+          to: '/sitemap'
         }
-        // {
-        //   title: 'サイトマップ',
-        //   to: '/sitemap'
-        // }
       ],
       miniVariant: false,
       right: true,
