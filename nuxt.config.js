@@ -20,7 +20,7 @@ export default {
       { hid: 'og:url', property: 'og:url', content: 'https://spoleader.com/' },
       { hid: 'og:title', property: 'og:title', content: 'Spoleader' },
       { hid: 'og:description', property: 'og:description', content: '総合スポーツチーム・スクール口コミ情報ポータル' },
-      { hid: 'og:image', property: 'og:image', content: '~assets/images/ogp.png' },
+      { hid: 'og:image', property: 'og:image', content: 'https://spoleader.com/ogp.png'},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
