@@ -111,7 +111,7 @@ const TOP_PREFECTURE = [
 
 const BREADCRUMBS = [
   {
-    text: 'SpoLeadeR',
+    text: 'TOP',
     link: true,
     exact: true,
     disabled: false,
