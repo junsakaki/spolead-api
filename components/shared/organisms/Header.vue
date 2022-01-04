@@ -37,35 +37,57 @@
           class="logo"
         >
       </router-link>
-      <div>
-        <div v-if="token" class="links">
-          <a class="link icon-button" @click="logOut">
-            <v-icon small>
-              mdi-lock-open
-            </v-icon>
-            <p class="icon-button-link">
-              ログアウト
-            </p>
-          </a>
-        </div>
-        <div v-else class="links">
-          <router-link to="/signup" class="link icon-button">
-            <v-icon small>
-              mdi-account
-            </v-icon>
-            <p class="icon-button-link">
-              アカウント登録
-            </p>
-          </router-link>
-          <router-link to="/login" class="link icon-button">
-            <v-icon small>
-              mdi-lock
-            </v-icon>
-            <p class="icon-button-link">
-              ログイン
-            </p>
-          </router-link>
-        </div>
+      <div class="links">
+        <button v-if="$route.path !== '/'" class="link icon-button align-center">
+          <v-icon small>
+            mdi-account-group
+          </v-icon>
+          <p class="icon-button-link">
+            チーム・スクール検索
+          </p>
+          <div class="selection-card">
+            <router-link v-for="sports in $SPORTS" :key="sports.id" :to="`/teams?sportsId=${sports.id}`" class="sports">
+              {{ sports.title }}
+            </router-link>
+          </div>
+        </button>
+        <button v-if="$route.path !== '/'" class="link icon-button align-center">
+          <v-icon small>
+            mdi-clipboard-text
+          </v-icon>
+          <p class="icon-button-link">
+            BBS掲示板
+          </p>
+          <div class="selection-card">
+            <router-link v-for="sports in $SPORTS" :key="sports.id" :to="`/forums?sportsId=${sports.id}`" class="sports">
+              {{ sports.title }}
+            </router-link>
+          </div>
+        </button>
+        <a v-if="token" class="link icon-button" @click="logOut">
+          <v-icon small>
+            mdi-lock-open
+          </v-icon>
+          <p class="icon-button-link">
+            ログアウト
+          </p>
+        </a>
+        <router-link v-if="!token" to="/signup" class="link icon-button">
+          <v-icon small>
+            mdi-account
+          </v-icon>
+          <p class="icon-button-link">
+            アカウント登録
+          </p>
+        </router-link>
+        <router-link v-if="!token" to="/login" class="link icon-button">
+          <v-icon small>
+            mdi-lock
+          </v-icon>
+          <p class="icon-button-link">
+            ログイン
+          </p>
+        </router-link>
       </div>
     </div>
   </div>
@@ -136,6 +158,7 @@ export default {
   display: flex;
 }
 .link {
+  position: relative;
   font-size: 14px;
   padding: 18px 12px;
   color: white;
@@ -155,5 +178,29 @@ export default {
     font-size: 10px;
     text-align: center;
   }
+}
+.selection-card {
+  position: absolute;
+  display: none;
+  background: rgba(153, 153, 153, 1);
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 200px;
+  font-size: 12px;
+  z-index: 2;
+  .sports {
+    padding: 4px;
+    background: white;
+    border: solid 1px rgba(153, 153, 153, 0.096);
+    text-decoration: none;
+  }
+  .sports:hover {
+    opacity: 0.9;
+  }
+}
+.link:hover .selection-card {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 </style>
