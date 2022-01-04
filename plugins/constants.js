@@ -1,11 +1,11 @@
 const SPORTS = [
-  { id: 1, title: 'サッカー', src: require('~/assets/images/soccer.jpg') },
-  { id: 2, title: '野球', src: require('~/assets/images/baseball.jpg') },
-  { id: 3, title: 'バスケットボール', src: require('~/assets/images/basketball.jpeg') },
-  { id: 4, title: 'バレーボール', src: require('~/assets/images/volleyball.jpeg') },
-  { id: 5, title: 'ダンス', src: require('~/assets/images/dance.jpeg') },
-  { id: 6, title: 'ラグビー', src: require('~/assets/images/rugby.jpeg') },
-  { id: 7, title: '水泳', src: require('~/assets/images/swimming.jpeg') }
+  { id: 1, title: 'サッカー', src: require('~/assets/images/soccer.jpg'), icon_src: require('~/assets/images/icon/soccer.png') },
+  { id: 2, title: '野球', src: require('~/assets/images/baseball.jpg'), icon_src: require('~/assets/images/icon/baseball.png') },
+  { id: 3, title: 'バスケットボール', src: require('~/assets/images/basketball.jpeg'), icon_src: require('~/assets/images/icon/basketball.png') },
+  { id: 4, title: 'バレーボール', src: require('~/assets/images/volleyball.jpeg'), icon_src: require('~/assets/images/icon/volleyball.png') },
+  { id: 5, title: 'ダンス', src: require('~/assets/images/dance.jpeg'), icon_src: require('~/assets/images/icon/dance.png') },
+  { id: 6, title: 'ラグビー', src: require('~/assets/images/rugby.jpeg'), icon_src: require('~/assets/images/icon/rugby.png') },
+  { id: 7, title: '水泳', src: require('~/assets/images/swimming.jpeg'), icon_src: require('~/assets/images/icon/swimming.png') }
 ]
 
 const AREA = [
