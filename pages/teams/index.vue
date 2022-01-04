@@ -118,26 +118,34 @@ export default {
       return !!localStorage.getItem('userId')
     }
   },
+  watch: {
+    $route (to, from) {
+      this.fetchInitialData()
+    }
+  },
   created () {
-    const { prefCode, cityCode } = this.$route.query
-    this.getTeams()
-    this.getCityData({ prefCode, cityCode })
-    this.getToken()
+    this.fetchInitialData()
   },
   methods: {
+    fetchInitialData () {
+      const { prefCode, cityCode } = this.$route.query
+      this.getTeams()
+      this.getCityData({ prefCode, cityCode })
+      this.getToken()
+    },
     getTeams () {
       this.isLoading = true
       this.isError = false
       let params = {}
       // get Teams related to sportsId
-      if (localStorage.getItem('sportsId')) {
+      if (this.$route.query.sportsId) {
         params = {
-          sports_id: localStorage.getItem('sportsId')
+          sports_id: this.$route.query.sportsId
         }
       // get Teams related to cityCodes
       } else {
         params = {
-          city_code: localStorage.getItem('cityCode')
+          city_code: this.$route.query.cityCode
         }
       }
       this.params = params
