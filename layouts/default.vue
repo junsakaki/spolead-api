@@ -1,102 +1,35 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <!-- <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-      v-if="token"
-    > -->
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in !!token ? [...items, logoutItem] : [...items, ...loginItems]"
-          :key="i"
-          :to="item.to"
-          @click="item.onClick"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="token" /> -->
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-if="isMobile" @click="$router.push('/')" class="toolbar SP">
-        {{ title }}<font class="sub-title SP">
-          {{ subTitle }}
-        </font>
-      </v-toolbar-title>
-      <v-toolbar-title v-else @click="$router.push('/')" style="cursor: pointer">
-        {{ subTitle + ' - ' + title }}
-      </v-toolbar-title>
-      <v-spacer />
-      <common-button @click="logOut" v-if="!!token && !isMobile" button-color="warning">
-        ログアウト
-      </common-button>
-      <common-button @click="$router.push('/login')" v-else-if="!isMobile" button-color="primary">
-        チームを登録するにはログインが必要です
-      </common-button>
-    </v-app-bar>
+    <Header :token="token" />
     <v-content>
-      <v-container v-resize="onResize" :class="isMobile && 'SP'">
+      <v-container :class="$vuetify.breakpoint.smAndDown && 'SP'">
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer
-      color="primary lighten-1"
-      padless
-      app
-    >
-      <v-row
-        justify="center"
-        no-gutters
-      >
-        <v-btn
-          v-for="(link,i) in footerLinks"
-          :key="i"
-          :to="link.to"
-          color="white"
-          text
-          rounded
-          class="my-2"
-        >
-          {{ link.title }}
-        </v-btn>
-        <v-col
-          class="primary lighten-2 py-4 text-center white--text copyright"
-          cols="12"
-        >
-          <span>&copy; SpoLeadeR.All rights reserved 2020 {{ nowYear }}</span>
-        </v-col>
-      </v-row>
+    <ScrollTopButton />
+    <v-footer padless>
+      <div class="footer-links">
+        <div v-for="link in filteredFooterLinks()" :key="link.title" class="link white--text">
+          <router-link :to="link.to">
+            {{ link.title }}
+          </router-link>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <span class="grey--text">&copy; SpoLeadeR.All rights reserved 2020 {{ nowYear }}</span>
+      </div>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import CommonButton from '~/components/atoms/CommonButton.vue'
+import Header from '~/components/shared/organisms/Header.vue'
+import ScrollTopButton from '~/components/shared/atoms/ScrollTopButton.vue'
+
 export default {
   components: {
-    CommonButton
+    Header,
+    ScrollTopButton
   },
   data () {
     return {
@@ -114,7 +47,7 @@ export default {
         {
           icon: 'mdi-apps',
           title: 'エリアから探す',
-          to: '/topPrefecture'
+          to: '/top-prefecture'
         }
       ],
       loginItems: [
@@ -141,23 +74,26 @@ export default {
         },
         {
           title: 'お問い合わせ',
-          to: '/ContactForm'
+          to: '/contact-form'
         },
         {
           title: '利用規約',
-          to: '/TermOfService'
+          to: '/term-of-service'
         },
         {
           title: '運営管理',
-          to: '/MasterInformation'
+          to: '/master-information'
+        },
+        {
+          title: 'サイトマップ',
+          to: '/sitemap'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title: 'SpoLeadeR',
-      subTitle: '総合スポーツチーム・スクール口コミ情報ポータル',
-      isMobile: this.$vuetify.breakpoint.smAndDown
+      subTitle: '総合スポーツチーム・スクール口コミ情報ポータル'
     }
   },
   computed: {
@@ -199,12 +135,26 @@ export default {
       location.replace('https://spolead.com/')
       // location.replace('http://develop01.spolead-sv.net')
       //   }
-      // }).catch((err) => {
-      //   console.log('ERROR', err)
       // })
     },
-    onResize () {
-      this.isMobile = this.$vuetify.breakpoint.smAndDown
+    filteredFooterLinks () {
+      if (this.token) {
+        return [
+          ...this.footerLinks,
+          {
+            title: 'チームを登録する',
+            to: '/teams/new'
+          }
+        ]
+      } else {
+        return [
+          ...this.footerLinks,
+          {
+            title: 'チーム登録するにはログインが必要です',
+            to: '/login'
+          }
+        ]
+      }
     }
   }
 }
@@ -212,6 +162,9 @@ export default {
 <style lang="scss">
 #app{
   font-family: 'spoleader';
+}
+.v-main {
+  padding: 0 !important;
 }
 .v-toolbar__content {
   .common-button {
@@ -242,5 +195,66 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 12px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  padding-left: 12px;
+  margin: 0 72px;
+  background-color: white;
+  width: -webkit-fill-available;
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  .links {
+    display: flex;
+  }
+  .link {
+    font-size: 14px;
+    padding: 18px 12px;
+    color: white;
+    text-decoration: none;
+  }
+  .link.login, .link.logout {
+    background-color: #ef4848;
+  }
+  .link.signup {
+    background-color: #43464a;
+  }
+}
+.header.fixed {
+  position: fixed;
+  box-shadow: 0px 7.5px 18px 1.2px rgb(0 0 0 / 12%);
+}
+.breadcrumbs {
+  width: 100%;
+  padding: 0 0 12px !important;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 20px 12px;
+  .link {
+    font-size: 12px;
+    padding: 4px 8px;
+    a {
+      text-decoration: none;
+    }
+    &:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+  }
+}
+.footer-copyright {
+  font-size: 10px;
+  text-align: center;
+  width: 100%;
+  padding: 8px 0;
+  background-color: white;
 }
 </style>

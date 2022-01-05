@@ -10,15 +10,34 @@ export default {
       lang: 'ja',
       prefix: 'og: http://ogp.me/ns#'
     },
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    titleTemplate: '%s' + 'SpoLeadeR',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: '総合スポーツチーム・スクール口コミ情報ポータル' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'Spoleader' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:url', property: 'og:url', content: 'https://spoleader.com/' },
+      { hid: 'og:title', property: 'og:title', content: 'Spoleader' },
+      { hid: 'og:description', property: 'og:description', content: '総合スポーツチーム・スクール口コミ情報ポータル' },
+      { hid: 'og:image', property: 'og:image', content: 'https://spoleader.com/ogp.png'},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-NXPNETVMNR',
+        async: true
+      },
+      {
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8350542131012326',
+        async: true,
+        crossorigin: 'anonymous'
+      },
+      {
+        innerHTML: 'window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag(\'js\', new Date());gtag(\'config\', \'G-NXPNETVMNR\');'
+      }
     ]
   },
   /*
@@ -35,6 +54,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~/plugins/constants.js' }
   ],
   /*
   ** Nuxt.js dev-modules

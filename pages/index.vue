@@ -14,82 +14,49 @@
     justify-center
     align-center
   >
-    <div class="page-header">
-      <div class="page-header-title">
-        <common-button @click="topPrefecture" button-size="large" button-color="primary">
-          エリアから探す
-        </common-button>
-        <common-button @click="registUserPage" v-if="token === ''" button-size="large">
-          ユーザー登録する
-        </common-button>
-      </div>
-    </div>
-    <div class="page-title">
-      総合スポーツチーム・スクール口コミ情報ポータル
-    </div>
-    <v-img
-      :src="require('~/assets/images/SpoLeader-logo.png')"
-      :width="350"
-      :aspect-ratio="16/6"
-      class="logo"
-    />
-    <v-flex
-      xs12
-      sm8
-      md6
-      d-flex
-      flex-wrap
-      class="page-content"
-    >
-      <v-col
-        v-for="card in cards"
-        :key="card.title"
-        :cols="3"
-        @click="goTeamsPage(card.id)"
-        class="sports"
-      >
-        <v-card>
-          <v-img
-            :src="card.src"
-            class="white--text align-end"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            height="200px"
-          >
-            <v-card-title v-text="card.title" />
-          </v-img>
-        </v-card>
-      </v-col>
-    </v-flex>
-    <!-- <common-button @click="registUserPage" button-size="large" >
-      ユーザー登録
-    </common-button> -->
+    <HomeHeader />
+    <SelectSports />
+    <SelectArea />
   </v-layout>
 </template>
 
 <script>
-
-import CommonButton from '~/components/atoms/CommonButton.vue'
+import HomeHeader from '~/components/home/organisms/HomeHeader.vue'
+import SelectSports from '~/components/home/organisms/SelectSports.vue'
+import SelectArea from '~/components/home/organisms/SelectArea.vue'
 
 export default {
   components: {
-    CommonButton
+    HomeHeader,
+    SelectSports,
+    SelectArea
   },
   data () {
     return {
       token: '',
-      cards: [
-        { id: 1, title: 'Soccer', src: require('~/assets/images/soccer.jpg') },
-        { id: 2, title: 'Baseball', src: require('~/assets/images/baseball.jpg') },
-        { id: 3, title: 'Basketball', src: require('~/assets/images/basketball.jpeg') },
-        { id: 4, title: 'Volleyball', src: require('~/assets/images/volleyball.jpeg') },
-        { id: 5, title: 'Dance', src: require('~/assets/images/dance.jpeg') },
-        { id: 6, title: 'Rugby', src: require('~/assets/images/rugby.jpeg') },
-        { id: 7, title: 'Swimming', src: require('~/assets/images/swimming.jpeg') }
-      ]
+      cards: this.$SPORTS,
+      mode: 'prefecture',
+      areas: this.$AREA,
+      topPrefecture: this.$TOP_PREFECTURE,
+      cityCards: [],
+      selectedPrefecture: { title: '' }
+    }
+  },
+  head () {
+    return {
+      title: 'SpoLeadeR',
+      titleTemplate: ''
     }
   },
   created () {
     this.token = localStorage.getItem('token')
+    if (localStorage.getItem('selectedCity')) {
+      this.mode = 'city'
+      this.cityCards = JSON.parse(localStorage.getItem('selectedCity'))
+    }
+    if (localStorage.getItem('selectedPrefecture')) {
+      this.selectedPrefecture = JSON.parse(localStorage.getItem('selectedPrefecture'))
+    }
     // if (!this.token) {
     //   this.$router.push('/login')
     // }
@@ -102,12 +69,38 @@ export default {
       this.$router.push('/login')
     },
     goTeamsPage (sportsId) {
-      this.$router.push({ name: 'Teams', params: { sportsId } })
+      this.$router.push({ name: 'teams', params: { sportsId }, query: { sportsId } })
       localStorage.setItem('sportsId', sportsId)
       localStorage.setItem('cityCode', '')
     },
-    topPrefecture () {
-      this.$router.push('/topPrefecture')
+    showTeamsRelatedToCity (cityCode) {
+      this.$router.push({ name: 'teams', params: { cityCode }, query: { cityCode } })
+      localStorage.setItem('sportsId', '')
+      localStorage.setItem('cityCode', cityCode)
+    },
+    goCitySelect (pref) {
+      this.mode = 'city'
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'getCityApi',
+          params: {
+            prefCode: pref.id
+          }
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            this.cityCards = response.data.result
+            this.selectedPrefecture = pref
+            localStorage.setItem('selectedCity', JSON.stringify(response.data.result))
+            localStorage.setItem('selectedPrefecture', JSON.stringify(pref))
+          }
+        })
+    },
+    backMode () {
+      this.cityCards = []
+      this.mode = 'prefecture'
+      localStorage.removeItem('selectedPrefecture')
+      localStorage.removeItem('selectedCity')
     }
   }
 }
@@ -122,24 +115,65 @@ export default {
   align-items: center;
   justify-content: flex-end;
 }
-.page-title {
-  width: 100%;
-  font-size: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .page-content {
+  width: 100%;
   margin: 32px;
-  .sports {
+  .link {
+    cursor: pointer;
+    margin-right: 16px;
+  }
+  .page-content-title {
+    font-size: 20px;
+  }
+  .back {
+    font-size: 14px;
+    margin-left: 16px;
+  }
+  .cards {
     cursor: pointer;
   }
 }
-.SP .page-content .sports {
+.SP .page-content .cards {
   flex: 0 0 100%;
   max-width: 100%;
 }
 .logo {
   margin-top: 20px;
+}
+.area-title {
+  font-size: 14px;
+}
+.sports-area {
+  max-width: 100%;
+}
+.city-select-area {
+  padding: 12px;
+}
+.page-header {
+  position: relative;
+  width: 100vw;
+  height: 50vh;
+  margin-top: -72px;
+  background-color: blue;
+  background-image: url('../assets/images/soccer.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: default;
+  .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #40404075;
+  }
+  .page-title {
+    position: absolute;
+    bottom: 16px;
+    left: 96px;
+    font-size: 32px;
+    color: white;
+  }
 }
 </style>
