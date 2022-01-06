@@ -5,3 +5,17 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+7.times do |n|
+  s_id = n + 1
+  BbsForum.create! ([
+    {
+      name: '指導者用掲示板',
+      sports_id: s_id
+    },
+    {
+      name: '総合・議論掲示板',
+      sports_id: s_id
+    }
+  ])
+end
