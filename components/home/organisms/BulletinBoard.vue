@@ -1,6 +1,6 @@
 <template>
   <div class="page-content">
-    <div v-if="$vuetify.breakpoint.smAndDown" style="display: none;">
+    <div v-if="$vuetify.breakpoint.smAndDown">
       <div class="h2 text-left page-content-title  SP">
         BBS掲示板
       </div>
