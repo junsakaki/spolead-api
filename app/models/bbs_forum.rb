@@ -1,6 +1,7 @@
 class BbsForum < ApplicationRecord
+    self.table_name = "forums"
     attr_accessor :thread_count, :comments_count
-    has_many :bbs_threads
+    has_many :bbs_threads, :foreign_key => 'forum_id'
 
     def comments_count
       counter = 0

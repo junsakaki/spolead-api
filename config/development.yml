@@ -1,2 +1,2 @@
-ALERT_TO: "example@example.com"
-ALERT_FROM: "info@spolead-sv.net"
+REPORT_TO: "example@example.com"
+REPORT_FROM: "info@spolead-sv.net"

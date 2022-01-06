@@ -1,5 +1,6 @@
 class BbsComment < ApplicationRecord
-    belongs_to :bbs_thread
+    self.table_name = "comments"
+    belongs_to :bbs_thread, :foreign_key => 'thread_id'
 
   scope :search_columns, ->(search_word) do
     where('name like ?', "%#{search_word}%").
