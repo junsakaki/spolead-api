@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Pagination from '~/components/teams/molecules/Pagination.vue'
+import Pagination from '~/components/shared/molecules/Pagination.vue'
 
 export default {
   components: {

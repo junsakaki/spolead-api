@@ -10,7 +10,7 @@
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
-      <SearchForm @execSearch="execSearch" />
+      <SearchForm placeholder="検索(チーム名、都道府県、市区町村)" @execSearch="execSearch" />
       <v-flex
         v-for="team in teams"
         :key="team.id"
@@ -74,8 +74,8 @@
 <script>
 import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
-import SearchForm from '~/components/teams/molecules/SearchForm.vue'
-import Pagination from '~/components/teams/molecules/Pagination.vue'
+import SearchForm from '~/components/shared/molecules/SearchForm.vue'
+import Pagination from '~/components/shared/molecules/Pagination.vue'
 import TeamsSkelton from '~/components/teams/organisms/TeamsSkelton.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
