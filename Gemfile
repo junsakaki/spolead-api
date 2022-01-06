@@ -34,6 +34,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'kaminari'
 gem 'delayed_job_active_record'
+gem 'daemons'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
