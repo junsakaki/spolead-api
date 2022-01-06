@@ -81,6 +81,10 @@ export default {
           to: '/term-of-service'
         },
         {
+          title: 'BBS掲示板ガイドライン',
+          to: '/guideline/forums'
+        },
+        {
           title: '運営管理',
           to: '/master-information'
         },
