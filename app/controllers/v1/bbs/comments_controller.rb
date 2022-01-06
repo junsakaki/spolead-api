@@ -2,21 +2,15 @@ module V1
   class Bbs::CommentsController < ApplicationController
 
     def show
-      thread = BbsThread.includes(:bbs_comments).find(params[:id])
+      comment = BbsComment.find(params[:id])
+      thread = comment.bbs_thread
       thread.views_count_up!
-      comment = thread.bbs_comments
 
       if(!!params[:search_word])
         comment = comment.search_columns(params[:search_word])
       end
 
-      page_per = 20 #display team number per 1page
-      page = params[:page] || 1 #start page number
-      paginated_comment = comment.order(created_at: :desc).page(page).per(page_per) #execute pagenation
-      total_pages = paginated_comment.total_pages #obtain all page number that paginated_teams teamss
-
-
-      render json: comment, each_serializer: V1::Bbs::CommentSerializer, meta: total_pages
+      render json: comment, serializer: V1::Bbs::CommentSerializer
     end
 
     def create
@@ -24,7 +18,7 @@ module V1
         @comment = BbsComment.new comment_params
         @comment.save!
 
-        render json: @comment, serializer: V1::Bbs::CommentSerializer, root: nil
+        render status: 200
       rescue => e
         Rails.logger.info "error log: #{e}"
         render json: {}, status: :unprocessable_entity
@@ -36,9 +30,10 @@ module V1
     def comment_params
       params.permit(
         :user_name,
-        :bbs_thread_id,
+        :thread_id,
         :content,
-        :search_word
+        :search_word,
+        :reply_to
       )
     end
   end

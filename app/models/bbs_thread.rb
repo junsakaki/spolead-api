@@ -1,7 +1,8 @@
 class BbsThread < ApplicationRecord
+  self.table_name = "threads"
   attr_accessor :comments_count
-  belongs_to :bbs_forum
-  has_many :bbs_comments
+  belongs_to :bbs_forum, :foreign_key => 'forum_id'
+  has_many :bbs_comments, :foreign_key => 'thread_id'
 
   scope :search_columns, ->(search_word) do
     where('name like ?', "%#{search_word}%").

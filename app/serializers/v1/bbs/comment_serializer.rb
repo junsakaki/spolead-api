@@ -3,7 +3,14 @@ module V1
 
     attributes :id,
       :content,
-      :bbs_thread_id,
-      :user_name
+      :user_name,
+      :reply_to,
+      :forum
+
+    belongs_to :bbs_thread, key: :thread
+
+    def forum
+      object.bbs_thread.bbs_forum
+    end
   end
 end

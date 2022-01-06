@@ -8,11 +8,12 @@ Rails.application.routes.draw do
     resources :teams, only: [:index, :show, :create, :update]
     resources :reviews, only: [:index, :create]
     get 'bbs/forums', to: 'bbs/forums#index'
+    get 'bbs/forums/:id', to: 'bbs/forums#show'
     post 'bbs/forums', to: 'bbs/forums#create'
     get 'bbs/threads/:id', to: 'bbs/threads#show'
     post 'bbs/threads', to: 'bbs/threads#create'
     get 'bbs/comments/:id', to: 'bbs/comments#show'
     post 'bbs/comments', to: 'bbs/comments#create'
-    post 'bbs/alerts', to: 'bbs/alerts#create'
+    post 'bbs/reports', to: 'bbs/reports#create'
   end
 end

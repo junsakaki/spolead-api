@@ -7,5 +7,7 @@ module V1
       :content,
       :thread_count,
       :comments_count
+
+    has_many :bbs_threads, key: :thread, if: -> { instance_options[:children] }
   end
 end

@@ -1,11 +1,11 @@
 module V1
-  class Bbs::AlertsController < ApplicationController
+  class Bbs::ReportsController < ApplicationController
     def create
       begin
-        @alert = BbsAlert.new alert_params
-        @alert.save!
+        @report = BbsReport.new report_params
+        @report.save!
 
-        BbsAlertMailer.send_alert_email(@alert).deliver_later
+        BbsReportMailer.send_report_email(@report).deliver_later
 
         render json: {}, status: 200
       rescue => e
@@ -16,10 +16,10 @@ module V1
 
     private
 
-    def alert_params
+    def report_params
       params.permit(
         :user_name,
-        :bbs_comment_id,
+        :comment_id,
         :content
       )
     end

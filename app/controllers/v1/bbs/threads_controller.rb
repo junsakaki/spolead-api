@@ -2,7 +2,7 @@ module V1
   class Bbs::ThreadsController < ApplicationController
 
     def show
-      thread = BbsThread.where(bbs_forum_id: params[:id])
+      thread = BbsThread.where(id: params[:id])
       if(!!params[:search_word])
         thread = thread.search_columns(params[:search_word])
       end
@@ -21,7 +21,7 @@ module V1
         @thread = BbsThread.new thread_params
         @thread.save!
 
-        render json: @thread, serializer: V1::Bbs::ThreadSerializer, root: nil
+        render status: 200
       rescue => e
         Rails.logger.info "error log: #{e}"
         render json: {}, status: :unprocessable_entity
@@ -33,7 +33,7 @@ module V1
     def thread_params
       params.permit(
         :name,
-        :bbs_forum_id,
+        :forum_id,
         :user_name,
         :content
       )
