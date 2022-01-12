@@ -1,17 +1,17 @@
 module V1
   class Bbs::ReportsController < ApplicationController
     def create
-      begin
+      # begin
         @report = BbsReport.new report_params
         @report.save!
 
         BbsReportMailer.send_report_email(@report).deliver_later
 
         render json: {}, status: 200
-      rescue => e
-        Rails.logger.info "error log: #{e}"
-        render json: {}, status: :unprocessable_entity
-      end
+      # rescue => e
+      #   Rails.logger.info "error log: #{e}"
+      #   render json: {}, status: :unprocessable_entity
+      # end
     end
 
     private
