@@ -25,15 +25,15 @@
           {{ thread.name }}
         </div>
         <div class="text-center">
-          {{ thread.comment_count }}
+          {{ thread.comments_count }}
         </div>
         <div class="text-center">
-          {{ thread.view_count }}
+          {{ thread.views }}
         </div>
         <div class="filter" />
       </router-link>
     </v-card>
-    <Pagination :total-pages="Math.ceil(forum.threads.length / paginationLimit)" :page="page" @execPagination="execPagination" />
+    <Pagination :total-pages="totalPages" :page="page" @execPagination="execPagination" />
     <div class="h2 text-left page-content-title mt-4">
       スレッドを作成する
     </div>
@@ -94,6 +94,7 @@ export default {
         content: ''
       },
       page: this.$route.query.page ? Number(this.$route.query.page) : 1,
+      totalPages: 10,
       paginationLimit: 20
     }
   },
@@ -111,39 +112,35 @@ export default {
       return targetSports.title
     },
     getForumDetail () {
-      const list = []
-      for (let i = 1; i <= 50; i++) {
-        list.push({
-          id: i,
-          name: 'サンプルのスレッド',
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          comment_count: i,
-          view_count: 100
-        })
-      }
-      this.forum = {
-        id: 1,
-        name: 'サッカー指導者用掲示板',
-        threads: list
-      }
-      this.execPagination(this.page)
-      this.breadcrumbs = [
-        ...this.$BREADCRUMBS,
-        {
-          text: `${this.getSportsTitle()}のBBS掲示板`,
-          link: true,
-          exact: true,
-          disabled: false,
-          to: {
-            path: `/forums?sportsId=${this.$route.query.sportsId}`
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'forumDetail',
+          query: {
+            id: Number(this.$route.params.forumId)
           }
-        },
-        {
-          text: this.forum.name,
-          disabled: true
-        }
-      ]
+        }).then((res) => {
+          if (res.status === 200) {
+            this.forum = res.data.bbs_forums[0]
+            this.execPagination(this.page)
+            this.totalPages = Math.ceil(this.forum.thread.length / this.paginationLimit)
+            this.breadcrumbs = [
+              ...this.$BREADCRUMBS,
+              {
+                text: `${this.getSportsTitle()}のBBS掲示板`,
+                link: true,
+                exact: true,
+                disabled: false,
+                to: {
+                  path: `/forums?sportsId=${this.$route.query.sportsId}`
+                }
+              },
+              {
+                text: this.forum.name,
+                disabled: true
+              }
+            ]
+          }
+        })
     },
     execSearch (searchWord) {
       this.searchWord = searchWord
@@ -153,15 +150,26 @@ export default {
     execPagination (page) {
       window.scrollTo(0, 0)
       this.page = page
-      this.displayThreads = this.forum.threads.slice((page - 1) * this.paginationLimit, (page - 1) * this.paginationLimit + this.paginationLimit)
+      this.displayThreads = this.forum.thread.slice((page - 1) * this.paginationLimit, (page - 1) * this.paginationLimit + this.paginationLimit)
       this.$router.push({ path: this.$router.path, query: { ...this.$route.query, page } })
     },
     createThread () {
-      this.post = {
-        user_name: '',
-        name: '',
-        content: ''
-      }
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'threadCreate',
+          data: {
+            ...this.post,
+            forum_id: Number(this.$route.params.forumId)
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.post = {
+              user_name: '',
+              name: '',
+              content: ''
+            }
+          }
+        })
     }
   }
 }

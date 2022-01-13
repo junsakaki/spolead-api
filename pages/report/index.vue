@@ -14,19 +14,23 @@
       <div class="report-row mb-2">
         <div>フォーラム名</div>
         <div />
-        <div class="grey--text">{{ forum.name }}</div>
+        <div class="grey--text">
+          {{ bbs_comment.forum.name }}
+        </div>
       </div>
       <v-divider />
       <div class="report-row my-2">
         <div>スレッド名</div>
         <div />
-        <div class="grey--text">{{ thread.name }}</div>
+        <div class="grey--text">
+          {{ bbs_comment.thread.name }}
+        </div>
       </div>
       <v-divider />
       <div class="report-row my-2">
         <div>コメント内容</div>
         <div />
-        <div class="grey--text" v-html="transformTextToHtml(comment.content)" />
+        <div class="grey--text" v-html="transformTextToHtml(bbs_comment.content)" />
       </div>
       <v-divider />
       <div class="report-row my-2">
@@ -71,9 +75,11 @@ export default {
           disabled: true
         }
       ],
-      forum: {},
-      thread: {},
-      comment: {},
+      bbs_comment: {
+        forum: {},
+        thread: {},
+        comment: {}
+      },
       post: {
         user_name: this.$route.query.userName ?? '',
         reason: this.$route.query.reason ?? ''
@@ -85,19 +91,17 @@ export default {
   },
   methods: {
     getComment () {
-      this.comment = {
-        id: 1,
-        user_name: 'テストユーザー',
-        content: 'コメントの内容<br>改行のテスト'
-      }
-      this.forum = {
-        id: 1,
-        name: 'フォーラム名のサンプル'
-      }
-      this.thread = {
-        id: 1,
-        name: 'スレッド名のサンプル'
-      }
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'commentIndex',
+          query: {
+            id: Number(this.$route.query.commentId)
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.bbs_comment = res.data.bbs_comment
+          }
+        })
     }
   }
 }

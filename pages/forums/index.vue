@@ -68,72 +68,17 @@ export default {
       return targetSports.title
     },
     getForums () {
-      this.forums = [
-        {
-          id: 1,
-          name: `${this.getSportsTitle()} 指導者用掲示板`,
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 111,
-          comments_count: 1111
-        },
-        {
-          id: 2,
-          name: `${this.getSportsTitle()} 総合・議論掲示板`,
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 222,
-          comments_count: 2222
-        },
-        {
-          id: 3,
-          name: '全国版',
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 333,
-          comments_count: 3333
-        },
-        {
-          id: 4,
-          name: '北海道',
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 444,
-          comments_count: 4444
-        },
-        {
-          id: 'NaN',
-          name: '・・・',
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 444,
-          comments_count: 4444
-        },
-        {
-          id: 50,
-          name: '沖縄',
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 444,
-          comments_count: 4444
-        },
-        {
-          id: 51,
-          name: '海外',
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 555,
-          comments_count: 5555
-        },
-        {
-          id: 52,
-          name: '依頼・要望',
-          user_name: 'テストユーザー',
-          content: 'テスト',
-          thread_count: 666,
-          comments_count: 6666
-        }
-      ]
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'forumIndex',
+          params: {
+            sports_id: Number(this.$route.query.sportsId)
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.forums = res.data.bbs_forums
+          }
+        })
     }
   }
 }

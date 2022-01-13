@@ -7,21 +7,21 @@
     </v-breadcrumbs>
     <GuideLine :sports-title="getSportsTitle()" />
     <div class="h2 text-left page-content-title mt-8">
-        {{ thread.name }}
+      {{ bbs_thread.name }}
     </div>
     <v-card class="px-4 py-2 mt-4">
       <div class="thread">
-        <p v-html="transformTextToHtml(thread.content)" />
+        <p v-html="transformTextToHtml(bbs_thread.content)" />
         <v-divider class="my-2" />
         <div class="d-flex justify-end">
-          <span class="date grey--text d-flex align-center"><v-icon small>mdi-identifier</v-icon>{{ thread.id }}<v-icon small class="ml-2">mdi-account</v-icon>{{ thread.user_name }}</span>
-          <span class="date grey--text ml-2"> 2021/01/01 12:00</span>
+          <span class="date grey--text d-flex align-center"><v-icon small>mdi-identifier</v-icon>{{ bbs_thread.id }}<v-icon small class="ml-2">mdi-account</v-icon>{{ bbs_thread.user_name }}</span>
+          <span class="date grey--text ml-2">{{ dateFormat(bbs_thread.created_at) }}</span>
         </div>
       </div>
     </v-card>
     <SearchForm class="mt-8" placeholder="検索(コメント名)" @execSearch="execSearch" />
     <div class="h2 text-left page-content-title mt-4">
-      コメント({{ thread.comments.length }})
+      コメント({{ bbs_thread.comments_count }})
     </div>
     <v-card v-for="comment in displayComments" id="comments" :key="`comment-${comment.id}`" class="px-4 py-2 mt-4">
       <div class="comment">
@@ -42,14 +42,14 @@
             <div>
               <!-- TODO: 返信元コメントへのリンクで確認できるようにする -->
               <p v-if="comment.reply_to">
-                &gt;&gt; {{ comment.reply_to.id }}への返信
+                &gt;&gt; {{ comment.reply_to }}への返信
               </p>
               <p v-html="transformTextToHtml(comment.content)" />
             </div>
           </div>
         </div>
         <div class="comment-grid-row">
-          <span class="date grey--text"> 2021/01/01 12:00</span>
+          <span class="date grey--text">{{ dateFormat(comment.created_at) }}</span>
           <div class="d-flex justify-end">
             <router-link :to="`/report?commentId=${comment.id}`" class="report-link d-flex justify-center align-center">
               <v-icon color="yellow darken-2" small>
@@ -61,7 +61,7 @@
         </div>
       </div>
     </v-card>
-    <Pagination :total-pages="Math.ceil(thread.comments.length / paginationLimit)" :page="page" @execPagination="execPagination" />
+    <Pagination :total-pages="Math.ceil(bbs_thread.comments_count / paginationLimit)" :page="page" @execPagination="execPagination" />
     <div id="post-comment-area" class="h2 text-left page-content-title mt-4">
       コメントを投稿する
     </div>
@@ -73,7 +73,7 @@
         </div>
         <input v-model="post.user_name" class="px-2" placeholder="(例) 名無しさん">
       </div>
-      <div v-if="post.reply.content" class="mt-4">
+      <div v-if="post.reply_to.content" class="mt-4">
         <div class="d-flex justify-space-between">
           <span>返信先のコメント</span>
           <button @click="selectReplyComment({})">
@@ -82,7 +82,7 @@
             </v-icon>
           </button>
         </div>
-        <p class="form-reply px-2 py-2 caption" v-html="transformTextToHtml(post.reply.content)" />
+        <p class="form-reply px-2 py-2 caption" v-html="transformTextToHtml(post.reply_to.content)" />
       </div>
       <textarea
         v-model="post.content"
@@ -91,7 +91,7 @@
       />
       <PostGuideLine target-name="コメント" is-comment class="mt-4" />
       <div class="d-flex justify-center mt-4">
-        <common-button button-color="primary" :disabled="post.content ===''" @click="createThread()">
+        <common-button button-color="primary" :disabled="post.content ===''" @click="createComment()">
           投稿
         </common-button>
       </div>
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import { format, utcToZonedTime } from 'date-fns-tz'
 import GuideLine from '~/components/shared/organisms/GuideLine.vue'
 import SearchForm from '~/components/shared/molecules/SearchForm.vue'
 import Pagination from '~/components/shared/molecules/Pagination.vue'
@@ -111,16 +112,19 @@ export default {
   components: { GuideLine, SearchForm, Pagination, CommonButton, PostGuideLine },
   data () {
     return {
+      format,
+      utcToZonedTime,
       transformTextToHtml,
       breadcrumbs: [],
-      forum: {},
-      thread: {
-        name: ''
+      bbs_thread: {
+        name: '',
+        forum: {},
+        comments: []
       },
       post: {
         user_name: '',
         content: '',
-        reply: {}
+        reply_to: {}
       },
       displayComments: [],
       page: this.$route.query.page ? Number(this.$route.query.page) : 1,
@@ -129,7 +133,7 @@ export default {
   },
   head () {
     return {
-      title: `${this.thread.name} - ${this.getSportsTitle()}のBBS掲示板 | `
+      title: `${this.bbs_thread.name} - ${this.getSportsTitle()}のBBS掲示板 | `
     }
   },
   created () {
@@ -141,65 +145,43 @@ export default {
       return targetSports.title
     },
     getThreadDetail () {
-      const commentList = []
-      for (let i = 0; i <= 25; i++) {
-        commentList.push(
-          {
-            id: i + 1,
-            user_name: 'テストユーザー',
-            content: 'テスト<br>改行テスト<br><font color="red">赤文字テスト</font>'
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'threadIndex',
+          query: {
+            id: Number(this.$route.params.threadId)
           }
-        )
-      }
-      commentList.push(
-        {
-          id: commentList.length + 1,
-          user_name: 'テストユーザー',
-          content: '返信テスト',
-          reply_to: {
-            id: 1,
-            user_name: 'テストユーザー',
-            content: 'テスト'
+        }).then((res) => {
+          if (res.status === 200) {
+            this.bbs_thread = res.data.bbs_threads[0]
+            this.execPagination(this.page)
+            this.breadcrumbs = [
+              ...this.$BREADCRUMBS,
+              {
+                text: `${this.getSportsTitle()}のBBS掲示板`,
+                link: true,
+                exact: true,
+                disabled: false,
+                to: {
+                  path: `/forums?sportsId=${this.$route.query.sportsId}`
+                }
+              },
+              {
+                text: this.bbs_thread.forum.name,
+                link: true,
+                exact: true,
+                disabled: false,
+                to: {
+                  path: `/forums/${this.$route.params.forumId}?sportsId=${this.$route.query.sportsId}`
+                }
+              },
+              {
+                text: this.bbs_thread.name,
+                disabled: true
+              }
+            ]
           }
-        }
-      )
-      this.forum = {
-        id: 1,
-        name: 'フォーラム名のサンプル'
-      }
-      this.thread = {
-        id: 0,
-        name: 'スレッド名のサンプル',
-        content: 'スレッドの内容スレッドの内容<br>スレッドの内容スレッドの内容スレッドの内容<br>スレッドの内容スレッドの内容スレッドの内容スレッドの内容スレッドの内容',
-        user_name: 'テストユーザー',
-        comments: commentList
-      }
-      this.breadcrumbs = [
-        ...this.$BREADCRUMBS,
-        {
-          text: `${this.getSportsTitle()}のBBS掲示板`,
-          link: true,
-          exact: true,
-          disabled: false,
-          to: {
-            path: `/forums?sportsId=${this.$route.query.sportsId}`
-          }
-        },
-        {
-          text: this.forum.name,
-          link: true,
-          exact: true,
-          disabled: false,
-          to: {
-            path: `/forums/${this.$route.params.forumId}?sportsId=${this.$route.query.sportsId}`
-          }
-        },
-        {
-          text: this.thread.name,
-          disabled: true
-        }
-      ]
-      this.execPagination(this.page)
+        })
     },
     execSearch (searchWord) {
       this.searchWord = searchWord
@@ -213,14 +195,42 @@ export default {
       }
       this.post = {
         ...this.post,
-        reply: comment
+        reply_to: comment
       }
     },
     execPagination (page) {
       window.scrollTo(0, 0)
       this.page = page
-      this.displayComments = this.thread.comments.slice((page - 1) * this.paginationLimit, (page - 1) * this.paginationLimit + this.paginationLimit)
-      this.$router.push({ path: this.$router.path, query: { ...this.$route.query, page } })
+      this.displayComments = this.bbs_thread.comments.slice((page - 1) * this.paginationLimit, (page - 1) * this.paginationLimit + this.paginationLimit)
+      this.$router.replace({ path: this.$router.path, query: { ...this.$route.query, page } }, () => {})
+    },
+    createComment () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'commentCreate',
+          data: {
+            ...this.post,
+            reply_to: this.post.reply_to.id, // 返信するIDのみ送付する
+            forum_id: this.$route.params.forumId,
+            thread_id: this.$route.params.threadId
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.getThreadDetail()
+            this.post = {
+              user_name: '',
+              content: '',
+              reply_to: {}
+            }
+          }
+        })
+    },
+    dateFormat (timezone) {
+      if (!timezone) {
+        return ''
+      }
+      const jstDate = utcToZonedTime(timezone, 'Asia/Tokyo')
+      return this.format(jstDate, 'yyyy-MM-dd HH:mm:ss')
     }
   }
 }

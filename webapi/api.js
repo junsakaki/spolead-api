@@ -74,8 +74,8 @@ export default {
    * フォーラム詳細
    * @see https://jpkeylink.backlog.jp/alias/wiki/996425
    */
-  forumCreate: {
-    url: foundation + '/bbs/forums/:forum_id',
+  forumDetail: {
+    url: foundation + '/bbs/forums/:id',
     method: 'get'
   },
   /**
@@ -83,7 +83,7 @@ export default {
    * @see https://jpkeylink.backlog.jp/alias/wiki/996426
    */
   threadIndex: {
-    url: foundation + '/bbs/threads/:thread_id',
+    url: foundation + '/bbs/threads/:id',
     method: 'get'
   },
   /**
@@ -99,7 +99,7 @@ export default {
    * @see https://jpkeylink.backlog.jp/alias/wiki/996427
    */
   commentIndex: {
-    url: foundation + '/bbs/comments/:comment_id',
+    url: foundation + '/bbs/comments/:id',
     method: 'get'
   },
   /**

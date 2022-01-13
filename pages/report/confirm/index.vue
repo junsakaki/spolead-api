@@ -8,17 +8,17 @@
     <v-card class="px-4 py-2 mt-2">
       <div class="report-confirm-row mb-2">
         <div>フォーラム名</div>
-        <div>{{ forum.name }}</div>
+        <div>{{ bbs_comment.forum.name }}</div>
       </div>
       <v-divider />
       <div class="report-confirm-row my-2">
         <div>スレッド名</div>
-        <div>{{ thread.name }}</div>
+        <div>{{ bbs_comment.thread.name }}</div>
       </div>
       <v-divider />
       <div class="report-confirm-row my-2">
         <div>コメント内容</div>
-        <div v-html="transformTextToHtml(comment.content)" />
+        <div v-html="transformTextToHtml(bbs_comment.content)" />
       </div>
       <v-divider />
       <div class="report-confirm-row my-2">
@@ -33,11 +33,11 @@
     </v-card>
     <div class="d-flex flex-column align-center mt-8">
       <div>上記の内容で通報しますか？</div>
-      <router-link to="/report/complete" class="report-link mt-4">
+      <div class="mt-4">
         <common-button button-color="primary" @click="report">
           通報する
         </common-button>
-      </router-link>
+      </div>
       <router-link :to="`/report?commentId=${$route.query.commentId}${$route.query.userName && `&userName=${$route.query.userName}`}&reason=${$route.query.reason}`" class="edit-link mt-2">
         編集に戻る
       </router-link>
@@ -70,9 +70,11 @@ export default {
           disabled: true
         }
       ],
-      forum: {},
-      thread: {},
-      comment: {}
+      bbs_comment: {
+        forum: {},
+        thread: {},
+        comment: {}
+      }
     }
   },
   created () {
@@ -80,22 +82,32 @@ export default {
   },
   methods: {
     getComment () {
-      this.comment = {
-        id: 1,
-        user_name: 'テストユーザー',
-        content: 'コメントの内容<br>改行のテスト'
-      }
-      this.forum = {
-        id: 1,
-        name: 'フォーラム名のサンプル'
-      }
-      this.thread = {
-        id: 1,
-        name: 'スレッド名のサンプル'
-      }
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'commentIndex',
+          query: {
+            id: Number(this.$route.query.commentId)
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.bbs_comment = res.data.bbs_comment
+          }
+        })
     },
     report () {
-      alert('通報が完了')
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'reportCreate',
+          data: {
+            user_name: this.$route.query.userName,
+            comment_id: Number(this.$route.query.commentId),
+            content: this.$route.query.reason
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.$router.push('/report/complete')
+          }
+        })
     }
   }
 }

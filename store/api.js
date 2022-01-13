@@ -19,7 +19,11 @@ export const actions = {
         req.params = reqData.params
         req.method = apiEndpoint[reqData.api].method
       }
-      req.url = apiEndpoint[reqData.api].url
+      if (reqData.query) {
+        req.url = apiEndpoint[reqData.api].url.replace(`:${Object.keys(reqData.query)[0]}`, reqData.query[Object.keys(reqData.query)[0]])
+      } else {
+        req.url = apiEndpoint[reqData.api].url
+      }
       req.headers = {
         Authorization: localStorage.getItem('token')
       }
