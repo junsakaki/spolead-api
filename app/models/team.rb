@@ -1,5 +1,8 @@
 class Team < ApplicationRecord
   has_many :reviews
+  has_many :celebrities
+  has_many :careers
+
   belongs_to :user
 
   scope :search_columns, ->(search_word) do
@@ -9,6 +12,11 @@ class Team < ApplicationRecord
           or(where('street_number like ?', "%#{search_word}%"))
   end
   
+  after_find do |team|
+    team.city_codes = team.city_codes.split(',')
+    team.team_type = team.team_type.split(',')
+    team.target_age_type = team.target_age_type.split(',')
+  end
   # want to refactor with using below 
 
   # scope :search_columns, ->(columns, params) do
