@@ -1,6 +1,12 @@
 class ApplicationController < ActionController::API
   include AbstractController::Translation
 
+  def arr_to_str_converter(sym)
+    symbols = %i[sym]
+    symbols.each{ |s|
+      params[s] = params[s].join(',') if params.key?(s)
+    }
+  end
   # before_action :authenticate_user_from_token!
 
   # respond_to :json
