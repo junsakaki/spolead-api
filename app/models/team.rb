@@ -13,9 +13,9 @@ class Team < ApplicationRecord
   end
   
   after_find do |team|
-    team.city_codes = team.city_codes.split(',')
-    team.team_type = team.team_type.split(',')
-    team.target_age_type = team.target_age_type.split(',')
+    team.city_codes = team.city_codes.split(',') if team.city_codes.present?
+    team.team_type = team.team_type.split(',') if team.team_type.present?
+    team.target_age_type = team.target_age_type.split(',') if team.target_age_type.present?
   end
   # want to refactor with using below 
 

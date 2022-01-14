@@ -3,7 +3,7 @@ module V1
 
     def create
       begin
-        @celebrity = Celebrity.new params
+        @celebrity = Celebrity.new celebrity_params
         @celebrity.save!
 
         render status: 200
@@ -15,7 +15,7 @@ module V1
 
     private
 
-    def params
+    def celebrity_params
       params.permit(
         :team_id,
         :content
