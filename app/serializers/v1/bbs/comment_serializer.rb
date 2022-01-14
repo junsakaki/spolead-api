@@ -5,7 +5,8 @@ module V1
       :content,
       :user_name,
       :reply_to,
-      :forum
+      :forum,
+      :created_at
 
     belongs_to :bbs_thread, key: :thread
 
