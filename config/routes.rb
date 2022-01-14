@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :create]
     resources :teams, only: [:index, :show, :create, :update]
     resources :reviews, only: [:index, :create]
+    post 'careers', to: 'careers#create'
+    post 'celebrities', to: 'celebrities#create'
+    get 'bbs/comments/:id', to: 'bbs/comments#show'
     get 'bbs/forums', to: 'bbs/forums#index'
     get 'bbs/forums/:id', to: 'bbs/forums#show'
     post 'bbs/forums', to: 'bbs/forums#create'

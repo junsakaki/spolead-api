@@ -3,6 +3,8 @@ module V1
     # include ActiveModel::Serialization
 
     has_many :reviews, serializer: V1::ReviewSerializer
+    has_many :celebrities
+    has_many :careers
 
     attributes :id, 
       :name, 
@@ -12,7 +14,7 @@ module V1
       :prefecture, 
       :prefecture_code, 
       :city,
-      :city_code,
+      :city_codes,
       :street_number,
       :team_type, 
       :target_age_type, 
