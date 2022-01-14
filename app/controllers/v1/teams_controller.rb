@@ -1,5 +1,8 @@
 module V1
   class TeamsController < ApplicationController
+    before_action -> {
+      arr_to_str_converter("city_codes team_type target_age_type")
+    }
     def index
       # team with reviews
       teams = Team.preload(:reviews)

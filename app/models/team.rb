@@ -12,11 +12,11 @@ class Team < ApplicationRecord
           or(where('street_number like ?', "%#{search_word}%"))
   end
   
-  after_find do |team|
-    team.city_codes = team.city_codes.split(',') if team.city_codes.present?
-    team.team_type = team.team_type.split(',') if team.team_type.present?
-    team.target_age_type = team.target_age_type.split(',') if team.target_age_type.present?
-  end
+  # after_find do |team|
+  #   team.city_codes = team.city_codes.split(',') if team.city_codes.present?
+  #   team.team_type = team.team_type.split(',') if team.team_type.present?
+  #   team.target_age_type = team.target_age_type.split(',') if team.target_age_type.present?
+  # end
   # want to refactor with using below 
 
   # scope :search_columns, ->(columns, params) do
