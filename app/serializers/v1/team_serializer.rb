@@ -22,7 +22,8 @@ module V1
       :created_at,
       :updated_at,
       :average_point,
-      :user_id
+      :url,
+      :user_id,
       :total_pages
 
     def total_pages(object, **option)

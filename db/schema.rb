@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2022_01_14_114117) do
     t.bigint "user_id"
     t.float "latitude"
     t.float "longitude"
+    t.string "url"
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 

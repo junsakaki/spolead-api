@@ -77,6 +77,7 @@ module V1
           :team_information,
           :search_word,
           :page,
+          :url,
           :user_id
         )
     end
