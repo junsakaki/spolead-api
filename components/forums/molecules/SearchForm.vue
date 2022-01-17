@@ -4,7 +4,7 @@
       <!-- <label for="group_name">{{ label }}</label> -->
       <v-text-field
         v-model="searchWord"
-        label="検索(チーム名、都道府県、市区町村)"
+        label="スレッド検索"
         @keydown.enter="execSearch(searchWord)"
       />
     </div>
@@ -12,7 +12,7 @@
       <!-- <label for="group_name">{{ label }}</label> -->
       <v-text-field
         v-model="searchWord"
-        label="検索(チーム名、都道府県、市区町村)"
+        label="スレッド検索"
       />
       <common-button button-color="primary" @click="execSearch(searchWord)">
         検索
@@ -53,7 +53,7 @@ export default {
   width: 100%;
   max-width: 400px;
   padding: 4px;
-  margin: 12px auto;
+  margin: 0 auto;
   label {
     font-size: 32px;
   }

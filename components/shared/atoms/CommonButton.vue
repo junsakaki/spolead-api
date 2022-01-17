@@ -1,5 +1,12 @@
 <template>
-  <v-btn :color="buttonColor" :width="buttonWidth" large class="common-button" @click="click">
+  <v-btn
+    :color="buttonColor"
+    :width="buttonWidth"
+    large
+    class="common-button"
+    :disabled="disabled"
+    @click="click"
+  >
     <slot />
   </v-btn>
 </template>
@@ -17,6 +24,10 @@ export default {
     buttonWidth: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

@@ -101,7 +101,7 @@ export default {
               localStorage.setItem('userId', res.data.user.user_id)
               localStorage.setItem('loginDateTime', new Date())
               // location.replace('http://localhost:8000/')
-              location.replace('https://spolead.com/')
+              this.$router.replace('/')
               // location.replace('http://develop01.spolead-sv.net/')
             }
           }).catch(() => {

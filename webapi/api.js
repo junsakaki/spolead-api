@@ -61,5 +61,61 @@ export default {
   reviewIndex: {
     url: foundation + '/reviews',
     method: 'get'
+  },
+  /**
+   * フォーラム一覧
+   * @see https://jpkeylink.backlog.jp/alias/wiki/996424
+   */
+  forumIndex: {
+    url: foundation + '/bbs/forums',
+    method: 'get'
+  },
+  /**
+   * フォーラム詳細
+   * @see https://jpkeylink.backlog.jp/alias/wiki/996425
+   */
+  forumDetail: {
+    url: foundation + '/bbs/forums/:id',
+    method: 'get'
+  },
+  /**
+   * スレッド詳細
+   * @see https://jpkeylink.backlog.jp/alias/wiki/996426
+   */
+  threadIndex: {
+    url: foundation + '/bbs/threads/:id',
+    method: 'get'
+  },
+  /**
+   * スレッド投稿
+   * @see https://jpkeylink.backlog.jp/alias/wiki/996588
+   */
+  threadCreate: {
+    url: foundation + '/bbs/threads',
+    method: 'post'
+  },
+  /**
+   * コメント詳細
+   * @see https://jpkeylink.backlog.jp/alias/wiki/996427
+   */
+  commentIndex: {
+    url: foundation + '/bbs/comments/:id',
+    method: 'get'
+  },
+  /**
+   * コメント投稿
+   * @see https://jpkeylink.backlog.jp/alias/wiki/996589
+   */
+  commentCreate: {
+    url: foundation + '/bbs/comments',
+    method: 'post'
+  },
+  /**
+   * 通報
+   * @see https://jpkeylink.backlog.jp/alias/wiki/996590
+   */
+  reportCreate: {
+    url: foundation + '/bbs/reports',
+    method: 'post'
   }
 }
