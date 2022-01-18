@@ -6,7 +6,7 @@
       </template>
     </v-breadcrumbs>
     <div v-if="$vuetify.breakpoint.smAndDown">
-      <Menu />
+      <Account />
     </div>
     <v-row v-else>
       <v-col cols="12" sm="3">
@@ -30,6 +30,15 @@ export default {
         ...this.$BREADCRUMBS,
         {
           text: '各種設定',
+          link: true,
+          exact: true,
+          disabled: false,
+          to: {
+            path: '/settings'
+          }
+        },
+        {
+          text: 'アカウント',
           disabled: true
         }
       ]
@@ -37,17 +46,13 @@ export default {
   },
   head () {
     return {
-      title: '各種設定 | '
+      title: 'アカウント - 各種設定 | '
     }
   },
   created () {
     // 未ログインの場合はトップ画面へリダイレクトする
-    if (!this.$auth.loggedIn) {
+    if (!localStorage.getItem('token')) {
       this.$router.replace('/')
-    }
-    // デスクトップ版のみ/settingと/setting/accountの内容が同じなのでリプレイスする
-    if (!this.$vuetify.breakpoint.smAndDown) {
-      this.$router.replace('/settings/account')
     }
   }
 }

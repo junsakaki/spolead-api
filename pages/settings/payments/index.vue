@@ -6,14 +6,14 @@
       </template>
     </v-breadcrumbs>
     <div v-if="$vuetify.breakpoint.smAndDown">
-      <Menu />
+      <Payments />
     </div>
     <v-row v-else>
       <v-col cols="12" sm="3">
         <Menu />
       </v-col>
       <v-col cols="12" sm="9">
-        <Account />
+        <Payments />
       </v-col>
     </v-row>
   </div>
@@ -21,15 +21,25 @@
 
 <script>
 import Menu from '~/components/settings/organisms/Menu.vue'
-import Account from '~/components/settings/organisms/Account.vue'
+import Payments from '~/components/settings/organisms/Payments.vue'
+
 export default {
-  components: { Menu, Account },
+  components: { Menu, Payments },
   data () {
     return {
       breadcrumbs: [
         ...this.$BREADCRUMBS,
         {
           text: '各種設定',
+          link: true,
+          exact: true,
+          disabled: false,
+          to: {
+            path: '/settings'
+          }
+        },
+        {
+          text: '決済情報',
           disabled: true
         }
       ]
@@ -37,17 +47,13 @@ export default {
   },
   head () {
     return {
-      title: '各種設定 | '
+      title: '決済情報 - 各種設定 | '
     }
   },
   created () {
     // 未ログインの場合はトップ画面へリダイレクトする
-    if (!this.$auth.loggedIn) {
+    if (!localStorage.getItem('token')) {
       this.$router.replace('/')
-    }
-    // デスクトップ版のみ/settingと/setting/accountの内容が同じなのでリプレイスする
-    if (!this.$vuetify.breakpoint.smAndDown) {
-      this.$router.replace('/settings/account')
     }
   }
 }
