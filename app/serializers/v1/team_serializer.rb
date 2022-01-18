@@ -14,7 +14,7 @@ module V1
       :prefecture, 
       :prefecture_code, 
       :city,
-      :city_codes,
+      :city_code,
       :street_number,
       :team_type, 
       :target_age_type, 

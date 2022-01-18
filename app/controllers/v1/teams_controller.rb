@@ -10,9 +10,14 @@ module V1
       if params[:sports_id]
         # get Teams filtered by sportsId
         teams = teams.where(sports_id: params[:sports_id])
-      elsif params[:city_code]
+      elsif params[:area] && params[:area][:city_codes]
         # get Teams filtered by cityCodes
         teams = teams.where(city_code: params[:city_code])
+      elsif params[:area] && params[:area][:latitude] && params[:area][:longitude]
+        # # get Teams filtered by cityCodes
+        team_ids = teams.all.select{|t| distance(params[:area][:latitude], params[:area][:longitude], t.latitude, t.longitude) <= 10}.map(&:id)
+        # teams = teams.all.select{|t| distance(params[:area][:latitude], params[:area][:longitude], t.latitude, t.longitude) <= 10}
+        teams = teams.where(id: team_ids)
       end
 
       # extract by search_word
@@ -60,6 +65,24 @@ module V1
     end
 
     private
+
+    def distance(lat1, lng1, lat2, lng2)
+      return false if lat2.blank? || lng2.blank?
+      x1 = lat1.to_f * Math::PI / 180
+      y1 = lng1.to_f * Math::PI / 180
+      x2 = lat2.to_f * Math::PI / 180
+      y2 = lng2.to_f * Math::PI / 180
+
+      radius = 6378.137
+      diff_y = (y1 - y2).abs
+      calc1 = Math.cos(x2) * Math.sin(diff_y)
+      calc2 = Math.cos(x1) * Math.sin(x2) - Math.sin(x1) * Math.cos(x2) * Math.cos(diff_y)
+      numerator = Math.sqrt(calc1 ** 2 + calc2 ** 2)
+      denominator = Math.sin(x1) * Math.sin(x2) + Math.cos(x1) * Math.cos(x2) * Math.cos(diff_y)
+      degree = Math.atan2(numerator, denominator)
+      degree * radius
+    end
+
     def teams_params
         params.require(:team).permit(
           :id,
@@ -78,7 +101,11 @@ module V1
           :search_word,
           :page,
           :url,
-          :user_id
+          :user_id,
+          area: [
+            :latitude,
+            :longitude
+          ]
         )
     end
 
