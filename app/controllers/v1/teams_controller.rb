@@ -9,13 +9,14 @@ module V1
 
       if params[:sports_id]
         # get Teams filtered by sportsId
+
         teams = teams.where(sports_id: params[:sports_id])
-      elsif params[:area] && params[:area][:city_codes]
+      elsif params[:area] && params[:area]["city_codes"]
         # get Teams filtered by cityCodes
-        teams = teams.where(city_code: params[:city_code])
-      elsif params[:area] && params[:area][:latitude] && params[:area][:longitude]
+        teams = teams.where(city_code: params[:area]["city_codes"])
+      elsif params[:area] && params[:area]["latitude"] && params[:area]["longitude"]
         # # get Teams filtered by cityCodes
-        team_ids = teams.all.select{|t| distance(params[:area][:latitude], params[:area][:longitude], t.latitude, t.longitude) <= 10}.map(&:id)
+        team_ids = teams.all.select{|t| distance(params[:area]["latitude"], params[:area]["longitude"], t.latitude, t.longitude) <= 10}.map(&:id)
         # teams = teams.all.select{|t| distance(params[:area][:latitude], params[:area][:longitude], t.latitude, t.longitude) <= 10}
         teams = teams.where(id: team_ids)
       end
@@ -67,7 +68,7 @@ module V1
     private
 
     def distance(lat1, lng1, lat2, lng2)
-      return false if lat2.blank? || lng2.blank?
+      return 100 if lat2.blank? || lng2.blank?
       x1 = lat1.to_f * Math::PI / 180
       y1 = lng1.to_f * Math::PI / 180
       x2 = lat2.to_f * Math::PI / 180
@@ -103,6 +104,7 @@ module V1
           :url,
           :user_id,
           area: [
+            :city_codes,
             :latitude,
             :longitude
           ]
