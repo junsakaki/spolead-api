@@ -11,14 +11,31 @@ module V1
         # get Teams filtered by sportsId
 
         teams = teams.where(sports_id: params[:sports_id])
-      elsif params[:area] && params[:area]["city_codes"]
-        # get Teams filtered by cityCodes
-        teams = teams.where(city_code: params[:area]["city_codes"])
-      elsif params[:area] && params[:area]["latitude"] && params[:area]["longitude"]
-        # # get Teams filtered by cityCodes
-        team_ids = teams.all.select{|t| distance(params[:area]["latitude"], params[:area]["longitude"], t.latitude, t.longitude) <= 10}.map(&:id)
-        # teams = teams.all.select{|t| distance(params[:area][:latitude], params[:area][:longitude], t.latitude, t.longitude) <= 10}
-        teams = teams.where(id: team_ids)
+      # else
+      #   teams = teams.all
+      end
+
+      if params[:area]
+        if params[:area]["city_codes"].present?
+          # get Teams filtered by cityCodes
+          teams = teams.where(city_code: params[:area]["city_codes"].split(','))
+        elsif params[:area]["latitude"].present? && params[:area]["longitude"].present?
+          # # get Teams filtered by cityCodes
+          
+          # team_ids = teams.select{|t| distance(params[:area]["latitude"], params[:area]["longitude"], t.latitude, t.longitude) <= 10}.map(&:id)
+          # teams = teams.all.select{|t| distance(params[:area][:latitude], params[:area][:longitude], t.latitude, t.longitude) <= 10}
+          # teams = teams.where(id: team_ids)
+          teams = teams.filter_by_lat_and_lon(params[:area][:latitude], params[:area][:longitude])
+        end
+      end
+
+
+      if(!!params[:team_type])
+        teams = teams.filter_by_team_type(params[:team_type])
+      end
+
+      if(!!params[:target_age_type])
+        teams = teams.filter_by_target_age_type(params[:target_age_type])
       end
 
       # extract by search_word
