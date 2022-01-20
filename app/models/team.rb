@@ -25,7 +25,7 @@ class Team < ApplicationRecord
     target_age_types = target_age_types.split(',')
     ids = self.select {|t| 
       next false if t.target_age_type.blank?
-      (t.target_age_type.split(',') - target_age_types).size < t.target_age_types.split(',').size
+      (t.target_age_type.split(',') - target_age_types).size < t.target_age_type.split(',').size
     }.pluck(:id)
     where(id: ids)
   end

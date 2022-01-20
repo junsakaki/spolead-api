@@ -17,8 +17,11 @@ module V1
 
       if params[:area]
         if params[:area]["city_codes"].present?
+          Rails.logger.info "@@@@@@@@@@@@@@@@@@@@"
+          Rails.logger.info params[:area]["city_codes"].split(',').map(&:to_i)
           # get Teams filtered by cityCodes
-          teams = teams.where(city_code: params[:area]["city_codes"].split(','))
+          # teams = teams.where(city_code: params[:area]["city_codes"].split(',').map(&:to_i))
+          teams = teams.where(city_code: params[:area]["city_codes"].split(',').map(&:to_i))
         elsif params[:area]["latitude"].present? && params[:area]["longitude"].present?
           # # get Teams filtered by cityCodes
           
