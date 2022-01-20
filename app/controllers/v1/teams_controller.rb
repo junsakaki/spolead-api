@@ -15,20 +15,14 @@ module V1
       #   teams = teams.all
       end
 
-      if params[:area]
-        if params[:area]["city_codes"].present?
-          Rails.logger.info "@@@@@@@@@@@@@@@@@@@@"
-          Rails.logger.info params[:area]["city_codes"].split(',').map(&:to_i)
+      if params[:area].present?
+        area = JSON.parse(params[:area], symbolize_names: true)
+        if area[:city_codes].present?
           # get Teams filtered by cityCodes
-          # teams = teams.where(city_code: params[:area]["city_codes"].split(',').map(&:to_i))
-          teams = teams.where(city_code: params[:area]["city_codes"].split(',').map(&:to_i))
-        elsif params[:area]["latitude"].present? && params[:area]["longitude"].present?
+          teams = teams.where(city_code: area[:city_codes].split(',').map(&:to_i))
+        elsif area[:latitude].present? && area[:longitude].present?
           # # get Teams filtered by cityCodes
-          
-          # team_ids = teams.select{|t| distance(params[:area]["latitude"], params[:area]["longitude"], t.latitude, t.longitude) <= 10}.map(&:id)
-          # teams = teams.all.select{|t| distance(params[:area][:latitude], params[:area][:longitude], t.latitude, t.longitude) <= 10}
-          # teams = teams.where(id: team_ids)
-          teams = teams.filter_by_lat_and_lon(params[:area][:latitude], params[:area][:longitude])
+          teams = teams.filter_by_lat_and_lon(area[:latitude], area[:longitude])
         end
       end
 
