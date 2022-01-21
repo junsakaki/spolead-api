@@ -79,6 +79,14 @@
             オンラインサロン
           </p>
         </router-link>
+        <router-link to="/funds" class="link icon-button align-center">
+          <v-icon>
+            mdi-cash-multiple
+          </v-icon>
+          <p class="icon-button-link">
+            クラウドファンディング
+          </p>
+        </router-link>
         <router-link :to="`${$auth.loggedIn ? '/settings' : '/login'}`" class="link icon-button">
           <v-icon>
             mdi-account

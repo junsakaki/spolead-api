@@ -24,14 +24,14 @@
           class="salon-image mt-8"
         />
         <div v-else class="salon-image mt-8" />
-        <v-img
+        <!-- <v-img
           v-if="salon.imageSub"
           :src="salon.imageSub"
           max-height="200"
           max-width="100%"
           class="salon-image mt-8"
         />
-        <div v-else class="salon-image mt-8" />
+        <div v-else class="salon-image mt-8" /> -->
         <div class="content mt-8">
           <div class="text-h5 font-weight-bold">
             サロン概要
@@ -121,7 +121,7 @@ export default {
         name: '落合陽一塾',
         caption: '落合陽一が生涯教育や幅広い交流を目的としたオンラインコミュニティ．時事ニュースや最新論文，エンタメやネットニュースなど皆で発見し，議論し，知的好奇心をくすぐります．新しい学びや普段出会わない世界観に触れたい方はぜひ．',
         imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
-        imageSub: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
+        // imageSub: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
         content: '<h1>タイトル</h1><h2>サブタイトル</h2><div>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a</div>',
         background: '落合陽一塾の開催背景',
         selfIntroduction: '落合陽一の自己紹介',
