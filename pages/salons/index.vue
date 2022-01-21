@@ -16,12 +16,18 @@
         >
           <router-link :to="`/salons/${salon.id}`" class="salon">
             <v-card class="pb-2">
-              <div class="salon-image" />
+              <v-img
+                v-if="salon.imageTop"
+                :src="salon.imageTop"
+                max-height="100"
+                max-width="100%"
+              />
+              <div v-else class="salon-image" />
               <div class="body-1 font-weight-bold salon-name px-2">
                 {{ salon.name }}
               </div>
               <div class="body-2 font-weight-bold owner-name mt-2 px-2">
-                {{ salon.owner_name }}
+                {{ salon.owner.name }}
               </div>
               <div class="caption salon-caption mt-2 px-2">
                 {{ salon.caption }}
@@ -63,8 +69,11 @@ export default {
         list.push({
           id: i,
           name: 'オンラインサロンオンラインサロンオンラインサロンオンラインサロン',
-          owner_name: 'オーナー',
-          caption: 'オンラインサロンの説明が入りますオンラインサロンの説明が入りますオンラインサロンの説明が入ります'
+          owner: {
+            name: 'オーナー'
+          },
+          caption: 'オンラインサロンの説明が入りますオンラインサロンの説明が入りますオンラインサロンの説明が入ります',
+          imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU'
         })
       }
       this.salons = list

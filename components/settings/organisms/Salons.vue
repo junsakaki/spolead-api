@@ -13,7 +13,7 @@
     <div class="subtitle-1 font-weight-bold mt-8">
       <div>参加中のオンラインサロン</div>
       <div v-if="salons.participation.length > 0" class="mt-2">
-        <router-link v-for="salon in salons.participation" :key="salon.id" :to="`/salons/${salon.id}`" class="salon-link">
+        <router-link v-for="(salon, i) in salons.participation" :key="`salon-${salon.id}-${i}`" :to="`/salons/${salon.id}`" class="salon-link">
           <v-card outlined tile style="margin-top: -1px;" class="salon-card">
             <v-row class="my-1 px-2">
               <v-col cols="12" sm="9" class=" body-2 font-weight-bold">
@@ -23,7 +23,7 @@
                 <v-icon small class="mr-1">
                   mdi-account
                 </v-icon>
-                {{ salon.owner_name }}
+                {{ salon.owner.name }}
               </v-col>
             </v-row>
           </v-card>
@@ -57,13 +57,13 @@
                 </v-btn>
               </router-link>
               <!-- TODO: 各プランごとの参加者数をダイアログで表示する -->
-              <v-btn icon small class="ml-2">
+              <v-btn icon small class="ml-2" @click="showAnalyticsModal(salon)">
                 <v-icon small>
                   mdi-chart-bar
                 </v-icon>
               </v-btn>
               <!-- TODO: 編集フォームをダイアログで表示する -->
-              <v-btn icon small class="ml-2">
+              <v-btn icon small class="ml-2" @click="showEditModal(salon)">
                 <v-icon small>
                   mdi-pencil
                 </v-icon>
@@ -76,11 +76,25 @@
         掲載中のオンラインサロンはありません
       </div>
     </div>
+    <analytics-modal
+      :dialog="analyticsModal"
+      :salon="selectedSalon"
+      @closeModal="closeModal"
+    />
+    <edit-modal
+      :dialog="editModal"
+      :salon="selectedSalon"
+      @closeModal="closeModal"
+    />
   </div>
 </template>
 
 <script>
+import AnalyticsModal from '~/components/settings/organisms/AnalyticsModal.vue'
+import EditModal from '~/components/settings/organisms/EditModal.vue'
+
 export default {
+  components: { AnalyticsModal, EditModal },
   props: {
     salons: {
       type: Object,
@@ -89,9 +103,26 @@ export default {
   },
   data () {
     return {
+      analyticsModal: false,
+      editModal: false,
+      selectedSalon: null
     }
   },
   methods: {
+    closeModal (shouldUpdateUser) {
+      this.editModal = false
+      this.analyticsModal = false
+      this.selectedSalon = null
+      // TODO: 必要があればサロン情報を含むユーザー情報を再取得する
+    },
+    showAnalyticsModal (salon) {
+      this.selectedSalon = salon
+      this.analyticsModal = true
+    },
+    showEditModal (salon) {
+      this.selectedSalon = salon
+      this.editModal = true
+    }
   }
 }
 </script>

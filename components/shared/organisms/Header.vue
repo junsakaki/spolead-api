@@ -71,6 +71,14 @@
             </router-link>
           </div>
         </button>
+        <router-link to="/salons" class="link icon-button align-center">
+          <v-icon>
+            mdi-home
+          </v-icon>
+          <p class="icon-button-link">
+            オンラインサロン
+          </p>
+        </router-link>
         <router-link :to="`${$auth.loggedIn ? '/settings' : '/login'}`" class="link icon-button">
           <v-icon>
             mdi-account

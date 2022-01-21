@@ -16,11 +16,53 @@
         <div class="body-2 mt-8">
           {{ salon.owner.name }}
         </div>
-        <div class="salon-image mt-8">
-          {{ salon.image }}
+        <v-img
+          v-if="salon.imageTop"
+          :src="salon.imageTop"
+          max-height="200"
+          max-width="100%"
+          class="salon-image mt-8"
+        />
+        <div v-else class="salon-image mt-8" />
+        <v-img
+          v-if="salon.imageSub"
+          :src="salon.imageSub"
+          max-height="200"
+          max-width="100%"
+          class="salon-image mt-8"
+        />
+        <div v-else class="salon-image mt-8" />
+        <div class="content mt-8">
+          <div class="text-h5 font-weight-bold">
+            サロン概要
+          </div>
+          <div class="mt-2">
+            <p v-html="transformTextToHtml(salon.content)" />
+          </div>
         </div>
-        <div class="mt-8">
-          <p v-html="transformTextToHtml(salon.content)" />
+        <div class="background mt-8">
+          <div class="text-h5 font-weight-bold">
+            背景
+          </div>
+          <div class="mt-2">
+            <p class="body-1" v-html="transformTextToHtml(salon.background)" />
+          </div>
+        </div>
+        <div class="selfIntroduction mt-8">
+          <div class="text-h5 font-weight-bold">
+            自己紹介
+          </div>
+          <div class="mt-2">
+            <p class="body-1" v-html="transformTextToHtml(salon.selfIntroduction)" />
+          </div>
+        </div>
+        <div class="precautions mt-8">
+          <div class="text-h5 font-weight-bold">
+            注意事項
+          </div>
+          <div class="mt-2">
+            <p class="body-1" v-html="transformTextToHtml(salon.precautions)" />
+          </div>
         </div>
       </v-col>
       <v-col cols="12" md="4" :class="!$vuetify.breakpoint.smAndDown && 'pl-4'">
@@ -40,7 +82,7 @@
             </div>
             <div class="text-center mt-4">
               <common-button button-color="primary">
-                このプランで入会する
+                このプランで参加する
               </common-button>
             </div>
             <v-divider v-if="i !== salon.plans.length - 1" class="mt-8" />
@@ -75,24 +117,22 @@ export default {
   methods: {
     getSalonDetail () {
       this.salon = {
+        id: 101,
         name: '落合陽一塾',
+        caption: '落合陽一が生涯教育や幅広い交流を目的としたオンラインコミュニティ．時事ニュースや最新論文，エンタメやネットニュースなど皆で発見し，議論し，知的好奇心をくすぐります．新しい学びや普段出会わない世界観に触れたい方はぜひ．',
+        imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
+        imageSub: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
+        content: '<h1>タイトル</h1><h2>サブタイトル</h2><div>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a</div>',
+        background: '落合陽一塾の開催背景',
+        selfIntroduction: '落合陽一の自己紹介',
+        precautions: '注意事項',
+        plans: [
+          { id: 1, name: 'プラン1', caption: 'プラン1の説明', price: 10000, participations_count: 100 },
+          { id: 2, name: 'プラン2', caption: 'プラン2の説明', price: 20000, participations_count: 10 }
+        ],
         owner: {
           name: '落合陽一'
-        },
-        caption: '落合陽一が生涯教育や幅広い交流を目的としたオンラインコミュニティ．時事ニュースや最新論文，エンタメやネットニュースなど皆で発見し，議論し，知的好奇心をくすぐります．新しい学びや普段出会わない世界観に触れたい方はぜひ．',
-        content: '<h1>タイトル</h1><h2>サブタイトル</h2><div>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a</div>',
-        plans: [{
-          id: 1,
-          name: 'プラン1',
-          caption: 'プラン1の説明',
-          price: 1000
-        },
-        {
-          id: 2,
-          name: 'プラン2',
-          caption: 'プラン2の説明',
-          price: 10000
-        }]
+        }
       }
       this.breadcrumbs = [
         ...this.$BREADCRUMBS,
