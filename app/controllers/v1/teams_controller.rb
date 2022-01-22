@@ -27,11 +27,11 @@ module V1
       end
 
 
-      if(!!params[:team_type])
+      if params[:team_type].present?
         teams = teams.filter_by_team_type(params[:team_type])
       end
-
-      if(!!params[:target_age_type])
+      
+      if params[:target_age_type].present?
         teams = teams.filter_by_target_age_type(params[:target_age_type])
       end
 
@@ -117,6 +117,8 @@ module V1
           :page,
           :url,
           :user_id,
+          :latitude,
+          :longitude,
           area: [
             :city_codes,
             :latitude,

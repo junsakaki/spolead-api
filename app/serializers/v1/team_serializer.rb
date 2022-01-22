@@ -24,6 +24,8 @@ module V1
       :average_point,
       :url,
       :user_id,
+      :latitude,
+      :longitude,
       :total_pages
 
     def total_pages(object, **option)
