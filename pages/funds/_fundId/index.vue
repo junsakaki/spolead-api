@@ -80,7 +80,7 @@
                   <span>{{ Math.floor(fund.supportedMoney/fund.targetMoney*100) }}%</span>
                 </div>
               </div>
-              <span>{{ fund.achievement }}%</span>
+              <span>{{ Math.floor(fund.supportedMoney/fund.targetMoney*100) }}%</span>
             </div>
             <div class="caption  font-weight-bold ml-4">
               目標金額: {{ fund.targetMoney.toLocaleString() }}円
@@ -95,12 +95,13 @@
               残り
             </div>
             <div class="text-h4 font-weight-bold ml-4">
-              {{ fund.limitDate.toLocaleString() }}日
+              10日
+              <!-- {{ fund.limitDate }}日 -->
             </div>
           </div>
         </v-banner>
         <v-banner elevation="4" rounded class="mt-4">
-          <div v-for="(item, i) in fund.returns" :key="item.id" class="py-4">
+          <div v-for="(item, i) in fund.reductions" :key="item.id" class="py-4">
             <div class="body-1 font-weight-bold">
               {{ item.name }}
             </div>
@@ -120,7 +121,7 @@
                 </common-button>
               </router-link>
             </div>
-            <v-divider v-if="i !== fund.returns.length - 1" class="mt-8" />
+            <v-divider v-if="i !== fund.reductions.length - 1" class="mt-8" />
           </div>
         </v-banner>
       </v-col>
@@ -161,12 +162,11 @@ export default {
         background: 'クラウドファンディングを募集した背景',
         selfIntroduction: '運営者の自己紹介',
         precautions: '注意事項',
-        achievement: 25,
         targetMoney: 500000,
         supportedMoney: 490000,
         supportersCount: 100,
-        limitDate: 10,
-        returns: [
+        limitDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        reductions: [
           { id: 1, name: 'リターン1', caption: 'リターン1の説明', price: 10000, participations_count: 100 },
           { id: 2, name: 'リターン2', caption: 'リターン2の説明', price: 20000, participations_count: 10 }
         ],

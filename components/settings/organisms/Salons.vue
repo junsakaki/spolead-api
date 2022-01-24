@@ -56,13 +56,11 @@
                   </v-icon>
                 </v-btn>
               </router-link>
-              <!-- TODO: 各プランごとの参加者数をダイアログで表示する -->
               <v-btn icon small class="ml-2" @click="showAnalyticsModal(salon)">
                 <v-icon small>
                   mdi-chart-bar
                 </v-icon>
               </v-btn>
-              <!-- TODO: 編集フォームをダイアログで表示する -->
               <v-btn icon small class="ml-2" @click="showEditModal(salon)">
                 <v-icon small>
                   mdi-pencil
@@ -76,12 +74,12 @@
         掲載中のオンラインサロンはありません
       </div>
     </div>
-    <analytics-modal
+    <salon-analytics-modal
       :dialog="analyticsModal"
       :salon="selectedSalon"
       @closeModal="closeModal"
     />
-    <edit-modal
+    <salon-edit-modal
       :dialog="editModal"
       :salon="selectedSalon"
       @closeModal="closeModal"
@@ -90,11 +88,11 @@
 </template>
 
 <script>
-import AnalyticsModal from '~/components/settings/organisms/AnalyticsModal.vue'
-import EditModal from '~/components/settings/organisms/EditModal.vue'
+import SalonAnalyticsModal from '~/components/settings/organisms/SalonAnalyticsModal.vue'
+import SalonEditModal from '~/components/settings/organisms/SalonEditModal.vue'
 
 export default {
-  components: { AnalyticsModal, EditModal },
+  components: { SalonAnalyticsModal, SalonEditModal },
   props: {
     salons: {
       type: Object,

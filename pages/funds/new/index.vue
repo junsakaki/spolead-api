@@ -10,16 +10,16 @@
       </template>
     </v-breadcrumbs>
     <div class="container">
-      <salons-regist-form />
+      <funds-regist-form />
     </div>
   </v-layout>
 </template>
 
 <script>
-import SalonsRegistForm from '~/components/salons/organisms/SalonsRegistForm.vue'
+import FundsRegistForm from '~/components/funds/organisms/FundsRegistForm.vue'
 export default {
   components: {
-    SalonsRegistForm
+    FundsRegistForm
   },
   data () {
     return {

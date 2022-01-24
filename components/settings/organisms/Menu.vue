@@ -10,6 +10,11 @@
         オンラインサロン
       </div>
     </router-link>
+    <router-link to="/settings/funds" class="subtitle-2 font-weight-bold mt-4 settings-link">
+      <div>
+        クラウドファンディング
+      </div>
+    </router-link>
     <router-link to="/settings/payments" class="subtitle-2 font-weight-bold mt-4 settings-link">
       <div>
         決済情報

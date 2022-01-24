@@ -57,7 +57,8 @@
                   {{ fund.supportersCount.toLocaleString() }}人
                 </v-col>
                 <v-col cols="12" sm="3" class="caption text-center font-weight-bold">
-                  {{ fund.limitDate }}日
+                  10日
+                  <!-- {{ fund.limitDate }}日 -->
                 </v-col>
               </v-row>
             </v-card>
@@ -103,7 +104,7 @@ export default {
           achievement: i * 10,
           supportedMoney: 100000,
           supportersCount: 100,
-          limitDate: i,
+          limitDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
           caption: 'ファンドの説明が入りますファンドの説明が入りますファンドの説明が入ります',
           imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU'
         })
