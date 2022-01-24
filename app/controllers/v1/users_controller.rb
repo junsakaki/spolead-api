@@ -21,6 +21,15 @@ module V1
       end
     end
 
+    def show
+      user = User.includes(:teams).find(params[:id])
+      if user.blank?
+        render 404
+      else
+        render json: user, each_serializer: V1::UserSerializer
+      end
+    end
+
     private
 
     def user_params

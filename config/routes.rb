@@ -4,9 +4,10 @@ Rails.application.routes.draw do
   namespace :v1, defaults: { format: :json } do
     resource :login, only: [:create], controller: :sessions
     resource :logout, only: [:destroy], controller: :sessions
-    resources :users, only: [:index, :create]
+    resources :users, only: [:index, :create, :show]
     resources :teams, only: [:index, :show, :create, :update]
     resources :reviews, only: [:index, :create]
+    post 'teams/favorite', to: 'teams#favorite'
     post 'careers', to: 'careers#create'
     post 'celebrities', to: 'celebrities#create'
     get 'bbs/comments/:id', to: 'bbs/comments#show'

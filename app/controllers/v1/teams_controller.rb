@@ -79,6 +79,17 @@ module V1
       end
     end
 
+    def favorite
+      fav = FavoriteTeam.new(fav_params)
+      if fav.save
+        # when status OK
+        render 200
+      else
+        # when invalid status
+        render 500
+      end
+    end
+
     private
 
     def distance(lat1, lng1, lat2, lng2)
@@ -127,5 +138,11 @@ module V1
         )
     end
 
+    def fav_params
+      params.permit(
+        :user_id,
+        :team_id
+      )
+    end
   end
 end

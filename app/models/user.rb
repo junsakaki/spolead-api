@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_many :teams
-  
+  has_many :favorite_teams
+  has_many :fav, through: :favorite_teams, source: :team
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :validatable
