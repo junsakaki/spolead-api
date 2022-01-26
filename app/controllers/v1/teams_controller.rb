@@ -80,13 +80,24 @@ module V1
     end
 
     def favorite
-      fav = FavoriteTeam.new(fav_params)
-      if fav.save
-        # when status OK
-        render 200
+      fav = FavoriteTeam.find_by(fav_params)
+      if fav.present?
+        if fav.destroy
+          # when status OK
+          render 200
+        else
+          # when invalid status
+          render 500
+        end
       else
-        # when invalid status
-        render 500
+        fav = FavoriteTeam.new(fav_params)
+        if fav.save
+          # when status OK
+          render 200
+        else
+          # when invalid status
+          render 500
+        end
       end
     end
 
