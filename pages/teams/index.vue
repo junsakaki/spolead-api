@@ -22,7 +22,7 @@
         <v-card class="page-content-item">
           <div class="hover-filter" @click="goTeamDetail(team.id)" />
           <div class="mx-3 mt-3">
-            <favorite-button :team-id="team.id" :is-favorite="favoriteTeams.includes(team.id)" class="mr-2" />
+            <favorite-button :team-id="team.id" :is-favorite="!!favoriteTeams.find(favoriteTeam => favoriteTeam.id === team.id)" class="mr-2" />
             {{ team.name }} {{ `${team.prefecture ? '(' + team.prefecture + team.city + team.street_number + ')' : ''}` }}
             <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
           </div>

@@ -37,6 +37,11 @@ export default {
     url: foundation + '/logout',
     method: 'delete'
   },
+  // ユーザー取得
+  userIndex: {
+    url: foundation + '/users/:id',
+    method: 'get'
+  },
   // チーム一覧
   teamIndex: {
     url: foundation + '/teams',
@@ -142,5 +147,10 @@ export default {
   celebrityIndex: {
     url: foundation + '/celebrities',
     method: 'get'
+  },
+  // チームのお気に入り登録
+  favoriteTeamsCreate: {
+    url: foundation + '/teams/favorite',
+    method: 'post'
   }
 }
