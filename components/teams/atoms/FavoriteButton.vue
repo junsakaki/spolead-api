@@ -60,7 +60,7 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
-            // TODO: データを更新する必要がある？
+            this.$emit('next')
           }
         })
     }
