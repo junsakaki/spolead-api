@@ -87,6 +87,14 @@
             クラウドファンディング
           </p>
         </router-link>
+        <router-link to="/lessons" class="link icon-button align-center">
+          <v-icon>
+            mdi-handshake-outline
+          </v-icon>
+          <p class="icon-button-link">
+            指導者マッチング
+          </p>
+        </router-link>
         <router-link :to="`${$auth.loggedIn ? '/settings' : '/login'}`" class="link icon-button">
           <v-icon>
             mdi-account
