@@ -6,14 +6,14 @@
 export default {
   head () {
     return {
-      title: 'ログイン | '
+      title: 'ログアウト | '
     }
   },
   created () {
-    if (this.$auth.user || location.hash) {
-      this.$router.replace('/')
+    if (this.$auth.user) {
+      this.$auth.logout('auth0')
     } else {
-      this.$auth.loginWith('auth0')
+      this.$router.replace('/')
     }
   }
 }

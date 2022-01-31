@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <Header :token="token" />
+    <Header />
     <v-content>
       <v-container :class="$vuetify.breakpoint.smAndDown && 'SP'">
         <nuxt />
@@ -50,40 +50,10 @@ export default {
   },
   data () {
     return {
-      token: '',
       clipped: false,
       drawer: false,
       fixed: false,
       isLogin: localStorage,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'スポーツ一覧',
-          to: '/'
-        },
-        {
-          icon: 'mdi-apps',
-          title: 'エリアから探す',
-          to: '/top-prefecture'
-        }
-      ],
-      loginItems: [
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'ログイン',
-          to: '/login'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'アカウント登録',
-          to: '/signup'
-        }
-      ],
-      logoutItem: {
-        icon: 'mdi-chart-bubble',
-        title: 'ログアウト',
-        onClick: () => this.logOut()
-      },
       footerLinks: [
         {
           title: 'ホーム',
@@ -129,37 +99,13 @@ export default {
     }
   },
   created () {
-    this.token = localStorage.getItem('token')
-    // if (!this.token) {
-    //   this.$router.push('/login')
-    // }
+    if (this.$auth.user) {
+      console.log(this.$auth.user.sub)
+    }
   },
   methods: {
-    logOut () {
-      // only remove localStorage
-
-      // this.$store
-      //   .dispatch('api/apiRequest', {
-      //     api: 'login',
-      //     data: {
-      //       email: this.email,
-      //       password: this.password
-      //     }
-      //   }).then((res) => {
-      //     if (res.status === 200) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('userId')
-      localStorage.removeItem('loginDateTime')
-      this.$router.push('/')
-      // due to local development
-      // location.replace('http://localhost:8000/')
-      location.replace('https://spolead.com/')
-      // location.replace('http://develop01.spolead-sv.net')
-      //   }
-      // })
-    },
     filteredFooterLinks () {
-      if (this.token) {
+      if (this.$auth.loggedIn) {
         return [
           ...this.footerLinks,
           {
@@ -238,7 +184,7 @@ export default {
     color: white;
     text-decoration: none;
   }
-  .link.login, .link.logout {
+  .link.login {
     background-color: #ef4848;
   }
   .link.signup {

@@ -10,7 +10,7 @@
         >
       </router-link>
       <div class="icon-button-wrapper SP">
-        <router-link v-if="token" class="icon-button" to="/settings">
+        <router-link v-if="$auth.loggedIn" class="icon-button" to="/settings">
           <v-btn
             class="mx-2"
             fab
@@ -71,7 +71,7 @@
             </router-link>
           </div>
         </button>
-        <div v-if="token" class="links">
+        <div v-if="$auth.loggedIn" class="links">
           <router-link class="link icon-button" to="/settings">
             <v-btn
               class="mx-2"
@@ -88,20 +88,12 @@
             </v-btn>
           </router-link>
         </div>
-        <router-link v-if="!token" to="/signup" class="link icon-button">
-          <v-icon small>
-            mdi-account
-          </v-icon>
-          <p class="icon-button-link">
-            アカウント登録
-          </p>
-        </router-link>
-        <router-link v-if="!token" to="/login" class="link icon-button">
+        <router-link v-if="!$auth.loggedIn" to="/login" class="link icon-button">
           <v-icon small>
             mdi-lock
           </v-icon>
           <p class="icon-button-link">
-            ログイン
+            ログイン/アカウント登録
           </p>
         </router-link>
       </div>
@@ -111,12 +103,6 @@
 
 <script>
 export default {
-  props: {
-    token: {
-      type: String,
-      default: ''
-    }
-  },
   data () {
     return {
       isMobile: this.$vuetify.breakpoint.smAndDown

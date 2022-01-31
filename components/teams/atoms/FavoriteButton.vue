@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     makeFavoriteTeam () {
-      if (!localStorage.getItem('token')) {
+      if (!this.$auth.loggedIn) {
         this.snackbar = {
           display: true,
           text: 'チームをお気に入り登録するにはログインが必要です'

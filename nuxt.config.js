@@ -20,7 +20,7 @@ export default {
       { hid: 'og:url', property: 'og:url', content: 'https://spoleader.com/' },
       { hid: 'og:title', property: 'og:title', content: 'Spoleader' },
       { hid: 'og:description', property: 'og:description', content: '総合スポーツチーム・スクール口コミ情報ポータル' },
-      { hid: 'og:image', property: 'og:image', content: 'https://spoleader.com/ogp.png'},
+      { hid: 'og:image', property: 'og:image', content: 'https://spoleader.com/ogp.png' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -69,8 +69,17 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+  auth: {
+    strategies: {
+      auth0: {
+        domain: 'dev-spolead.jp.auth0.com',
+        clientId: 'Y2kdaDX8h2Hmt4ccu2S5qUQEUSxuHcbe'
+      }
+    }
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

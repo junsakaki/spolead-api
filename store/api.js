@@ -25,9 +25,7 @@ export const actions = {
         req.url = apiEndpoint[reqData.api].url
       }
       if (reqData.api !== 'getAddressXYApi') {
-        req.headers = {
-          Authorization: localStorage.getItem('token')
-        }
+        req.headers = {}
       }
       if (reqData.api === 'getCityApi' || reqData.api === 'getPrefApi') {
         req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY

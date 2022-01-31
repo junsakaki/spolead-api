@@ -21,22 +21,6 @@ export default {
     url: 'https://msearch.gsi.go.jp/address-search/AddressSearch',
     method: 'get'
   },
-
-  // アカウント登録
-  signup: {
-    url: foundation + '/users',
-    method: 'post'
-  },
-  // ユーザーログイン
-  login: {
-    url: foundation + '/login',
-    method: 'post'
-  },
-  // ユーザーログアウト
-  logout: {
-    url: foundation + '/logout',
-    method: 'delete'
-  },
   // ユーザー取得
   userIndex: {
     url: foundation + '/users/:id',

@@ -111,7 +111,6 @@ export default {
       isError: false,
       selectedCity: undefined,
       pageTitle: undefined,
-      token: undefined,
       favoriteTeams: []
     }
   },
@@ -153,7 +152,6 @@ export default {
       const { prefCode, cityCode } = this.$route.query
       this.getTeams()
       this.getCityData({ prefCode, cityCode })
-      this.getToken()
     },
     getTeams () {
       this.isLoading = true
@@ -257,9 +255,6 @@ export default {
     getPageTitle ({ isBreadcrumbs }) {
       const page = this.page ? `（${this.page}ページ目）` : undefined
       return `チーム・スクール${page ?? ''}${isBreadcrumbs ? '' : ' | '}`
-    },
-    getToken () {
-      this.token = localStorage.getItem('token')
     },
     getTeamType (targetTeamType) {
       if (!targetTeamType) {
