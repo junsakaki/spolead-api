@@ -22,11 +22,27 @@ module V1
     end
 
     def show
-      user = User.includes(:teams).find(params[:id])
-      if user.blank?
-        render 404
+      if params[:id].include?('|')
+        user = User.includes(:teams).find_by(social_login_id: params[:id])
+        if user.blank?
+          user = User.new(
+            social_login_id: params[:id]
+          )
+          if user.save!
+          render json: user, each_serializer: V1::UserSerializer
+          else
+            render json: { error: t('user_create_error') }, status: :unprocessable_entity
+          end
+        else
+          render json: user, each_serializer: V1::UserSerializer
+        end
       else
-        render json: user, each_serializer: V1::UserSerializer
+        user = User.includes(:teams).find(params[:id])
+        if user.blank?
+          render 404
+        else
+          render json: user, each_serializer: V1::UserSerializer
+        end
       end
     end
 

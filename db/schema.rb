@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_24_092106) do
+ActiveRecord::Schema.define(version: 2022_01_31_054742) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(version: 2022_01_24_092106) do
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "email", default: ""
+    t.string "encrypted_password", default: ""
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_092106) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "access_token"
     t.string "nickname"
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.string "social_login_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
