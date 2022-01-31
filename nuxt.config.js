@@ -128,7 +128,9 @@ export default {
       }
     }
   },
-
+  router: {
+    middleware: 'redirect'
+  },
   // env
   env: {
     GET_CITY_APIKEY: process.env.GET_CITY_APIKEY,
