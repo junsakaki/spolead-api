@@ -15,6 +15,11 @@
         クラウドファンディング
       </div>
     </router-link>
+    <router-link to="/settings/lessons" class="subtitle-2 font-weight-bold mt-4 settings-link">
+      <div>
+        指導者マッチング
+      </div>
+    </router-link>
     <router-link to="/settings/payments" class="subtitle-2 font-weight-bold mt-4 settings-link">
       <div>
         決済情報

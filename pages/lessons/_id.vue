@@ -178,7 +178,7 @@ export default {
     startTalkroom (lessonId) {
       // TODO: lessonIdを元にトークルームを作成した上でデフォルトのメッセージを送る（==引用==を見ました！的な）
       // TODO: 受け取ったルームIDヘ遷移する
-      this.$router.push(`/talkroom/${1}`)
+      this.$router.push(`/talks/${1}`)
     }
   }
 }
