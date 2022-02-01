@@ -195,6 +195,7 @@ export default {
         owner: {
           name: '',
           address: '',
+          mail_address: '',
           birthday: '',
           tel: '',
           identification1: '',

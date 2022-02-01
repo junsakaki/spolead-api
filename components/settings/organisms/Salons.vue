@@ -12,8 +12,8 @@
     </div>
     <div class="subtitle-1 font-weight-bold mt-8">
       <div>参加中のオンラインサロン</div>
-      <div v-if="salons.participation.length > 0" class="mt-2">
-        <router-link v-for="(salon, i) in salons.participation" :key="`salon-${salon.id}-${i}`" :to="`/salons/${salon.id}`" class="salon-link">
+      <div v-if="salons.participating.length > 0" class="mt-2">
+        <router-link v-for="(salon, i) in salons.participating" :key="`salon-${salon.id}-${i}`" :to="`/salons/${salon.id}`" class="salon-link">
           <v-card outlined tile style="margin-top: -1px;" class="salon-card">
             <v-row class="my-1 px-2">
               <v-col cols="12" sm="9" class=" body-2 font-weight-bold">

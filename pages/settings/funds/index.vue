@@ -87,6 +87,7 @@ export default {
             owner: {
               name: 'オーナー名',
               address: '住所',
+              mail_address: 'mail@gmail.com',
               birthday: '生年月日',
               tel: '電話番号',
               identification1: '',

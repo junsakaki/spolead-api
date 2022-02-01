@@ -83,6 +83,7 @@ export default {
             owner: {
               name: 'オーナー名',
               address: '住所',
+              mail_address: 'mail@gmail.com',
               birthday: '生年月日',
               tel: '電話番号',
               identification1: '',
@@ -105,6 +106,7 @@ export default {
             owner: {
               name: 'オーナー名',
               address: '住所',
+              mail_address: 'mail@gmail.com',
               birthday: '生年月日',
               tel: '電話番号',
               identification1: '',
@@ -112,7 +114,7 @@ export default {
               transferAccount: '振り込み口座情報'
             }
           }],
-          participation: [
+          participating: [
             {
               id: 201,
               name: '参加中のサロン1',
