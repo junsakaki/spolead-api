@@ -31,6 +31,10 @@ export default {
     teamId: {
       type: Number,
       default: null
+    },
+    userId: {
+      type: Number,
+      default: null
     }
   },
   data () {
@@ -43,7 +47,7 @@ export default {
   },
   methods: {
     makeFavoriteTeam () {
-      if (!this.$auth.loggedIn) {
+      if (!this.$auth) {
         this.snackbar = {
           display: true,
           text: 'チームをお気に入り登録するにはログインが必要です'
@@ -54,7 +58,7 @@ export default {
         .dispatch('api/apiRequest', {
           api: 'favoriteTeamsCreate',
           data: {
-            user_id: localStorage.getItem('userId'),
+            user_id: this.userId,
             team_id: this.teamId
           }
         })

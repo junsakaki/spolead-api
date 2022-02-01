@@ -22,7 +22,7 @@
         <v-card class="page-content-item">
           <div class="hover-filter" @click="goTeamDetail(team.id)" />
           <div class="mx-3 mt-3">
-            <favorite-button :team-id="team.id" :is-favorite="!!favoriteTeams.find(favoriteTeam => favoriteTeam.id === team.id)" class="mr-2" @next="getUser" />
+            <favorite-button :team-id="team.id" :is-favorite="!!favoriteTeams.find(favoriteTeam => favoriteTeam.id === team.id)" :user-id="userId" class="mr-2" @next="getUser" />
             {{ team.name }} {{ `${team.prefecture ? '(' + team.prefecture + team.city + team.street_number + ')' : ''}` }}
             <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
           </div>
@@ -111,7 +111,8 @@ export default {
       isError: false,
       selectedCity: undefined,
       pageTitle: undefined,
-      favoriteTeams: []
+      favoriteTeams: [],
+      userId: null
     }
   },
   head () {
@@ -135,18 +136,21 @@ export default {
   },
   methods: {
     getUser () {
-      this.$store
-        .dispatch('api/apiRequest', {
-          api: 'userIndex',
-          query: {
-            id: localStorage.getItem('userId')
-          }
-        }).then((res) => {
-          this.isLoading = false
-          if (res.status === 200) {
-            this.favoriteTeams = res.data.user.favorite_teams
-          }
-        })
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            this.isLoading = false
+            if (res.status === 200) {
+              this.favoriteTeams = res.data.user.favorite_teams
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      }
     },
     fetchInitialData () {
       const { prefCode, cityCode } = this.$route.query

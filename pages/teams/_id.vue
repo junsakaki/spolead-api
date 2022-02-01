@@ -8,7 +8,7 @@
       </v-breadcrumbs>
       <div class="page-header d-flex justify-space-between">
         <div class="page-header-title">
-          <favorite-button :team-id="team.id" :is-favorite="!!favoriteTeams.find(favoriteTeam => favoriteTeam.id === team.id)" class="mr-2" @next="getUser" />
+          <favorite-button :team-id="team.id" :is-favorite="!!favoriteTeams.find(favoriteTeam => favoriteTeam.id === team.id)" :user-id="userId" class="mr-2" @next="getUser" />
           {{ team.name }}
         </div>
         <div class="page-header-sub">
@@ -250,7 +250,8 @@ export default {
       pageTitle: undefined,
       isLoading: false,
       isError: false,
-      favoriteTeams: []
+      favoriteTeams: [],
+      userId: null
     }
   },
   head () {
@@ -293,18 +294,21 @@ export default {
   },
   methods: {
     getUser () {
-      this.$store
-        .dispatch('api/apiRequest', {
-          api: 'userIndex',
-          query: {
-            id: localStorage.getItem('userId')
-          }
-        }).then((res) => {
-          this.isLoading = false
-          if (res.status === 200) {
-            this.favoriteTeams = res.data.user.favorite_teams
-          }
-        })
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            this.isLoading = false
+            if (res.status === 200) {
+              this.favoriteTeams = res.data.user.favorite_teams
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      }
     },
     getTeamDetail () {
       this.isLoading = true
