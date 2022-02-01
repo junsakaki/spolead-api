@@ -98,11 +98,6 @@ export default {
       }
     }
   },
-  created () {
-    if (this.$auth.user) {
-      console.log(this.$auth.user.sub)
-    }
-  },
   methods: {
     filteredFooterLinks () {
       if (this.$auth.loggedIn) {
