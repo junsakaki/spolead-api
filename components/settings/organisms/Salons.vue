@@ -128,10 +128,11 @@ export default {
 .salon-link {
   text-decoration: none;
   color: inherit;
-  .salon-card {
-    :hover {
-      opacity: 0.8;
-    }
+  .salon-card:hover {
+    background-color: #1976d214;
+    transition-duration: 0.28s;
+    transition-property: background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 </style>

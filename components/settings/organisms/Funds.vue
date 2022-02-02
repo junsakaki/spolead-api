@@ -156,10 +156,11 @@ export default {
 .fund-link {
   text-decoration: none;
   color: inherit;
-  .fund-card {
-    :hover {
-      opacity: 0.8;
-    }
+  .fund-card:hover {
+    background-color: #1976d214;
+    transition-duration: 0.28s;
+    transition-property: background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 </style>

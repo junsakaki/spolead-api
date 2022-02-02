@@ -32,6 +32,11 @@ export default {
       ]
     }
   },
+  head () {
+    return {
+      title: 'オンラインサロンの登録申請 | '
+    }
+  },
   methods: {
     submit () {
       console.log(this.form)

@@ -10,26 +10,31 @@
       </template>
     </v-breadcrumbs>
     <div class="container">
-      <salons-regist-form />
+      <lessons-regist-form />
     </div>
   </v-layout>
 </template>
 
 <script>
-import SalonsRegistForm from '~/components/salons/organisms/SalonsRegistForm.vue'
+import LessonsRegistForm from '~/components/lessons/organisms/LessonsRegistForm.vue'
 export default {
   components: {
-    SalonsRegistForm
+    LessonsRegistForm
   },
   data () {
     return {
       breadcrumbs: [
         ...this.$BREADCRUMBS,
         {
-          text: 'オンラインサロンの登録申請',
+          text: '指導者マッチングの登録申請',
           disabled: true
         }
       ]
+    }
+  },
+  head () {
+    return {
+      title: '指導者マッチングの登録申請 | '
     }
   },
   methods: {
