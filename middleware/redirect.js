@@ -1,4 +1,7 @@
 export default function ({ route, redirect }) {
+  if (route.path === '/') {
+    return
+  }
   if (route.path.slice(-1) === '/') {
     // 直リンクでアクセスした場合に末尾に/がつくことがあるため強制的に削除する
     // 同じパスでのリダイレクトはブロックされるので、回避用のクエリ guard を付与する（値自体には意味がないのでbooleanとしている）
