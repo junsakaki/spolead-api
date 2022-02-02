@@ -87,6 +87,9 @@ export default {
       subTitle: 'ALL SPORTS BEGINING SpoLedeR'
     }
   },
+  created () {
+    console.log('branch: fix/direct-link_bug')
+  },
   computed: {
     nowYear () {
       const year = new Date()
