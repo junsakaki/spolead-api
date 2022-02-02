@@ -12,8 +12,6 @@ export default {
   created () {
     if (this.$auth.user) {
       this.$auth.logout('auth0')
-    } else {
-      this.$router.replace('/')
     }
   }
 }
