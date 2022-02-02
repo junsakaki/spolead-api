@@ -195,6 +195,7 @@ export default {
     },
     execSearch (search) {
       this.page = 1
+      this.teams = []
       this.$router.replace({
         path: 'teams',
         query: {
