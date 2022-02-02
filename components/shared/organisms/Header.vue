@@ -46,7 +46,7 @@
       </router-link>
       <div class="links">
         <button class="link icon-button align-center">
-          <v-icon small>
+          <v-icon>
             mdi-account-group
           </v-icon>
           <p class="icon-button-link">
@@ -59,7 +59,7 @@
           </div>
         </button>
         <button class="link icon-button align-center">
-          <v-icon small>
+          <v-icon>
             mdi-clipboard-text
           </v-icon>
           <p class="icon-button-link">
@@ -71,29 +71,12 @@
             </router-link>
           </div>
         </button>
-        <div v-if="$auth.loggedIn" class="links">
-          <router-link class="link icon-button" to="/settings">
-            <v-btn
-              class="mx-2"
-              fab
-              dark
-              small
-              depressed
-              outlined
-              color="grey lighten-1"
-            >
-              <v-icon dark>
-                mdi-account
-              </v-icon>
-            </v-btn>
-          </router-link>
-        </div>
-        <router-link v-if="!$auth.loggedIn" to="/login" class="link icon-button">
-          <v-icon small>
-            mdi-lock
+        <router-link :to="`${$auth.loggedIn ? '/settings' : '/login'}`" class="link icon-button">
+          <v-icon>
+            mdi-account
           </v-icon>
           <p class="icon-button-link">
-            ログイン/アカウント登録
+            アカウント
           </p>
         </router-link>
       </div>
