@@ -239,6 +239,8 @@ export default {
       this.$emit('closeModal', shouldUpdateUser)
     },
     changeRecruitmentTarget (target) {
+      // TODO: 項目を消すのではなく、不要になる値をnullにする、それ以外は維持
+      // TODO: lesson情報がある場合は値を入れた上でRecruitmentTargetがフォーム項目に反映されるようにする
       if (target === 'student') {
         this.form = {
           name: '',

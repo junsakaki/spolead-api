@@ -65,7 +65,7 @@
     </div>
     <lesson-edit-modal
       :dialog="editModal"
-      :lesson="selectedSalon"
+      :lesson="selectedLesson"
       @closeModal="closeModal"
     />
   </div>
@@ -85,18 +85,18 @@ export default {
   data () {
     return {
       editModal: false,
-      selectedSalon: null
+      selectedLesson: null
     }
   },
   methods: {
     closeModal (shouldUpdateUser) {
       this.editModal = false
       this.analyticsModal = false
-      this.selectedSalon = null
+      this.selectedLesson = null
       // TODO: 必要があればサロン情報を含むユーザー情報を再取得する
     },
     showEditModal (salon) {
-      this.selectedSalon = salon
+      this.selectedLesson = salon
       this.editModal = true
     }
   }
