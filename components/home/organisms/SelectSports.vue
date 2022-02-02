@@ -2,7 +2,7 @@
   <div class="page-content">
     <div v-if="$vuetify.breakpoint.smAndDown">
       <div class="h2 text-left page-content-title  SP">
-        スポーツから探す
+        スポーツからチームやスクールを探す
       </div>
       <v-flex
         xs12
@@ -33,10 +33,15 @@
           </v-card>
         </v-col>
       </v-flex>
+      <div d-flex class="text-center mt-4">
+        <button class="other-sports-button" @click="goTeamsPage(999)">
+          <div>その他のスポーツ</div>
+        </button>
+      </div>
     </div>
     <div v-else>
       <div class="h2 text-left page-content-title">
-        スポーツから探す
+        スポーツからチームやスクールを探す
       </div>
       <v-flex
         xs12
@@ -65,6 +70,11 @@
           </v-card>
         </v-col>
       </v-flex>
+      <div d-flex class="text-center mt-4">
+        <button class="other-sports-button" @click="goTeamsPage(999)">
+          <div>その他のスポーツ</div>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -73,7 +83,7 @@
 export default {
   data () {
     return {
-      cards: this.$SPORTS,
+      cards: this.$SPORTS.slice(0, -1), // 最後尾の[その他]カテゴリは除外する
       isShowMore: false
     }
   },
@@ -124,5 +134,8 @@ export default {
       }
     }
   }
+}
+.other-sports-button {
+  color: #1976D2;
 }
 </style>

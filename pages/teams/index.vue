@@ -10,24 +10,29 @@
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
-      <SearchForm placeholder="検索(チーム名、都道府県、市区町村)" @execSearch="execSearch" />
+      <div class="mb-4">
+        <SearchForms @execSearch="execSearch" />
+      </div>
       <v-flex
         v-for="team in teams"
         :key="team.id"
         flex-wrap
         class="page-content"
       >
-        <v-card class="page-content-item" @click="goTeamDetail(team.id)">
-          <div class="hover-filter" />
-          <div class="page-content-item-header" style="display">
+        <v-card class="page-content-item">
+          <div class="hover-filter" @click="goTeamDetail(team.id)" />
+          <div class="mx-3 mt-3">
+            <favorite-button :team-id="team.id" :is-favorite="!!favoriteTeams.find(favoriteTeam => favoriteTeam.id === team.id)" :user-id="userId" class="mr-2" @next="getUser" />
             {{ team.name }} {{ `${team.prefecture ? '(' + team.prefecture + team.city + team.street_number + ')' : ''}` }}
-            <v-chip v-if="getTeamType(team.team_type)" color="primary" x-small>
-              {{ getTeamType(team.team_type) }}
-            </v-chip>
-            <v-chip v-if="getTargetAgeType(team.target_age_type)" color="primary" x-small>
-              {{ getTargetAgeType(team.target_age_type) }}
-            </v-chip>
             <!-- <v-rating v-model="team.average_point" v-if="team.average_point" readonly /> -->
+          </div>
+          <div class="mx-3 mb-3">
+            <v-chip v-for="type in team.team_type ? team.team_type.split(',') : []" :key="`teamType-${type}`" color="primary" x-small class="mr-1">
+              {{ getTeamType(type) }}
+            </v-chip>
+            <v-chip v-for="type in team.target_age_type ? team.target_age_type.split(',') : []" :key="`targetAgeType-${type}`" color="primary" x-small class="mr-1">
+              {{ getTargetAgeType(type) }}
+            </v-chip>
           </div>
           <div :class="`${$vuetify.breakpoint.smAndDown && 'flex'} page-content-item-main`">
             <div class="page-content-item-list">
@@ -74,16 +79,18 @@
 <script>
 import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
-import SearchForm from '~/components/shared/molecules/SearchForm.vue'
 import Pagination from '~/components/shared/molecules/Pagination.vue'
+import SearchForms from '~/components/teams/organisms/SearchForms.vue'
 import TeamsSkelton from '~/components/teams/organisms/TeamsSkelton.vue'
+import FavoriteButton from '~/components/teams/atoms/FavoriteButton.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
   components: {
-    SearchForm,
     Pagination,
-    TeamsSkelton
+    TeamsSkelton,
+    SearchForms,
+    FavoriteButton
   },
   data () {
     return {
@@ -99,13 +106,13 @@ export default {
       searchWord: '',
       page: queryString.parse(location.search).page ? Number(queryString.parse(location.search).page) : 1,
       totalPages: 15,
-      params: {},
       breadcrumbs: [],
       isLoading: false,
       isError: false,
       selectedCity: undefined,
       pageTitle: undefined,
-      token: undefined
+      favoriteTeams: [],
+      userId: null
     }
   },
   head () {
@@ -125,33 +132,46 @@ export default {
   },
   created () {
     this.fetchInitialData()
+    this.getUser()
   },
   methods: {
+    getUser () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            this.isLoading = false
+            if (res.status === 200) {
+              this.favoriteTeams = res.data.user.favorite_teams
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      }
+    },
     fetchInitialData () {
       const { prefCode, cityCode } = this.$route.query
       this.getTeams()
       this.getCityData({ prefCode, cityCode })
-      this.getToken()
     },
     getTeams () {
       this.isLoading = true
       this.isError = false
-      let params = {}
-      // get Teams related to sportsId
-      if (this.$route.query.sportsId) {
-        params = {
-          sports_id: this.$route.query.sportsId
-        }
-      // get Teams related to cityCodes
-      } else {
-        params = {
-          city_code: this.$route.query.cityCode
-        }
+      const params = {
+        sports_id: this.$route.query.sportsId ?? null,
+        search_word: this.$route.query.searchWord ?? null,
+        team_type: this.$route.query.teamType ?? null,
+        target_age_type: this.$route.query.targetAgeType ?? null,
+        area: {
+          latitude: Number(this.$route.query.latitude) ?? null,
+          longitude: Number(this.$route.query.longitude) ?? null,
+          city_codes: this.$route.query.cityCodes ?? null
+        },
+        page: this.page
       }
-      this.params = params
-
-      params.search_word = this.searchWord
-      params.page = this.page
 
       this.$store
         .dispatch('api/apiRequest', {
@@ -173,10 +193,18 @@ export default {
       localStorage.setItem('teamId', teamId)
       this.$router.push({ path: `teams/${teamId}`, query: { ...this.$route.query, page: this.page } })
     },
-    execSearch (searchWord) {
-      this.searchWord = searchWord
+    execSearch (search) {
       this.page = 1
       this.getTeams()
+      this.$router.replace({
+        path: 'teams',
+        query: {
+          ...search,
+          teamType: search.teamType.toString(),
+          targetAgeType: search.targetAgeType.toString(),
+          cityCodes: search.cityCodes ? search.cityCodes.toString() : null
+        }
+      })
     },
     getLatestReview (reviews) {
       let latestReviewDate = ''
@@ -229,26 +257,22 @@ export default {
         })
     },
     getPageTitle ({ isBreadcrumbs }) {
-      const { sportsId } = this.$route.query
-      const sportsTitle = sportsId ? this.$SPORTS.find(item => item.id === Number(sportsId)).title : undefined
-      const cityName = this.selectedCity?.cityName ?? undefined
       const page = this.page ? `（${this.page}ページ目）` : undefined
-      return `${sportsTitle ?? ''}${cityName ?? ''}のチーム・スクール${page ?? ''}${isBreadcrumbs ? '' : ' | '}`
-    },
-    getToken () {
-      this.token = localStorage.getItem('token')
+      return `チーム・スクール${page ?? ''}${isBreadcrumbs ? '' : ' | '}`
     },
     getTeamType (targetTeamType) {
       if (!targetTeamType) {
         return
       }
-      return this.$TEAM_TYPE.find(item => item.typeId === targetTeamType).teamType
+      const target = this.$TEAM_TYPE.find(item => item.typeId === Number(targetTeamType))
+      return target ? target.teamType : null
     },
     getTargetAgeType (targetAgeType) {
       if (!targetAgeType) {
         return
       }
-      return this.$TARGET_AGE.find(item => item.ageId === targetAgeType).targetAgeType
+      const target = this.$TARGET_AGE.find(item => item.ageId === Number(targetAgeType))
+      return target ? target.targetAgeType : null
     }
   }
 }

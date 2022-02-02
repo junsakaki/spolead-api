@@ -8,6 +8,7 @@
       </v-breadcrumbs>
       <div class="page-header d-flex justify-space-between">
         <div class="page-header-title">
+          <favorite-button :team-id="team.id" :is-favorite="!!favoriteTeams.find(favoriteTeam => favoriteTeam.id === team.id)" :user-id="userId" class="mr-2" @next="getUser" />
           {{ team.name }}
         </div>
         <div class="page-header-sub">
@@ -26,12 +27,6 @@
         class="page-content"
       >
         <div class="page-content-item">
-          <div :class="`page-content-item-header ${$vuetify.breakpoint.smAndDown && 'SP'}`">
-            <div>活動エリア：{{ team.prefecture }} {{ team.city }}</div>
-            <div>ジャンル：{{ getSportsName() }}</div>
-            <div>対象: {{ getTargetAgeType(team.target_age_type) }}</div>
-            <div>形態: {{ getTeamType(team.team_type) }}</div>
-          </div>
           <v-tabs
             v-model="tab"
             fixed-tabs
@@ -45,8 +40,14 @@
             <v-tab id="reviews" @change="changeTab(1)">
               口コミ
             </v-tab>
-            <v-tab @change="changeTab(2)">
-              アクセス
+            <v-tab id="careers" @change="changeTab(2)">
+              進路実績
+            </v-tab>
+            <v-tab id="celebrities" @change="changeTab(3)">
+              有名人
+            </v-tab>
+            <v-tab id="information" @change="changeTab(4)">
+              基本情報
             </v-tab>
           </v-tabs>
 
@@ -71,12 +72,12 @@
               </div>
             </v-tab-item>
             <v-tab-item>
-              <button class="review-post-button" @click="showRegistReviewsModal">
+              <button class="post-button" @click="showRegistReviewsModal">
                 + 口コミを投稿する
               </button>
               <!-- display reviews as much as review count -->
-              <div v-if="reviewsList.length > 0">
-                <div v-for="review in reviewsList" :key="review.id">
+              <div v-if="team.reviews && team.reviews.length > 0">
+                <div v-for="review in team.reviews" :key="`review-${review.id}`">
                   <review-content :review="review" />
                 </div>
               </div>
@@ -87,8 +88,69 @@
               </div>
             </v-tab-item>
             <v-tab-item>
-              <div class="address">
-                {{ team.prefecture }}{{ team.city }}{{ team.street_number }}
+              <button class="post-button" @click="showRegistCareersModal">
+                + 進路実績を投稿する
+              </button>
+              <div v-if="team.careers && team.careers.length > 0">
+                <div v-for="career in team.careers" :key="`career-${career.id}`">
+                  <career-content :career="career" />
+                </div>
+              </div>
+              <div v-else>
+                <div class="grey--text text-center">
+                  まだ進路実績に関する投稿がありません
+                </div>
+              </div>
+            </v-tab-item>
+            <v-tab-item>
+              <button class="post-button" @click="showRegistCelebritiesModal">
+                + 有名人を投稿する
+              </button>
+              <div v-if="team.celebrities && team.celebrities.length > 0">
+                <div v-for="celebrity in team.celebrities" :key="`celebrity-${celebrity.id}`">
+                  <celebrity-content :celebrity="celebrity" />
+                </div>
+              </div>
+              <div v-else>
+                <div class="grey--text text-center">
+                  まだ有名人に関する投稿がありません
+                </div>
+              </div>
+            </v-tab-item>
+            <v-tab-item>
+              <div class="information">
+                <div class="information-row">
+                  <div>チーム・スクール名</div>
+                  <div>{{ team.name }}</div>
+                </div>
+                <div class="information-row">
+                  <div>スポーツジャンル</div>
+                  <div>{{ getSportsName() }}</div>
+                </div>
+                <div class="information-row">
+                  <div>所在地・活動場所等</div>
+                  <div>{{ team.prefecture }}{{ team.city }}{{ team.street_number }}</div>
+                </div>
+                <div class="information-row">
+                  <div>運営形式</div>
+                  <div class="d-flex align-center">
+                    <v-chip v-for="type in team.team_type ? team.team_type.split(',') : []" :key="`team_type-${type}`" color="primary" x-small class="mr-1">
+                      {{ getTeamType(type) }}
+                    </v-chip>
+                  </div>
+                </div>
+                <div class="information-row">
+                  <div>対象層</div>
+                  <div class="d-flex align-center">
+                    <v-chip v-for="type in team.target_age_type ? team.target_age_type.split(',') : []" :key="`target_age_type-${type}`" color="primary" x-small class="mr-1">
+                      {{ getTargetAgeType(type) }}
+                    </v-chip>
+                  </div>
+                </div>
+                <div class="information-row">
+                  <div>ホームページ</div>
+                  <a :href="team.url" target="_blank">{{ team.url }}</a>
+                </div>
               </div>
               <iframe
                 :src="googleMap"
@@ -116,7 +178,19 @@
         v-if="registReviewsModal"
         :dialog="registReviewsModal"
         :team-id="team.id"
-        @registReview="registReview"
+        @closeModal="closeModal"
+      />
+      <careers-regist-modal
+        v-if="registCareersModal"
+        :dialog="registCareersModal"
+        :team-id="team.id"
+        @closeModal="closeModal"
+      />
+      <celebrities-regist-modal
+        v-if="registCelebritiesModal"
+        :dialog="registCelebritiesModal"
+        :team-id="team.id"
+        @closeModal="closeModal"
       />
     </div>
     <div v-else class="skelton-area">
@@ -131,16 +205,26 @@ import queryString from 'query-string'
 import { colors } from '~/assets/js/Colors.js'
 import TeamEditModal from '~/components/teams/organisms/TeamEditModal.vue'
 import ReviewsRegistModal from '~/components/teams/organisms/ReviewsRegistModal.vue'
+import CareersRegistModal from '~/components/teams/organisms/CareersRegistModal.vue'
+import CelebritiesRegistModal from '~/components/teams/organisms/CelebritiesRegistModal.vue'
 import ReviewContent from '~/components/teams/organisms/ReviewContent.vue'
+import CareerContent from '~/components/teams/organisms/CareerContent.vue'
+import CelebrityContent from '~/components/teams/organisms/CelebrityContent.vue'
 import TeamDetailSkelton from '~/components/teams/organisms/TeamDetailSkelton.vue'
+import FavoriteButton from '~/components/teams/atoms/FavoriteButton.vue'
 import transformTextToHtml from '~/utils/transformTextToHtml'
 
 export default {
   components: {
     TeamEditModal,
     ReviewsRegistModal,
+    CareersRegistModal,
+    CelebritiesRegistModal,
     ReviewContent,
-    TeamDetailSkelton
+    CareerContent,
+    CelebrityContent,
+    TeamDetailSkelton,
+    FavoriteButton
   },
   data () {
     return {
@@ -155,8 +239,9 @@ export default {
       passwordConfirm: '',
       editTeamModal: false,
       registReviewsModal: false,
+      registCelebritiesModal: false,
+      registCareersModal: false,
       team: {},
-      reviewsList: [],
       sports_name: '',
       showMoreInfo: true,
       isMobile: this.$vuetify.breakpoint.smAndDown,
@@ -164,7 +249,9 @@ export default {
       selectedCity: undefined,
       pageTitle: undefined,
       isLoading: false,
-      isError: false
+      isError: false,
+      favoriteTeams: [],
+      userId: null
     }
   },
   head () {
@@ -202,10 +289,27 @@ export default {
   created () {
     const { prefCode, cityCode } = this.$route.query
     this.getTeamDetail()
-    this.getReviews()
     this.getCityData({ prefCode, cityCode })
+    this.getUser()
   },
   methods: {
+    getUser () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            this.isLoading = false
+            if (res.status === 200) {
+              this.favoriteTeams = res.data.user.favorite_teams
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      }
+    },
     getTeamDetail () {
       this.isLoading = true
       this.isError = false
@@ -226,19 +330,6 @@ export default {
           this.isError = true
         })
     },
-    getReviews () {
-      this.$store
-        .dispatch('api/apiRequest', {
-          api: 'reviewIndex',
-          params: {
-            team_id: this.$route.params.id
-          }
-        }).then((res) => {
-          if (res.status === 200) {
-            this.reviewsList = res.data.reviews
-          }
-        })
-    },
     getPageTitle ({ isBreadcrumbs }) {
       return `${this.team.name}の${this.team.team_type === 1 ? 'チーム' : this.team.team_type === 2 ? 'スクール' : ''}情報 | `
     },
@@ -254,17 +345,25 @@ export default {
     showRegistReviewsModal () {
       this.registReviewsModal = true
     },
+    showRegistCareersModal () {
+      this.registCareersModal = true
+    },
+    showRegistCelebritiesModal () {
+      this.registCelebritiesModal = true
+    },
     registReview () {
-      this.getReviews()
       this.closeModal()
     },
     teamEdit () {
       this.getTeamDetail()
       this.closeModal()
     },
-    closeModal () {
+    closeModal (shouldUpdateTeamDetail) {
       this.editTeamModal = false
       this.registReviewsModal = false
+      this.registCelebritiesModal = false
+      this.registCareersModal = false
+      typeof shouldUpdateTeamDetail === 'boolean' && shouldUpdateTeamDetail && this.getTeamDetail()
     },
     getSportsName () {
       return this.$SPORTS.find(item => item.id === this.team.sports_id).title ?? ''
@@ -307,23 +406,23 @@ export default {
         })
     },
     getPrevPageTitle ({ isBreadcrumbs }) {
-      const { sportsId, page } = this.$route.query
-      const sportsTitle = sportsId ? this.$SPORTS.find(item => item.id === Number(sportsId)).title : undefined
-      const cityName = this.selectedCity?.cityName ?? undefined
+      const { page } = this.$route.query
       const pageNum = page ? `（${page}ページ目）` : undefined
-      return `${sportsTitle ?? ''}${cityName ?? ''}のチーム・スクール${pageNum ?? ''}${isBreadcrumbs ? '' : ' | '}`
+      return `チーム・スクール${pageNum ?? ''}${isBreadcrumbs ? '' : ' | '}`
     },
     getTeamType (targetTeamType) {
       if (!targetTeamType) {
         return
       }
-      return this.$TEAM_TYPE.find(item => item.typeId === targetTeamType).teamType
+      const target = this.$TEAM_TYPE.find(item => item.typeId === Number(targetTeamType))
+      return target ? target.teamType : null
     },
     getTargetAgeType (targetAgeType) {
       if (!targetAgeType) {
         return
       }
-      return this.$TARGET_AGE.find(item => item.ageId === targetAgeType).targetAgeType
+      const target = this.$TARGET_AGE.find(item => item.ageId === Number(targetAgeType))
+      return target ? target.targetAgeType : null
     }
   }
 }
@@ -392,7 +491,7 @@ export default {
   width: 100%;
   text-align: center;
 }
-.review-post-button {
+.post-button {
   margin-bottom: 12px;
   border: dashed 2px #0000008a;
   padding: 12px 24px;
@@ -402,7 +501,15 @@ export default {
     opacity: 0.8;
   }
 }
-.address {
+.information {
   margin-bottom: 12px;
+  .information-row {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    * {
+      border: solid 1px #00000026;
+      padding: 4px;
+    }
+  }
 }
 </style>

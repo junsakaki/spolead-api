@@ -23,6 +23,9 @@
               <v-text-field v-model="mail_address" label="メールアドレス*" required />
             </v-col>
             <v-col cols="12">
+              <v-text-field v-model="url" label="ホームページ" />
+            </v-col>
+            <v-col cols="12">
               <!-- NOTE once simple select  -->
               <!-- <v-autocomplete
                 :items="['野球', 'バスケ', 'サッカー', 'ダンス', 'バレー', 'ラグビー']"
@@ -78,22 +81,30 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <v-select
-                v-model="team_type"
-                :items="teamTypeList"
-                item-text="teamType"
-                item-value="typeId"
-                label="運営団体"
-              />
+              <div>運営形式</div>
+              <v-flex d-flex flex-wrap>
+                <v-checkbox
+                  v-for="item in $TEAM_TYPE"
+                  :key="item.typeId"
+                  v-model="team_type"
+                  :label="item.teamType"
+                  :value="item.typeId"
+                  class="ma-0"
+                />
+              </v-flex>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-select
-                v-model="target_age_type"
-                :items="targetAgeList"
-                item-text="targetAgeType"
-                item-value="ageId"
-                label="対象層"
-              />
+              <div>対象層</div>
+              <v-flex d-flex flex-wrap>
+                <v-checkbox
+                  v-for="item in $TARGET_AGE"
+                  :key="item.id"
+                  v-model="target_age_type"
+                  :label="item.targetAgeType"
+                  :value="item.ageId"
+                  class="ma-0"
+                />
+              </v-flex>
             </v-col>
             <v-col cols="12">
               <v-textarea
@@ -133,6 +144,7 @@ export default {
       cityList: ['都道府県を選択してください'],
       name: '',
       mail_address: '',
+      url: '',
       zipcode: '',
       prefecture_code: '',
       prefecture: '',
@@ -141,8 +153,8 @@ export default {
       street_number: '',
       team_image: '',
       sports_id: '',
-      team_type: '',
-      target_age_type: '',
+      team_type: [],
+      target_age_type: [],
       team_information: '',
       teamTypeList: this.$TEAM_TYPE,
       sportsList: this.$SPORTS,
@@ -153,7 +165,9 @@ export default {
           text: 'チーム・スクールの登録',
           disabled: true
         }
-      ]
+      ],
+      latitude: 0,
+      longitude: 0
     }
   },
   // watch: {
@@ -195,34 +209,59 @@ export default {
           }
         })
     },
-    regTeam () {
-      if (!this.name || !this.mail_address || !this.sports_id) {
-        return
-      }
+    getAddressXY (callback) {
       this.$store
         .dispatch('api/apiRequest', {
-          api: 'teamCreate',
-          data: {
-            name: this.name,
-            mail_address: this.mail_address,
-            prefecture_code: this.prefecture_code,
-            prefecture: this.prefecture,
-            city_code: this.city_code,
-            city: this.city,
-            street_number: this.street_number,
-            team_image: this.team_image,
-            sports_id: this.sports_id,
-            team_type: this.team_type,
-            target_age_type: this.target_age_type,
-            team_information: this.team_information,
-            user_id: localStorage.getItem('userId')
+          api: 'getAddressXYApi',
+          params: {
+            q: this.prefecture + this.city + this.street_number
           }
         })
         .then((response) => {
           if (response.status === 200) {
-            this.$router.push(`/teams?sportsId=${this.sports_id}`)
+            if (response.data[0].geometry.coordinates) {
+              this.longitude = response.data[0].geometry.coordinates[0]
+              this.latitude = response.data[0].geometry.coordinates[1]
+              callback()
+            }
           }
         })
+    },
+    regTeam () {
+      if (!this.name || !this.mail_address || !this.sports_id) {
+        return
+      }
+      this.getAddressXY(
+        () => {
+          this.$store
+            .dispatch('api/apiRequest', {
+              api: 'teamCreate',
+              data: {
+                name: this.name,
+                mail_address: this.mail_address,
+                url: this.url,
+                prefecture_code: this.prefecture_code,
+                prefecture: this.prefecture,
+                city_code: this.city_code,
+                city: this.city,
+                street_number: this.street_number,
+                team_image: this.team_image,
+                sports_id: this.sports_id,
+                team_type: this.team_type.toString(),
+                target_age_type: this.target_age_type.toString(),
+                team_information: this.team_information,
+                user_id: localStorage.getItem('userId'),
+                latitude: this.latitude,
+                longitude: this.longitude
+              }
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                this.$router.push(`/teams?sportsId=${this.sports_id}`)
+              }
+            })
+        }
+      )
     },
     upload (file) {
       if (file !== undefined && file !== null) {

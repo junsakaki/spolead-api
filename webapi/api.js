@@ -16,21 +16,15 @@ export default {
     url: 'https://opendata.resas-portal.go.jp/api/v1/cities',
     method: 'get'
   },
-
-  // アカウント登録
-  signup: {
-    url: foundation + '/users',
-    method: 'post'
+  // 緯度経度取得外部API
+  getAddressXYApi: {
+    url: 'https://msearch.gsi.go.jp/address-search/AddressSearch',
+    method: 'get'
   },
-  // ユーザーログイン
-  login: {
-    url: foundation + '/login',
-    method: 'post'
-  },
-  // ユーザーログアウト
-  logout: {
-    url: foundation + '/logout',
-    method: 'delete'
+  // ユーザー取得
+  userIndex: {
+    url: foundation + '/users/:id',
+    method: 'get'
   },
   // チーム一覧
   teamIndex: {
@@ -116,6 +110,31 @@ export default {
    */
   reportCreate: {
     url: foundation + '/bbs/reports',
+    method: 'post'
+  },
+  // 進路実績作成（投稿）
+  careerCreate: {
+    url: foundation + '/careers',
+    method: 'post'
+  },
+  // 進路実績一覧
+  careerIndex: {
+    url: foundation + '/careers',
+    method: 'get'
+  },
+  // 有名人作成（投稿）
+  celebrityCreate: {
+    url: foundation + '/celebrities',
+    method: 'post'
+  },
+  // 有名人一覧
+  celebrityIndex: {
+    url: foundation + '/celebrities',
+    method: 'get'
+  },
+  // チームのお気に入り登録
+  favoriteTeamsCreate: {
+    url: foundation + '/teams/favorite',
     method: 'post'
   }
 }

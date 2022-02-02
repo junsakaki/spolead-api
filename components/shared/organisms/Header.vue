@@ -10,14 +10,21 @@
         >
       </router-link>
       <div class="icon-button-wrapper SP">
-        <a v-if="token" class="icon-button" @click="logOut">
-          <v-icon small>
-            mdi-lock-open
-          </v-icon>
-          <p class="icon-button-link">
-            ログアウト
-          </p>
-        </a>
+        <router-link v-if="$auth.loggedIn" class="icon-button" to="/settings">
+          <v-btn
+            class="mx-2"
+            fab
+            dark
+            x-small
+            depressed
+            outlined
+            color="grey lighten-1"
+          >
+            <v-icon dark>
+              mdi-account
+            </v-icon>
+          </v-btn>
+        </router-link>
         <router-link v-else class="icon-button" to="/login">
           <v-icon small>
             mdi-lock
@@ -38,8 +45,8 @@
         >
       </router-link>
       <div class="links">
-        <button v-if="$route.path !== '/'" class="link icon-button align-center">
-          <v-icon small>
+        <button class="link icon-button align-center">
+          <v-icon>
             mdi-account-group
           </v-icon>
           <p class="icon-button-link">
@@ -51,8 +58,8 @@
             </router-link>
           </div>
         </button>
-        <button v-if="$route.path !== '/'" class="link icon-button align-center">
-          <v-icon small>
+        <button class="link icon-button align-center">
+          <v-icon>
             mdi-clipboard-text
           </v-icon>
           <p class="icon-button-link">
@@ -64,28 +71,12 @@
             </router-link>
           </div>
         </button>
-        <a v-if="token" class="link icon-button" @click="logOut">
-          <v-icon small>
-            mdi-lock-open
-          </v-icon>
-          <p class="icon-button-link">
-            ログアウト
-          </p>
-        </a>
-        <router-link v-if="!token" to="/signup" class="link icon-button">
-          <v-icon small>
+        <router-link :to="`${$auth.loggedIn ? '/settings' : '/login'}`" class="link icon-button">
+          <v-icon>
             mdi-account
           </v-icon>
           <p class="icon-button-link">
-            アカウント登録
-          </p>
-        </router-link>
-        <router-link v-if="!token" to="/login" class="link icon-button">
-          <v-icon small>
-            mdi-lock
-          </v-icon>
-          <p class="icon-button-link">
-            ログイン
+            アカウント
           </p>
         </router-link>
       </div>
@@ -95,40 +86,9 @@
 
 <script>
 export default {
-  props: {
-    token: {
-      type: String,
-      default: ''
-    }
-  },
   data () {
     return {
       isMobile: this.$vuetify.breakpoint.smAndDown
-    }
-  },
-  methods: {
-    logOut () {
-      // only remove localStorage
-
-      // this.$store
-      //   .dispatch('api/apiRequest', {
-      //     api: 'login',
-      //     data: {
-      //       email: this.email,
-      //       password: this.password
-      //     }
-      //   }).then((res) => {
-      //     if (res.status === 200) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('userId')
-      localStorage.removeItem('loginDateTime')
-      this.$router.push('/')
-      // due to local development
-      // location.replace('http://localhost:8000/')
-      location.replace('https://spoleader.com/')
-      // location.replace('http://develop01.spolead-sv.net')
-      //   }
-      // })
     }
   }
 }

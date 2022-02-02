@@ -36,7 +36,6 @@ export default {
   },
   data () {
     return {
-      token: '',
       cards: this.$SPORTS,
       mode: 'prefecture',
       areas: this.$AREA,
@@ -52,7 +51,6 @@ export default {
     }
   },
   created () {
-    this.token = localStorage.getItem('token')
     if (localStorage.getItem('selectedCity')) {
       this.mode = 'city'
       this.cityCards = JSON.parse(localStorage.getItem('selectedCity'))
@@ -60,9 +58,6 @@ export default {
     if (localStorage.getItem('selectedPrefecture')) {
       this.selectedPrefecture = JSON.parse(localStorage.getItem('selectedPrefecture'))
     }
-    // if (!this.token) {
-    //   this.$router.push('/login')
-    // }
   },
   methods: {
     registUserPage () {
