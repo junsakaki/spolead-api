@@ -166,8 +166,8 @@ export default {
         team_type: this.$route.query.teamType ?? null,
         target_age_type: this.$route.query.targetAgeType ?? null,
         area: {
-          latitude: Number(this.$route.query.latitude) ?? null,
-          longitude: Number(this.$route.query.longitude) ?? null,
+          latitude: this.$route.query.latitude ? Number(this.$route.query.latitude) : null,
+          longitude: this.$route.query.longitude ? Number(this.$route.query.longitude) : null,
           city_codes: this.$route.query.cityCodes ?? null
         },
         page: this.page
