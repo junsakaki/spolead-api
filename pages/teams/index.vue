@@ -71,7 +71,17 @@
     <div else class="skelton-area">
       <span v-if="isError" class="red--text">チーム一覧の取得に失敗しました</span>
       <TeamsSkelton v-if="isLoading" />
-      <span v-if="(!isError && !isLoading) && teams.length === 0" class="grey--text">登録されているチームはありません</span>
+      <div v-if="(!isError && !isLoading) && teams.length === 0">
+        <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
+          <template #divider>
+            <v-icon>mdi-chevron-right</v-icon>
+          </template>
+        </v-breadcrumbs>
+        <div class="mb-4">
+          <SearchForms @execSearch="execSearch" />
+        </div>
+        <span class="grey--text">登録されているチームはありません</span>
+      </div>
     </div>
   </v-layout>
 </template>
