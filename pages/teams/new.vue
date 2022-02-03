@@ -183,14 +183,10 @@ export default {
   // },
   created () {
     this.getPrefApi()
-    this.getUser()
   },
   methods: {
-    getUser () {
-      if (!this.$auth || !this.$auth.user) {
-        this.$router.push('/login')
-      }
-      if (this.$auth && this.$auth.user) {
+    getUser (callback) {
+      if (this.$auth && this.$auth.loggedIn) {
         this.$store
           .dispatch('api/apiRequest', {
             api: 'userIndex',
@@ -200,8 +196,11 @@ export default {
           }).then((res) => {
             if (res.status === 200) {
               this.userId = Number(res.data.user.id)
+              callback()
             }
           })
+      } else {
+        this.$router.push('/login')
       }
     },
     getPrefApi () {
@@ -230,57 +229,66 @@ export default {
         })
     },
     getAddressXY (callback) {
-      this.$store
-        .dispatch('api/apiRequest', {
-          api: 'getAddressXYApi',
-          params: {
-            q: this.prefecture + this.city + this.street_number
-          }
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            if (response.data[0].geometry.coordinates) {
-              this.longitude = response.data[0].geometry.coordinates[0]
-              this.latitude = response.data[0].geometry.coordinates[1]
-              callback()
+      if (this.prefecture !== '') {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'getAddressXYApi',
+            params: {
+              q: this.prefecture + this.city + this.street_number
             }
-          }
-        })
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              if (response.data[0].geometry.coordinates) {
+                this.longitude = response.data[0].geometry.coordinates[0]
+                this.latitude = response.data[0].geometry.coordinates[1]
+                callback()
+              }
+            }
+          })
+      } else {
+        this.longitude = null
+        this.latitude = null
+        callback()
+      }
     },
     regTeam () {
-      if (!this.name || !this.mail_address || !this.sports_id || !this.userId) {
+      console.log('process.env.FOUNDATION : ', process.env.FOUNDATION)
+      if (!this.name || !this.mail_address || !this.sports_id) {
         return
       }
-      this.getAddressXY(
-        () => {
-          this.$store
-            .dispatch('api/apiRequest', {
-              api: 'teamCreate',
-              data: {
-                name: this.name,
-                mail_address: this.mail_address,
-                url: this.url,
-                prefecture_code: this.prefecture_code,
-                prefecture: this.prefecture,
-                city_code: this.city_code,
-                city: this.city,
-                street_number: this.street_number,
-                team_image: this.team_image,
-                sports_id: this.sports_id,
-                team_type: this.team_type.toString(),
-                target_age_type: this.target_age_type.toString(),
-                team_information: this.team_information,
-                user_id: this.userId,
-                latitude: this.latitude,
-                longitude: this.longitude
-              }
-            })
-            .then((response) => {
-              if (response.status === 200) {
-                this.$router.push(`/teams?sportsId=${this.sports_id}`)
-              }
-            })
-        }
+      this.getUser(
+        () => this.getAddressXY(
+          () => {
+            this.$store
+              .dispatch('api/apiRequest', {
+                api: 'teamCreate',
+                data: {
+                  name: this.name,
+                  mail_address: this.mail_address,
+                  url: this.url,
+                  prefecture_code: this.prefecture_code,
+                  prefecture: this.prefecture,
+                  city_code: this.city_code,
+                  city: this.city,
+                  street_number: this.street_number,
+                  team_image: this.team_image,
+                  sports_id: this.sports_id,
+                  team_type: this.team_type.toString(),
+                  target_age_type: this.target_age_type.toString(),
+                  team_information: this.team_information,
+                  user_id: this.userId,
+                  latitude: this.latitude,
+                  longitude: this.longitude
+                }
+              })
+              .then((response) => {
+                if (response.status === 200) {
+                  this.$router.push(`/teams?sportsId=${this.sports_id}`)
+                }
+              })
+          }
+        )
       )
     },
     upload (file) {
