@@ -2,7 +2,6 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   mode: 'spa',
-  dev: process.env.NODE_ENV !== 'production',
   /*
   ** Headers of the page
   */
