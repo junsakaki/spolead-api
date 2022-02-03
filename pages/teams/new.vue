@@ -253,7 +253,6 @@ export default {
       }
     },
     regTeam () {
-      console.log('process.env.FOUNDATION : ', process.env.FOUNDATION)
       if (!this.name || !this.mail_address || !this.sports_id) {
         return
       }
