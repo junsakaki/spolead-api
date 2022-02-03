@@ -274,8 +274,7 @@ export default {
       return unreadCount
     },
     isTeamOwner () {
-      // TODO: need to get from access_token
-      return String(this.team.user_id) === localStorage.getItem('userId')
+      return this.team.user_id === this.userId
     }
     // computed avarage point but unnecessary this point.
     // avarageGeneralReviewPoint () {

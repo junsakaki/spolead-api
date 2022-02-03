@@ -167,7 +167,8 @@ export default {
         }
       ],
       latitude: 0,
-      longitude: 0
+      longitude: 0,
+      userId: null
     }
   },
   // watch: {
@@ -182,8 +183,27 @@ export default {
   // },
   created () {
     this.getPrefApi()
+    this.getUser()
   },
   methods: {
+    getUser () {
+      if (!this.$auth || !this.$auth.user) {
+        this.$router.push('/login')
+      }
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      }
+    },
     getPrefApi () {
       this.$store
         .dispatch('api/apiRequest', {
@@ -228,7 +248,7 @@ export default {
         })
     },
     regTeam () {
-      if (!this.name || !this.mail_address || !this.sports_id) {
+      if (!this.name || !this.mail_address || !this.sports_id || !this.userId) {
         return
       }
       this.getAddressXY(
@@ -250,7 +270,7 @@ export default {
                 team_type: this.team_type.toString(),
                 target_age_type: this.target_age_type.toString(),
                 team_information: this.team_information,
-                user_id: localStorage.getItem('userId'),
+                user_id: this.userId,
                 latitude: this.latitude,
                 longitude: this.longitude
               }

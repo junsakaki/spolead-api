@@ -130,11 +130,6 @@ export default {
       title: this.pageTitle
     }
   },
-  computed: {
-    isLogin () {
-      return !!localStorage.getItem('userId')
-    }
-  },
   watch: {
     $route (to, from) {
       this.fetchInitialData()
