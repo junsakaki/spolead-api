@@ -1,16 +1,16 @@
 <template>
   <v-row justify="center">
     <v-dialog v-if="dialog" :value="dialog" persistent max-width="600px">
-      <salons-regist-form :salon="lesson" @closeModal="closeModal" />
+      <lessons-regist-form :lesson="lesson" @closeModal="closeModal" />
     </v-dialog>
   </v-row>
 </template>
 
 <script>
-import SalonsRegistForm from '../../salons/organisms/SalonsRegistForm.vue'
+import LessonsRegistForm from '../../lessons/organisms/LessonsRegistForm.vue'
 export default {
   components: {
-    SalonsRegistForm
+    LessonsRegistForm
   },
   props: {
     dialog: {

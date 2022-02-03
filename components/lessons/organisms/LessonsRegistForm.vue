@@ -1,9 +1,9 @@
 <template>
   <v-card>
-    <v-card-title v-if="salon" class="justify-space-between">
+    <v-card-title v-if="lesson" class="justify-space-between">
       <span class="headline">指導者マッチングの編集フォーム</span>
     </v-card-title>
-    <div v-if="!salon" class="d-flex justify-center pt-8">
+    <div v-if="!lesson" class="d-flex justify-center pt-8">
       <v-btn-toggle v-model="form.recruitment_target" color="primary" mandatory rounded>
         <v-btn value="student" class="px-8" @click="changeRecruitmentTarget('student')">
           コーチを探す
@@ -155,7 +155,7 @@
       <v-btn class="submit-button" color="primary" @click="submit">
         申請
       </v-btn>
-      <v-btn v-if="salon" class="submit-button" color="grey" dark @click="closeModal(false)">
+      <v-btn v-if="lesson" class="submit-button" color="grey" dark @click="closeModal(false)">
         やめる
       </v-btn>
     </v-card-actions>
@@ -165,7 +165,7 @@
 <script>
 export default {
   props: {
-    salon: {
+    lesson: {
       type: Object,
       default: null
     }
@@ -204,14 +204,16 @@ export default {
     }
   },
   created () {
-    if (this.salon) {
-      this.form = { ...this.salon }
+    console.log(this.form)
+    if (this.lesson) {
+      this.form = { ...this.lesson }
+      console.log(this.form)
     }
   },
   methods: {
     submit () {
       console.log(this.form)
-      if (this.salon) {
+      if (this.lesson) {
         this.closeModal(true)
       }
     },
@@ -235,53 +237,25 @@ export default {
         this.form[p] = ''
       }
     },
+    changeRecruitmentTarget (target) {
+      this.form.recruitment_target = target
+      if (target === 'coach') {
+        this.form.imageTop = null
+        this.form.content = null
+        this.form.background = null
+        this.form.selfIntroduction = null
+        this.form.precautions = null
+      }
+      if (target === 'student') {
+        this.form.imageTop = ''
+        this.form.content = ''
+        this.form.background = ''
+        this.form.selfIntroduction = ''
+        this.form.precautions = ''
+      }
+    },
     closeModal (shouldUpdateUser) {
       this.$emit('closeModal', shouldUpdateUser)
-    },
-    changeRecruitmentTarget (target) {
-      // TODO: 項目を消すのではなく、不要になる値をnullにする、それ以外は維持
-      // TODO: lesson情報がある場合は値を入れた上でRecruitmentTargetがフォーム項目に反映されるようにする
-      if (target === 'student') {
-        this.form = {
-          name: '',
-          recruitment_target: 'student',
-          contactType: [],
-          paymentType: [],
-          caption: '',
-          imageTop: '',
-          content: '',
-          background: '',
-          selfIntroduction: '',
-          precautions: '',
-          owner: {
-            name: '',
-            address: '',
-            mail_address: '',
-            birthday: '',
-            tel: '',
-            identification1: '',
-            identification2: '',
-            transferAccount: ''
-          }
-        }
-      } else {
-        this.form = {
-          name: '',
-          recruitment_target: 'coach',
-          contactType: [],
-          paymentType: [],
-          caption: '',
-          owner: {
-            name: '',
-            address: '',
-            mail_address: '',
-            birthday: '',
-            tel: '',
-            identification1: '',
-            identification2: ''
-          }
-        }
-      }
     }
   }
 }
