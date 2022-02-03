@@ -1,9 +1,6 @@
-// localVer
-// const foundation = 'http://localhost:3000/v1'
-// const foundation = 'http://develop01.spolead-sv.net/api/v1'
+import nuxtConfig from '@/nuxt.config'
 
-// productionVer
-const foundation = process.env.FOUNDATION
+const foundation = nuxtConfig.dev ? 'https://develop.spoleader.com/api/v1' : process.env.FOUNDATION
 
 export default {
   // 都道府県取得外部API

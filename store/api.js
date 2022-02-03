@@ -1,5 +1,6 @@
 import axios from 'axios'
 import apiEndpoint from '../webapi/api'
+import nuxtConfig from '@/nuxt.config'
 
 export const namespaced = true
 // const getters = {}
@@ -28,8 +29,7 @@ export const actions = {
         req.headers = {}
       }
       if (reqData.api === 'getCityApi' || reqData.api === 'getPrefApi') {
-        req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
-        // req.headers['X-API-KEY'] = 'UTcSHZB4MAnbEfmMQznGeiFmyapUsZjwhz9ulUrv'
+        nuxtConfig.dev ? req.headers['X-API-KEY'] = 'UTcSHZB4MAnbEfmMQznGeiFmyapUsZjwhz9ulUrv' : req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
       }
       axios(req)
         .then((response) => {
