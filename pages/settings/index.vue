@@ -47,7 +47,7 @@ export default {
     }
     // デスクトップ版のみ/settingと/setting/accountの内容が同じなのでリプレイスする
     if (!this.$vuetify.breakpoint.smAndDown) {
-      this.$router.replace('/settings/account')
+      this.$router.replace('/settings/salons')
     }
   }
 }

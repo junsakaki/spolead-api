@@ -1,10 +1,10 @@
 <template>
   <v-card class="text-center pb-2">
-    <router-link to="/settings/account" class="subtitle-2 font-weight-bold settings-link">
+    <!-- <router-link to="/settings/account" class="subtitle-2 font-weight-bold settings-link">
       <div class="py-3">
         アカウント
       </div>
-    </router-link>
+    </router-link> -->
     <router-link to="/settings/salons" class="subtitle-2 font-weight-bold mt-4 settings-link">
       <div class="py-3">
         オンラインサロン

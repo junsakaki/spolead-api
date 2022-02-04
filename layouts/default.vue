@@ -6,6 +6,7 @@
         <nuxt />
       </v-container>
     </v-content>
+    <CommentButton v-if="$route.name === 'talks-id'" />
     <ScrollTopButton />
     <v-footer padless>
       <div class="a8">
@@ -42,11 +43,13 @@
 <script>
 import Header from '~/components/shared/organisms/Header.vue'
 import ScrollTopButton from '~/components/shared/atoms/ScrollTopButton.vue'
+import CommentButton from '~/components/shared/atoms/CommentButton.vue'
 
 export default {
   components: {
     Header,
-    ScrollTopButton
+    ScrollTopButton,
+    CommentButton
   },
   data () {
     return {
