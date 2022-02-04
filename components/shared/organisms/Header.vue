@@ -9,30 +9,53 @@
           class="logo"
         >
       </router-link>
-      <div class="icon-button-wrapper SP">
-        <router-link v-if="$auth.loggedIn" class="icon-button" to="/settings">
-          <v-btn
-            class="mx-2"
-            fab
-            dark
-            x-small
-            depressed
-            outlined
-            color="grey lighten-1"
-          >
-            <v-icon dark>
-              mdi-account
-            </v-icon>
-          </v-btn>
-        </router-link>
-        <router-link v-else class="icon-button" to="/login">
-          <v-icon small>
-            mdi-lock
-          </v-icon>
-          <p class="icon-button-link">
-            ログイン
-          </p>
-        </router-link>
+      <div class="d-flex align-center justify-center">
+        <v-menu
+          open-on-hover
+          bottom
+          offset-y
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              dark
+              v-bind="attrs"
+              text
+              class="menu-button"
+              icon
+              v-on="on"
+            >
+              <div class="d-flex flex-column button-text">
+                <v-icon>mdi-menu</v-icon>
+              </div>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in mobileLinks"
+              :key="`menu-item-${index}`"
+              class="menu-item"
+            >
+              <div v-if="item.params">
+                <div class="link">
+                  {{ item.title }}
+                </div>
+                <div v-for="param in item.params" :key="`${item.title}-param-${param.id}`">
+                  <router-link :to="`${item.to}?sportsId=${param.id}`" class="link">
+                    <div class="ml-2">
+                      {{ param.title }}
+                    </div>
+                  </router-link>
+                </div>
+              </div>
+              <div v-else>
+                <router-link :to="item.to" class="link">
+                  {{ item.title }}
+                </router-link>
+              </div>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </div>
     <div v-else :class="`header ${$route.path === '/' ? 'fixed' : ''}`">
@@ -45,32 +68,80 @@
         >
       </router-link>
       <div class="links">
-        <button class="link icon-button align-center">
-          <v-icon>
-            mdi-account-group
-          </v-icon>
-          <p class="icon-button-link">
-            チーム・スクール検索
-          </p>
-          <div class="selection-card">
-            <router-link v-for="sports in $SPORTS" :key="sports.id" :to="`/teams?sportsId=${sports.id}`" class="sports">
-              {{ sports.title }}
-            </router-link>
-          </div>
-        </button>
-        <button class="link icon-button align-center">
-          <v-icon>
-            mdi-clipboard-text
-          </v-icon>
-          <p class="icon-button-link">
-            BBS掲示板
-          </p>
-          <div class="selection-card">
-            <router-link v-for="sports in $SPORTS" :key="sports.id" :to="`/forums?sportsId=${sports.id}`" class="sports">
-              {{ sports.title }}
-            </router-link>
-          </div>
-        </button>
+        <div class="d-flex align-center justify-center">
+          <v-menu
+            open-on-hover
+            bottom
+            offset-y
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                text
+                class="menu-button"
+                v-on="on"
+              >
+                <div class="d-flex flex-column button-text">
+                  <v-icon>mdi-account-group</v-icon>
+                  <p class="icon-button-link">
+                    チーム・スクール
+                  </p>
+                </div>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in $SPORTS"
+                :key="`sports-menu-item-${index}`"
+                class="menu-item"
+              >
+                <router-link :to="`/teams?sportsId=${item.id}`" class="link">
+                  {{ item.title }}
+                </router-link>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+        <div class="d-flex align-center justify-center">
+          <v-menu
+            open-on-hover
+            bottom
+            offset-y
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                text
+                class="menu-button"
+                v-on="on"
+              >
+                <div class="d-flex flex-column button-text">
+                  <v-icon>
+                    mdi-clipboard-text
+                  </v-icon>
+                  <p class="icon-button-link">
+                    掲示板
+                  </p>
+                </div>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in $SPORTS"
+                :key="`forums-menu-item-${index}`"
+                class="menu-item"
+              >
+                <router-link :to="`/forums?sportsId=${item.id}`" class="link">
+                  {{ item.title }}
+                </router-link>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
         <router-link to="/salons" class="link icon-button align-center">
           <v-icon>
             mdi-home
@@ -95,14 +166,40 @@
             指導者マッチング
           </p>
         </router-link>
-        <router-link :to="`${$auth.loggedIn ? '/settings' : '/login'}`" class="link icon-button">
-          <v-icon>
-            mdi-account
-          </v-icon>
-          <p class="icon-button-link">
-            アカウント
-          </p>
-        </router-link>
+        <div class="d-flex align-center justify-center">
+          <v-menu
+            open-on-hover
+            bottom
+            offset-y
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                text
+                class="menu-button"
+                v-on="on"
+              >
+                <div class="d-flex flex-column button-text">
+                  <v-icon>mdi-account</v-icon>
+                  <p>アカウント</p>
+                </div>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in [{to: '/settings', title: '各種設定'}, {to: '/talks', title: 'トークルーム'}]"
+                :key="`account-menu-item-${index}`"
+                class="menu-item"
+              >
+                <router-link :to="item.to" class="link">
+                  {{ item.title }}
+                </router-link>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
       </div>
     </div>
   </div>
@@ -112,7 +209,16 @@
 export default {
   data () {
     return {
-      isMobile: this.$vuetify.breakpoint.smAndDown
+      isMobile: this.$vuetify.breakpoint.smAndDown,
+      mobileLinks: [
+        { title: 'チーム・スクール', to: '/teams', params: this.$SPORTS },
+        { title: '掲示板', to: '/forums', params: this.$SPORTS },
+        { title: 'オンラインサロン', to: '/salons' },
+        { title: 'クラウドファンディング', to: '/funds' },
+        { title: '指導者マッチング', to: '/lessons' },
+        { title: 'アカウント', to: '/settings' },
+        { title: 'トークルーム', to: '/talks' }
+      ]
     }
   }
 }
@@ -125,6 +231,7 @@ export default {
   background-color: white;
   &.SP {
     margin: 0;
+    padding-right: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -163,24 +270,31 @@ export default {
     text-align: center;
   }
 }
-.selection-card {
-  position: absolute;
-  display: none;
-  background: rgba(153, 153, 153, 1);
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 200px;
-  font-size: 12px;
-  z-index: 2;
-  .sports {
-    padding: 4px;
-    background: white;
-    border: solid 1px rgba(153, 153, 153, 0.096);
-    text-decoration: none;
+.menu-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .button-text {
+    color: #0000008A  !important;
+    font-size: 10px;
+    p {
+      margin: 0;
+    }
   }
-  .sports:hover {
-    opacity: 0.9;
+}
+.menu-button::before{
+  background-color: transparent;
+}
+.menu-item {
+  min-height: 28px !important;
+  .link {
+    color: #0000008A  !important;
+    padding: 0;
+    font-size: 12px;
+    width: 100%;
+  }
+  :hover {
+    opacity: 0.6;
   }
 }
 .link:hover .selection-card {
