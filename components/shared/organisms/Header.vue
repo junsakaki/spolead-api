@@ -189,7 +189,7 @@
             </template>
             <v-list>
               <v-list-item
-                v-for="(item, index) in [{to: '/settings', title: '各種設定'}, {to: '/talks', title: 'トークルーム'}]"
+                v-for="(item, index) in [{to: '/settings', title: '各種設定'}, {to: '/talks', title: 'トークルーム'}, {to: '/manage', title: 'サービス管理'}]"
                 :key="`account-menu-item-${index}`"
                 class="menu-item"
               >

@@ -89,7 +89,8 @@ export default {
               identification1: '',
               identification2: '',
               transferAccount: '振り込み口座情報'
-            }
+            },
+            approval: true
           }, {
             id: 102,
             name: '運営中のサロン2',
@@ -112,7 +113,8 @@ export default {
               identification1: '',
               identification2: '',
               transferAccount: '振り込み口座情報'
-            }
+            },
+            approval: false
           }],
           participating: [
             {

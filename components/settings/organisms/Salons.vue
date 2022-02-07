@@ -49,7 +49,10 @@
               {{ salon.name }}
             </v-col>
             <v-col cols="12" sm="3" class="d-flex justify-end align-center">
-              <router-link :to="`/salons/${salon.id}`" class="salon-link">
+              <v-btn x-small class="ml-2 font-weight-bold" :color="salon.approval ? 'error' : 'primary'" elevation="0">
+                {{ salon.approval ? '審査中' : '掲載中' }}
+              </v-btn>
+              <router-link :to="`/salons/${salon.id}`" class="ml-2 salon-link">
                 <v-btn icon small>
                   <v-icon small>
                     mdi-eye
