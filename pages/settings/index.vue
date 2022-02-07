@@ -43,7 +43,7 @@ export default {
   created () {
     // 未ログインの場合はトップ画面へリダイレクトする
     if (!this.$auth.loggedIn) {
-      this.$router.replace('/')
+      this.$router.replace('/login')
     }
     // デスクトップ版のみ/settingと/setting/accountの内容が同じなのでリプレイスする
     if (!this.$vuetify.breakpoint.smAndDown) {

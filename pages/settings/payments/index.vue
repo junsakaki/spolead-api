@@ -52,8 +52,8 @@ export default {
   },
   created () {
     // 未ログインの場合はトップ画面へリダイレクトする
-    if (!localStorage.getItem('token')) {
-      this.$router.replace('/')
+    if (!this.$auth.loggedIn) {
+      this.$router.replace('/login')
     }
   }
 }
