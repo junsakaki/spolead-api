@@ -77,7 +77,10 @@
               {{ fund.name }}
             </v-col>
             <v-col cols="12" sm="3" class="d-flex justify-end align-center">
-              <router-link :to="`/funds/${fund.id}`" class="fund-link">
+              <v-btn x-small class="ml-2 font-weight-bold" :color="fund.approval ? 'error' : 'primary'" elevation="0">
+                {{ fund.approval ? '審査中' : '掲載中' }}
+              </v-btn>
+              <router-link :to="`/funds/${fund.id}`" class="ml-2 fund-link">
                 <v-btn icon small>
                   <v-icon small>
                     mdi-eye
