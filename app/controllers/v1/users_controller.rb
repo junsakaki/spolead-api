@@ -10,6 +10,7 @@ module V1
     # Create an user
     def create
       @user = User.new user_params
+      @user.role = 'member'
       
       if @user.save!
         sign_in :user, @user # login automaticaly

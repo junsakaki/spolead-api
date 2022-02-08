@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-sports_list = ['サッカー', '野球', 'バスケット', 'バレー', 'ダンス', 'ラグビー', 'スイミング']
+sports_list = ['サッカー', '野球', 'バスケット', 'バレー', 'ダンス', 'ラグビー', 'スイミング', 'その他']
 prefecture_list = [
   '全国版',
   '海外',
@@ -61,24 +61,26 @@ prefecture_list = [
 ]
 
 sports_list.each_with_index do |n, i|
-  s_id = i + 1
-  BbsForum.create! ([
-    {
-      name: "#{n}指導者用掲示板",
-      sports_id: s_id
-    },
-    {
-      name: "#{n}総合・議論掲示板",
-      sports_id: s_id
-    }
-  ])
-
-  prefecture_list.each do |prefecture|
+  s_id = i == 7 ? 999 : i + 1 
+  if !BbsForum.exists?(sports_id: s_id)
     BbsForum.create! ([
       {
-        name: prefecture,
+        name: "#{n}指導者用掲示板",
+        sports_id: s_id
+      },
+      {
+        name: "#{n}総合・議論掲示板",
         sports_id: s_id
       }
     ])
+
+    prefecture_list.each do |prefecture|
+      BbsForum.create! ([
+        {
+          name: prefecture,
+          sports_id: s_id
+        }
+      ])
+    end
   end
 end
