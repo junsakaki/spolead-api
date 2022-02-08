@@ -91,7 +91,8 @@ export default {
               { id: 2011, comments: [{ content: '依頼内容を送ります。依頼内容を送ります。依頼内容を送ります。依頼内容を送ります。依頼内容を送ります。依頼内容を送ります。依頼内容を送ります。', user: { id: 1, name: 'しょうた' } }], users: [{ id: 1, name: 'しょうた' }, { id: 2, name: 'ゆうた' }] },
               { id: 2012, comments: [], users: [{ id: 1, name: 'しょうた' }, { id: 2, name: 'ゆうた' }] },
               { id: 2013, comments: [], users: [{ id: 1, name: 'しょうた' }, { id: 2, name: 'ゆうた' }] }
-            ]
+            ],
+            approval: false
           },
           {
             id: 201,
@@ -113,7 +114,8 @@ export default {
               { id: 2011, comments: [{ content: '依頼内容を送ります。', user: { id: 1, name: 'しょうた' } }], users: [{ id: 1, name: 'しょうた' }, { id: 2, name: 'ゆうた' }] },
               { id: 2012, comments: [], users: [{ id: 1, name: 'しょうた' }, { id: 2, name: 'ゆうた' }] },
               { id: 2013, comments: [], users: [{ id: 1, name: 'しょうた' }, { id: 2, name: 'ゆうた' }] }
-            ]
+            ],
+            approval: true
           }
         ]
       }

@@ -144,6 +144,11 @@ const PAYMENT_TYPE = [
   { type: '月定額', id: 2 }
 ]
 
+const RECRUITMENT_TYPE = [
+  { target: 'student', name: '生徒を探す', id: 1 },
+  { target: 'coach', name: 'コーチを探す', id: 2 }
+]
+
 export default (context, inject) => {
   inject('SPORTS', SPORTS)
   inject('AREA', AREA)
@@ -153,4 +158,5 @@ export default (context, inject) => {
   inject('TEAM_TYPE', TEAM_TYPE)
   inject('CONTACT_TYPE', CONTACT_TYPE)
   inject('PAYMENT_TYPE', PAYMENT_TYPE)
+  inject('RECRUITMENT_TYPE', RECRUITMENT_TYPE)
 }
