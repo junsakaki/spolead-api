@@ -163,6 +163,7 @@ export default {
           }
         }).then((res) => {
           if (res.status === 200) {
+            this.getForumDetail()
             this.post = {
               user_name: '',
               name: '',
