@@ -47,7 +47,7 @@ export default {
       breadcrumbs: [
         ...this.$BREADCRUMBS,
         {
-          text: `${this.getSportsTitle()}のBBS掲示板`,
+          text: 'BBS掲示板',
           disabled: true
         }
       ],
@@ -56,7 +56,12 @@ export default {
   },
   head () {
     return {
-      title: `${this.getSportsTitle()}のBBS掲示板 | `
+      title: 'BBS掲示板 | '
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.getForums()
     }
   },
   created () {
