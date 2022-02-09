@@ -133,7 +133,7 @@ export default {
   },
   head () {
     return {
-      title: `${this.bbs_thread.name} - ${this.getSportsTitle()}のBBS掲示板 | `
+      title: 'BBS掲示板 | '
     }
   },
   created () {
@@ -158,7 +158,7 @@ export default {
             this.breadcrumbs = [
               ...this.$BREADCRUMBS,
               {
-                text: `${this.getSportsTitle()}のBBS掲示板`,
+                text: 'BBS掲示板',
                 link: true,
                 exact: true,
                 disabled: false,
