@@ -49,6 +49,26 @@ export default {
     if (!this.$vuetify.breakpoint.smAndDown) {
       this.$router.replace('/manage/salons')
     }
+    this.checkRole()
+  },
+  methods: {
+    checkRole () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              if (res.data.user.role !== 'admin') {
+                this.$router.replace('/')
+              }
+            }
+          })
+      }
+    }
   }
 }
 </script>

@@ -57,10 +57,28 @@ export default {
     if (!this.$auth.loggedIn) {
       this.$router.replace('/login')
     }
+    this.checkRole()
   },
   methods: {
     updateApproval (funds) {
       console.log('現在は', funds.approval ? '承認済み' : '未承認', 'なので、値を', !funds.approval, 'にします')
+    },
+    checkRole () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              if (res.data.user.role !== 'admin') {
+                this.$router.replace('/')
+              }
+            }
+          })
+      }
     }
   }
 }

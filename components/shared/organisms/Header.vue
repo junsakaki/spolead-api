@@ -189,7 +189,7 @@
             </template>
             <v-list>
               <v-list-item
-                v-for="(item, index) in [{to: '/settings', title: '各種設定'}, {to: '/talks', title: 'トークルーム'}, {to: '/manage', title: 'サービス管理'}]"
+                v-for="(item, index) in accountMenu"
                 :key="`account-menu-item-${index}`"
                 class="menu-item"
               >
@@ -210,6 +210,7 @@ export default {
   data () {
     return {
       isMobile: this.$vuetify.breakpoint.smAndDown,
+      accountMenu: [{ to: '/settings', title: '各種設定' }, { to: '/talks', title: 'トークルーム' }],
       mobileLinks: [
         { title: 'チーム・スクール', to: '/teams', params: this.$SPORTS },
         { title: '掲示板', to: '/forums', params: this.$SPORTS },
@@ -218,7 +219,31 @@ export default {
         { title: '指導者マッチング', to: '/lessons' },
         { title: 'アカウント', to: '/settings' },
         { title: 'トークルーム', to: '/talks' }
-      ]
+      ],
+      userRole: 'member'
+    }
+  },
+  created () {
+    this.checkRole()
+  },
+  methods: {
+    checkRole () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              if (res.data.user.role === 'admin') {
+                this.accountMenu = [...this.accountMenu, { to: '/manage', title: 'サービス管理' }]
+                this.mobileLinks = [...this.mobileLinks, { to: '/manage', title: 'サービス管理' }]
+              }
+            }
+          })
+      }
     }
   }
 }
