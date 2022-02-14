@@ -68,12 +68,14 @@ export default {
     id: 1,
     users: [{ id: 1, name: 'かずや' }, { id: 2, name: 'じん' }],
     lesson: {
+      id: 1000,
       name: '全力でサッカー教えます！',
       caption: 'このレッスンでは小学生を対象にサッカーを教えています。これから地域のサッカーチームに所属しようと考えている方におすすめです！',
       contactType: '1,2'.split(','),
       paymentType: '1,2'.split(',')
     },
     comments: [
+      { id: 15, content: 'すみません、先に支払いフォーム貼ります!', user_id: 1, payment: { price: 1000 }, created_date: '2020-01-01 12:00' },
       { id: 14, content: 'ありがとうございます!当日もよろしくお願いします!', user_id: 2, created_date: '2020-01-01 12:00' },
       { id: 13, content: '承知しました。<br>それでは開始10分前頃にgoogle meetのURLをお送りしますね!', user_id: 1, created_date: '2020-01-01 12:00' },
       { id: 12, content: '大丈夫です!', user_id: 2, created_date: '2020-01-01 12:00' },

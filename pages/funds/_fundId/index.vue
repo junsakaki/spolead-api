@@ -115,7 +115,7 @@
               円
             </div>
             <div class="d-flex justify-center align-center">
-              <router-link :to="`/funds/${$route.params.fundId}/reductions/${item.id}`" class="text-center mt-4">
+              <router-link :to="`/payment?type=fund&id=${item.id}`" class="text-center mt-4">
                 <common-button button-color="primary">
                   このリターンで支援する
                 </common-button>

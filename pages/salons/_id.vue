@@ -80,10 +80,12 @@
               </font>
               円 / 1ヶ月
             </div>
-            <div class="text-center mt-4">
-              <common-button button-color="primary">
-                このプランで参加する
-              </common-button>
+            <div class="d-flex justify-center align-center">
+              <router-link :to="`/payment?type=salon&id=${plan.id}`" class="text-center mt-4">
+                <common-button button-color="primary">
+                  このプランで参加する
+                </common-button>
+              </router-link>
             </div>
             <v-divider v-if="i !== salon.plans.length - 1" class="mt-8" />
           </div>

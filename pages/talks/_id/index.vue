@@ -52,15 +52,31 @@
     </div>
     <div class="mt-4 body-1">
       <div v-if="talk.comments.length > 0">
-        <div v-for="comment in talk.comments" :key="`comment-${comment.id}`" :class="`mt-4 comment-wrapper`">
-          <div class="caption">
-            {{ !isMyComment(comment.user_id) ? talk.users.find(user => user.id === comment.user_id).name : '' }}
+        <div v-for="comment in talk.comments" :key="`comment-${comment.id}`" class="mt-4">
+          <div class="comment-wrapper">
+            <div class="caption">
+              {{ !isMyComment(comment.user_id) ? talk.users.find(user => user.id === comment.user_id).name : '' }}
+            </div>
+            <v-card outlined :class="`pa-2 comment ${isMyComment(comment.user_id) ? 'mine ml-4' : 'mr-4'}`">
+              <p class="ma-0" v-html="transformTextToHtml(comment.content)" />
+            </v-card>
+            <div class="caption text-right">
+              {{ isMyComment(comment.user_id) ? 'あなた' : '' }}
+            </div>
           </div>
-          <v-card outlined :class="`pa-2 comment ${isMyComment(comment.user_id) ? 'mine ml-4' : 'mr-4'}`">
-            <p class="ma-0" v-html="transformTextToHtml(comment.content)" />
-          </v-card>
-          <div class="caption text-right">
-            {{ isMyComment(comment.user_id) ? 'あなた' : '' }}
+          <div class="comment-wrapper">
+            <div />
+            <div>
+              <v-card v-if="comment.payment" :class="`pa-4 mt-4 ${isMyComment(comment.user_id) ? 'ml-4' : 'mr-4'} text-center`" color="blue-grey" dark>
+                <div>支払い金額: {{ comment.payment.price.toLocaleString() }}円</div>
+                <router-link :to="`/payment?type=lesson&id=${talk.lesson.id}`" style="text-decoration: none;">
+                  <v-btn class="mt-4" color="blue-grey darken-2" dark>
+                    決済へ進む
+                  </v-btn>
+                </router-link>
+              </v-card>
+            </div>
+            <div />
           </div>
         </div>
       </div>

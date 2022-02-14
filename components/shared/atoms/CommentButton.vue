@@ -2,7 +2,7 @@
   <v-dialog
     v-model="dialog"
     persistent
-    max-width="290"
+    max-width="600"
   >
     <template #activator="{ on, attrs }">
       <div class="comment-button">
@@ -27,11 +27,32 @@
       <div class="mx-4">
         <textarea v-model="comment" class="form-textarea pa-2" />
       </div>
+      <div class="mx-4 body-1 font-weight-bold">
+        <v-checkbox
+          v-model="isPaymentComment"
+          label="購入フォームを追加する"
+        />
+      </div>
+      <div v-if="isPaymentComment" class="mx-4">
+        <div class="form-input">
+          <div class="body-1 font-weight-bold">
+            支払い金額
+          </div>
+          <div>
+            <span class="validation-icon px-2">必須</span>
+          </div>
+          <input v-model="price" class="px-2" placeholder="支払い金額(円)を入力してください" type="number">
+          <div class="ml-1 body-1 font-weight-bold">
+            円
+          </div>
+        </div>
+      </div>
       <v-card-actions>
         <v-spacer />
         <v-btn
           color="primary"
           text
+          :disabled="comment === ''"
           @click="onSubmitComment"
         >
           送信
@@ -54,7 +75,9 @@ export default {
     return {
       dialog: false,
       comment: '',
-      userId: null
+      userId: null,
+      isPaymentComment: false,
+      price: 0
     }
   },
   created () {
@@ -77,9 +100,10 @@ export default {
       }
     },
     onSubmitComment () {
-      console.log(`ユーザー${this.userId}は以下のコメントを${this.$route.params.id}のメッセージ内のコメントとして送信します。`)
-      console.log(this.comment)
+      console.log({ id: this.userId, comment: this.comment, payment: this.isPaymentComment ? { price: this.price } : null })
       this.comment = ''
+      this.isPaymentComment = false
+      this.price = 0
       this.onCloseModal()
     },
     onCloseModal () {
@@ -102,5 +126,20 @@ export default {
   border-radius: 4px;
   min-height: 200px;
   font-size: 14px;
+}
+.form-input {
+  display: grid;
+  grid-template-columns: 100px 50px 1fr 10px;
+  input {
+    border: solid 1px rgba(156, 156, 156, 0.37);
+    border-radius: 4px;
+    font-size: 14px;
+  }
+}
+.validation-icon {
+  font-size: 12px;
+  background: red;
+  color: white;
+  border-radius: 4px;
 }
 </style>
