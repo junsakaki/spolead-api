@@ -1,8 +1,5 @@
 const foundation = 'https://spoleader.com/api/v1'
 
-// productionVer
-const foundation = process.env.FOUNDATION
-
 export default {
   // 都道府県取得外部API
   getPrefApi: {
