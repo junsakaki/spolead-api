@@ -14,12 +14,13 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '総合スポーツチーム・スクール口コミ情報ポータル' },
+      { hid: 'description', name: 'description', content: 'SpoLeadeR(スポリーダー)は育成年代を始めとしたお住いの地域から全国のスポーツチーム・スクールのクチコミまで網羅した情報データベースです。国内最大級のスポーツチーム・スクールを掲載し・検索・情報収集ができます！子供の習い事をはじめ、大人まで通えるチーム・スクール情報も掲載できます。また、スポーツBBS掲示板も掲載しており、悩みや相談事も自由にスレッド形式で利用が可能です。' },
+      { hid: 'keywords', name: 'keywords', content: 'スポーツ,チーム,スクール,口コミ,情報,データベース,サッカー,野球,バスケット,バレーボール,水泳,ラグビー,ダンス,キッズ,小学生,中学生,高校生,大学生,社会人,シニア,BBS,掲示板' },
       { hid: 'og:site_name', property: 'og:site_name', content: 'Spoleader' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:url', property: 'og:url', content: 'https://spoleader.com/' },
       { hid: 'og:title', property: 'og:title', content: 'Spoleader' },
-      { hid: 'og:description', property: 'og:description', content: '総合スポーツチーム・スクール口コミ情報ポータル' },
+      { hid: 'og:description', property: 'og:description', content: 'SpoLeadeR(スポリーダー)は育成年代を始めとしたお住いの地域から全国のスポーツチーム・スクールのクチコミまで網羅した情報データベース>です。国内最大級のスポーツチーム・スクールを掲載し・検索・情報収集ができます！子供の習い事をはじめ、大人まで通えるチーム・スクール情報も掲載できます。また、スポーツBBS掲示板も掲載しており、悩みや相談事も自由にスレッド形式で利用が可能です。' },
       { hid: 'og:image', property: 'og:image', content: 'https://spoleader.com/ogp.png' }
     ],
     link: [
