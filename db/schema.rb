@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_08_103334) do
+ActiveRecord::Schema.define(version: 2022_02_18_103200) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -88,6 +88,32 @@ ActiveRecord::Schema.define(version: 2022_02_08_103334) do
     t.index ["content"], name: "index_forums_on_content"
   end
 
+  create_table "owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "salon_id"
+    t.integer "user_id"
+    t.string "name"
+    t.string "address"
+    t.string "mail_address"
+    t.string "birthday"
+    t.integer "tel"
+    t.binary "identification_1"
+    t.binary "identification_2"
+    t.string "transfer_account"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "address", "mail_address"], name: "index_owners_on_name_and_address_and_mail_address"
+  end
+
+  create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "salon_id"
+    t.string "name"
+    t.string "caption"
+    t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "caption", "price"], name: "index_plans_on_name_and_caption_and_price"
+  end
+
   create_table "reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "user_name"
     t.integer "comment_id"
@@ -120,6 +146,20 @@ ActiveRecord::Schema.define(version: 2022_02_08_103334) do
     t.string "enrollment_period"
     t.integer "player_flag"
     t.string "username"
+  end
+
+  create_table "salons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "caption"
+    t.binary "image_top"
+    t.binary "image_sub"
+    t.string "content"
+    t.binary "background"
+    t.string "self_introduction"
+    t.string "precautions"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "caption", "content", "precautions"], name: "index_salons_on_name_and_caption_and_content_and_precautions"
   end
 
   create_table "teams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -169,6 +209,14 @@ ActiveRecord::Schema.define(version: 2022_02_08_103334) do
     t.string "social_login_id"
     t.string "role", default: "admin"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "users_salons_participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "salon_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "salon_id"], name: "index_users_salons_participations_on_user_id_and_salon_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
