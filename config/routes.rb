@@ -7,12 +7,17 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :create, :show]
     resources :teams, only: [:index, :show, :create, :update]
     resources :reviews, only: [:index, :create]
-    resources :salons
+    resources :salons do
+      collection do
+        post 'participate'
+        patch 'participate', to: 'salons#cancel'
+      end
+    end
     resources :owners, except: [:show]
     resources :plans, except: [:show]
     resource :manage do
       collection do
-        post 'salons'
+        get 'salons',  to: 'salons#manage_index'
         post 'salons/approval'
       end
     end

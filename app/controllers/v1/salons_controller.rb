@@ -8,6 +8,13 @@ module V1
       render json: paginated_salons, each_serializer: V1::SalonSerializer, admin?: false, meta: paginated_salons.total_pages
     end
 
+    def manage_index
+      salons = Salon.includes(:plans, :owner)
+      paginated_salons = pagenate(salons, params[:page])
+
+      render json: paginated_salons, each_serializer: V1::SalonSerializer, admin?: true, meta: paginated_salons.total_pages
+    end
+    
     def show
       render json: Salon.find(params[:id]), serializer: V1::SalonSerializer
     end
@@ -82,6 +89,37 @@ module V1
       if salon.save
         render 200
       else
+        render 500
+      end
+    end
+
+    def approval
+      salon = Salon.find(params[:id])
+      salon.approval = !salon.approval
+      if salon.save
+        render 200
+      else
+        render 500
+      end
+    end
+
+    def participate
+      participation = UsersSalonsParticipation.new(
+        salon_id: params[:id],
+        user_id: params[:user_id]
+      )
+      if participation.save
+        render 200
+      else
+        render 500
+      end
+    end
+
+    def cancel
+      begin
+        UsersSalonsParticipation.find_by(salon_id: params[:id], user_id: params[:user_id]).destroy
+        render 200
+      rescue
         render 500
       end
     end

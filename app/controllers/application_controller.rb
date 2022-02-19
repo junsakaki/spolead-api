@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  PAGE_PER = 20
   include AbstractController::Translation
 
   def arr_to_str_converter(sym)
@@ -6,6 +7,11 @@ class ApplicationController < ActionController::API
     symbols.each{ |s|
       params[s] = params[s].join(',') if params.key?(s)
     }
+  end
+
+  def pagenate(resources, page = 1)
+    paginated_resources = resources.order(created_at: :desc).page(page).per(PAGE_PER)
+    paginated_resources
   end
   # before_action :authenticate_user_from_token!
 
