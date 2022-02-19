@@ -7,6 +7,15 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :create, :show]
     resources :teams, only: [:index, :show, :create, :update]
     resources :reviews, only: [:index, :create]
+    resources :salons
+    resources :owners, except: [:show]
+    resources :plans, except: [:show]
+    resource :manage do
+      collection do
+        post 'salons'
+        post 'salons/approval'
+      end
+    end
     post 'teams/favorite', to: 'teams#favorite'
     post 'careers', to: 'careers#create'
     post 'celebrities', to: 'celebrities#create'

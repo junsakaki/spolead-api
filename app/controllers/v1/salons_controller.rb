@@ -3,15 +3,13 @@ module V1
 
     def index
       salons = Salon.includes(:plans, :owner)
-      # pagenate logic -----------------------------------------------------------------
-      page_per = 20 #display team number per 1page
-      page = params[:page] || 1 #start page number
-      paginated_salons = teams.order(created_at: :desc).page(page).per(page_per) #execute pagenation
-      total_pages = paginated_salons.total_pages #obtain all page number that paginated_teams teamss
-      # pagenate logic -----------------------------------------------------------------
-      
-      #meta has total_page infomation
-      render json: paginated_salons, each_serializer: V1::SalonSerializer, meta: total_pages
+      paginated_salons = pagenate(salons, params[:page])
+
+      render json: paginated_salons, each_serializer: V1::SalonSerializer, admin?: false, meta: paginated_salons.total_pages
+    end
+
+    def show
+      render json: Salon.find(params[:id]), serializer: V1::SalonSerializer
     end
 
     def create
@@ -32,6 +30,7 @@ module V1
         plan_params.each {|each_plan|
             salon.plans.build(
                 name: each_plan[:name],
+                salon_id: salon.id,
                 caption: each_plan[:caption],
                 price: each_plan[:price]
             )
@@ -54,6 +53,33 @@ module V1
       end
 
       if salon.save!
+        render 200
+      else
+        render 500
+      end
+    end
+
+    def update
+      salon = Salon.find(params[:id])
+      salon.name = params[:name]
+      salon.caption = params[:caption]
+      salon.image_top = params[:imageTop]
+      salon.image_sub = params[:imageSub]
+      salon.content = params[:content]
+      salon.background = params[:background]
+      salon.self_introduction = params[:selfIntroduction]
+      salon.precautions = params[:precautions]
+
+      if params[:plan].present?
+        plan_params = JSON.parse(params[:plan], symbolize_names: true) 
+        salon.plans = salon.upsert_plans(plan_params)
+      end
+      if params[:owner].present?
+        owner_params = JSON.parse(params[:owner], symbolize_names: true)
+        salon.owner = salon.upsert_owner(owner_params)
+      end
+
+      if salon.save
         render 200
       else
         render 500
