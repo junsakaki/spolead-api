@@ -20,10 +20,12 @@ module V1
     end
 
     def owner
-      if @admin && object.salon_owner.present? 
-        object.salon_owner
-      else
-        {name: object.salon_owner.name}
+      if object.salon_owner.present?
+        if @admin 
+          object.salon_owner
+        else
+          {name: object.salon_owner.name}
+        end  
       end
     end
 
