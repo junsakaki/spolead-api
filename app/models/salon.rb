@@ -1,5 +1,5 @@
 class Salon < ApplicationRecord
-    has_one :owner
+    has_one :salon_owner
     has_many :plans
     has_many :participations, class_name: 'UsersSalonsParticipation'
     has_many :users, through: :participations
@@ -18,7 +18,7 @@ class Salon < ApplicationRecord
     end
 
     def upsert_owner(owner)
-        new_owner = Owner.find_or_initialize_by(id: owner[:id])
+        new_owner = SalonOwner.find_or_initialize_by(id: owner[:id])
         new_owner.update(
             salon_id: self.id,
             user_id: owner[:user_id],

@@ -8,12 +8,25 @@ module V1
       :content, 
       :background, 
       :self_introduction,
-      :precautions
+      :precautions,
+      :owner
 
     attribute :approval, if: -> { instance_options[:admin?] }
 
+    def initialize(object, options = {})
+      super
+      @options = options
+      @admin = options[:admin]
+    end
+
+    def owner
+      if @admin && object.salon_owner.present? 
+        object.salon_owner
+      else
+        {name: object.salon_owner.name}
+      end
+    end
+
     has_many :plans, serializer: V1::PlanSerializer
-    has_one :owner, serializer: V1::OwnerUsualSerializer, if: -> { !instance_options[:admin?] }
-    has_one :owner, serializer: V1::OwnerAdminSerializer, if: -> { instance_options[:admin?] }
   end
 end

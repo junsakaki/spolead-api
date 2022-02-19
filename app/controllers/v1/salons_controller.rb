@@ -2,17 +2,17 @@ module V1
   class SalonsController < ApplicationController
 
     def index
-      salons = Salon.includes(:plans, :owner)
+      salons = Salon.includes(:plans, :salon_owner)
       paginated_salons = pagenate(salons, params[:page])
 
-      render json: paginated_salons, each_serializer: V1::SalonSerializer, admin?: false, meta: paginated_salons.total_pages
+      render json: paginated_salons, each_serializer: V1::SalonSerializer, admin: false, meta: paginated_salons.total_pages
     end
 
     def manage_index
-      salons = Salon.includes(:plans, :owner)
+      salons = Salon.includes(:plans, :salon_owner)
       paginated_salons = pagenate(salons, params[:page])
 
-      render json: paginated_salons, each_serializer: V1::SalonSerializer, admin?: true, meta: paginated_salons.total_pages
+      render json: paginated_salons, each_serializer: V1::SalonSerializer, admin: true, meta: paginated_salons.total_pages
     end
     
     def show
@@ -45,7 +45,7 @@ module V1
       end 
 
       if owner_params.present?
-        salon.build_owner(
+        salon.build_salon_owner(
           salon_id: salon.id,
           user_id: owner_params[:user_id],
           name: owner_params[:name],

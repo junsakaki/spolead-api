@@ -1,5 +1,5 @@
 module V1
-  class OwnerAdminSerializer < ActiveModel::Serializer
+  class SalonOwnerAdminSerializer < ActiveModel::Serializer
     attributes :name, 
       :address,
       :mail_address,

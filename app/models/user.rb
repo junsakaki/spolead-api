@@ -5,8 +5,8 @@ class User < ApplicationRecord
   has_many :favorite_teams
   has_many :fav, through: :favorite_teams, source: :team
   has_many :salon
-  has_many :owners
-  has_many :owned, through: :owners, class_name: 'Salon', source: :salon
+  has_many :salon_owners
+  has_many :owned, through: :salon_owners, class_name: 'Salon', source: :salon
   has_many :users_salons_participation
   has_many :participating, through: :users_salons_participation, class_name: 'Salon', source: :salon
 

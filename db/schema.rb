@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_19_025820) do
+ActiveRecord::Schema.define(version: 2022_02_19_072022) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 2022_02_19_025820) do
     t.index ["content"], name: "index_forums_on_content"
   end
 
-  create_table "owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "salon_id"
+  create_table "fund_owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "fund_id"
     t.integer "user_id"
     t.string "name"
     t.string "address"
@@ -101,7 +101,23 @@ ActiveRecord::Schema.define(version: 2022_02_19_025820) do
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name", "address", "mail_address"], name: "index_owners_on_name_and_address_and_mail_address"
+    t.index ["name", "address", "mail_address"], name: "index_fund_owners_on_name_and_address_and_mail_address"
+  end
+
+  create_table "funds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "caption"
+    t.binary "image_top"
+    t.binary "image_sub"
+    t.string "content"
+    t.binary "background"
+    t.string "self_introduction"
+    t.string "precautions"
+    t.integer "target_money"
+    t.date "limit_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "caption", "content", "precautions", "target_money", "limit_date"], name: "cover_funds_index"
   end
 
   create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -112,6 +128,14 @@ ActiveRecord::Schema.define(version: 2022_02_19_025820) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "caption", "price"], name: "index_plans_on_name_and_caption_and_price"
+  end
+
+  create_table "reductions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "caption"
+    t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -146,6 +170,22 @@ ActiveRecord::Schema.define(version: 2022_02_19_025820) do
     t.string "enrollment_period"
     t.integer "player_flag"
     t.string "username"
+  end
+
+  create_table "salon_owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "salon_id"
+    t.integer "user_id"
+    t.string "name"
+    t.string "address"
+    t.string "mail_address"
+    t.string "birthday"
+    t.integer "tel"
+    t.binary "identification_1"
+    t.binary "identification_2"
+    t.string "transfer_account"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "address", "mail_address"], name: "index_salon_owners_on_name_and_address_and_mail_address"
   end
 
   create_table "salons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
