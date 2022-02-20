@@ -77,13 +77,13 @@ module V1
       salon.self_introduction = params[:selfIntroduction]
       salon.precautions = params[:precautions]
 
-      if params[:plan].present?
+      if params[:plans].present?
         plan_params = JSON.parse(params[:plan], symbolize_names: true) 
         salon.plans = salon.upsert_plans(plan_params)
       end
       if params[:owner].present?
         owner_params = JSON.parse(params[:owner], symbolize_names: true)
-        salon.owner = salon.upsert_owner(owner_params)
+        salon.salon_owner = salon.upsert_owner(owner_params)
       end
 
       if salon.save
@@ -136,6 +136,7 @@ module V1
           :background,
           :selfIntroduction,
           :precautions,
+          :user_id,
           plans: [
             :id,
             :name,

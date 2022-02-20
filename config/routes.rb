@@ -13,12 +13,24 @@ Rails.application.routes.draw do
         patch 'participate', to: 'salons#cancel'
       end
     end
-    resources :owners, except: [:show]
-    resources :plans, except: [:show]
+    resources :funds do
+      collection do
+        post 'purchase'
+      end
+    end
+    resources :matchings, only: [:index, :show, :create, :update]
     resource :manage do
       collection do
         get 'salons',  to: 'salons#manage_index'
         post 'salons/approval'
+      end
+      collection do
+        get 'funds',  to: 'funds#manage_index'
+        post 'funds/approval'
+      end
+      collection do
+        get 'matchings',  to: 'matchings#manage_index'
+        post 'matchings/approval'
       end
     end
     post 'teams/favorite', to: 'teams#favorite'

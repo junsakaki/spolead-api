@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_19_072022) do
+ActiveRecord::Schema.define(version: 2022_02_20_091435) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -117,7 +117,39 @@ ActiveRecord::Schema.define(version: 2022_02_19_072022) do
     t.date "limit_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "approval", default: false
     t.index ["name", "caption", "content", "precautions", "target_money", "limit_date"], name: "cover_funds_index"
+  end
+
+  create_table "matching_owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "matching_id"
+    t.integer "user_id"
+    t.string "name"
+    t.string "address"
+    t.string "mail_address"
+    t.string "birthday"
+    t.integer "tel"
+    t.binary "identification_1"
+    t.binary "identification_2"
+    t.string "transfer_account"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "address", "mail_address"], name: "index_matching_owners_on_name_and_address_and_mail_address"
+  end
+
+  create_table "matchings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "caption"
+    t.binary "image_top"
+    t.binary "image_sub"
+    t.string "content"
+    t.binary "background"
+    t.string "self_introduction"
+    t.string "precautions"
+    t.boolean "approval", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "caption", "content", "precautions"], name: "cover_matchings_index"
   end
 
   create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -136,6 +168,7 @@ ActiveRecord::Schema.define(version: 2022_02_19_072022) do
     t.integer "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "fund_id"
   end
 
   create_table "reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -250,6 +283,15 @@ ActiveRecord::Schema.define(version: 2022_02_19_072022) do
     t.string "social_login_id"
     t.string "role", default: "admin"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "users_reductions_purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "reduction_id"
+    t.integer "user_id"
+    t.integer "price"
+    t.integer "count"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users_salons_participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
