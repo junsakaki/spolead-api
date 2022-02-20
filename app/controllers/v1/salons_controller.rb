@@ -20,8 +20,6 @@ module V1
     end
 
     def create
-      plan_params = JSON.parse(params[:plan], symbolize_names: true) if params[:plan].present?
-      owner_params = JSON.parse(params[:owner], symbolize_names: true) if params[:owner].present?
       salon = Salon.new(
         name: params[:name],
         caption: params[:caption],
@@ -33,8 +31,8 @@ module V1
         precautions: params[:precautions]
       )
 
-      if plan_params.present?
-        plan_params.each {|each_plan|
+      if params[:plan].present?
+        params[:plan].each {|each_plan|
             salon.plans.build(
                 name: each_plan[:name],
                 salon_id: salon.id,
@@ -44,18 +42,18 @@ module V1
         }
       end 
 
-      if owner_params.present?
+      if params[:owner].present?
         salon.build_salon_owner(
           salon_id: salon.id,
-          user_id: owner_params[:user_id],
-          name: owner_params[:name],
-          address: owner_params[:address],
-          mail_address: owner_params[:mailAddress],
-          birthday: owner_params[:birthday],
-          tel: owner_params[:tel],
-          identification_1: owner_params[:identification1],
-          identification_2: owner_params[:identification2],
-          transfer_account: owner_params[:transferAccount]
+          user_id: params[:owner][:user_id],
+          name: params[:owner][:name],
+          address: params[:owner][:address],
+          mail_address: params[:owner][:mailAddress],
+          birthday: params[:owner][:birthday],
+          tel: params[:owner][:tel],
+          identification_1: params[:owner][:identification1],
+          identification_2: params[:owner][:identification2],
+          transfer_account: params[:owner][:transferAccount]
         )
       end
 
@@ -77,14 +75,8 @@ module V1
       salon.self_introduction = params[:selfIntroduction]
       salon.precautions = params[:precautions]
 
-      if params[:plans].present?
-        plan_params = JSON.parse(params[:plan], symbolize_names: true) 
-        salon.plans = salon.upsert_plans(plan_params)
-      end
-      if params[:owner].present?
-        owner_params = JSON.parse(params[:owner], symbolize_names: true)
-        salon.salon_owner = salon.upsert_owner(owner_params)
-      end
+      salon.plans = salon.upsert_plans(params[:plans]) if params[:plans].present?
+      salon.salon_owner = salon.upsert_owner(params[:owner]) if params[:owner].present?
 
       if salon.save
         render 200

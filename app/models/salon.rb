@@ -13,6 +13,10 @@ class Salon < ApplicationRecord
                 caption: plan[:caption],
                 price: plan[:price]
             )
+            if new_plan.new_record?
+                new_plan.save
+                new_plan = nil
+            end
             new_plan
         }
     end
@@ -31,6 +35,10 @@ class Salon < ApplicationRecord
             identification_2: owner[:identification2],
             transfer_account: owner[:transferAccount]
         )
+        if new_owner.new_record?
+            new_owner.save
+            new_owner = nil
+        end
         new_owner
     end
 end
