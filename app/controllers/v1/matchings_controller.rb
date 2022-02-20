@@ -20,7 +20,6 @@ module V1
     end
 
     def create
-      owner_params = JSON.parse(params[:owner], symbolize_names: true) if params[:owner].present?
       matching = Matching.new(
         name: params[:name],
         caption: params[:caption],
@@ -32,18 +31,18 @@ module V1
         precautions: params[:precautions]
       )
 
-      if owner_params.present?
+      if params[:owner].present?
         matching.build_matching_owner(
           matching_id: matching.id,
-          user_id: owner_params[:user_id],
-          name: owner_params[:name],
-          address: owner_params[:address],
-          mail_address: owner_params[:mailAddress],
-          birthday: owner_params[:birthday],
-          tel: owner_params[:tel],
-          identification_1: owner_params[:identification1],
-          identification_2: owner_params[:identification2],
-          transfer_account: owner_params[:transferAccount]
+          user_id: params[:owner][:user_id],
+          name: params[:owner][:name],
+          address: params[:owner][:address],
+          mail_address: params[:owner][:mailAddress],
+          birthday: params[:owner][:birthday],
+          tel: params[:owner][:tel],
+          identification_1: params[:owner][:identification1],
+          identification_2: params[:owner][:identification2],
+          transfer_account: params[:owner][:transferAccount]
         )
       end
 
@@ -65,10 +64,7 @@ module V1
       matching.self_introduction = params[:selfIntroduction]
       matching.precautions = params[:precautions]
 
-      if params[:owner].present?
-        owner_params = JSON.parse(params[:owner], symbolize_names: true)
-        matching.matching_owner = matching.upsert_owner(owner_params)
-      end
+      matching.matching_owner = matching.upsert_owner(owner_params) if params[:owner].present?
 
       if matching.save
         render 200

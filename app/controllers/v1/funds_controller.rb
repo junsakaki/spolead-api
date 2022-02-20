@@ -20,8 +20,6 @@ module V1
     end
 
     def create
-      reduction_params = JSON.parse(params[:reductions], symbolize_names: true) if params[:reductions].present?
-      owner_params = JSON.parse(params[:owner], symbolize_names: true) if params[:owner].present?
       fund = Fund.new(
         name: params[:name],
         caption: params[:caption],
@@ -35,8 +33,8 @@ module V1
         limit_date: params[:limitDate]
       )
 
-      if reduction_params.present?
-        reduction_params.each {|each_reduction|
+      if params[:reductions].present?
+        params[:reductions].each {|each_reduction|
             fund.reductions.build(
                 name: each_reduction[:name],
                 fund_id: fund.id,
@@ -46,18 +44,18 @@ module V1
         }
       end 
 
-      if owner_params.present?
+      if params[:owner].present?
         fund.build_fund_owner(
           fund_id: fund.id,
-          user_id: owner_params[:user_id],
-          name: owner_params[:name],
-          address: owner_params[:address],
-          mail_address: owner_params[:mailAddress],
-          birthday: owner_params[:birthday],
-          tel: owner_params[:tel],
-          identification_1: owner_params[:identification1],
-          identification_2: owner_params[:identification2],
-          transfer_account: owner_params[:transferAccount]
+          user_id: params[:owner][:user_id],
+          name: params[:owner][:name],
+          address: params[:owner][:address],
+          mail_address: params[:owner][:mailAddress],
+          birthday: params[:owner][:birthday],
+          tel: params[:owner][:tel],
+          identification_1: params[:owner][:identification1],
+          identification_2: params[:owner][:identification2],
+          transfer_account: params[:owner][:transferAccount]
         )
       end
 
@@ -81,14 +79,8 @@ module V1
       fund.target_money = params[:targetMoney]
       fund.limit_date = params[:limitDate]
 
-      if params[:reductions].present?
-        reduction_params = JSON.parse(params[:reductions], symbolize_names: true) 
-        fund.reductions = fund.upsert_reductions(reduction_params)
-      end
-      if params[:owner].present?
-        owner_params = JSON.parse(params[:owner], symbolize_names: true)
-        fund.fund_owner = fund.upsert_owner(owner_params)
-      end
+      fund.reductions = fund.upsert_reductions(reduction_params) if params[:reductions].present?
+      fund.fund_owner = fund.upsert_owner(owner_params) if params[:owner].present?
 
       if fund.save
         render 200

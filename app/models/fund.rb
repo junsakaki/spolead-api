@@ -12,6 +12,10 @@ class Fund < ApplicationRecord
                 caption: reduction[:caption],
                 price: reduction[:price]
             )
+            if new_reduction.new_record?
+                new_reduction.save
+                new_reduction = nil
+            end
             new_reduction
         }
     end
@@ -30,6 +34,10 @@ class Fund < ApplicationRecord
             identification_2: owner[:identification2],
             transfer_account: owner[:transferAccount]
         )
+        if new_owner.new_record?
+            new_owner.save
+            new_owner = nil
+        end
         new_owner
     end
 

@@ -17,6 +17,10 @@ class Matching < ApplicationRecord
             identification_2: owner[:identification2],
             transfer_account: owner[:transferAccount]
         )
+        if new_owner.new_record?
+            new_owner.save
+            new_owner = nil
+        end
         new_owner
     end
 end
