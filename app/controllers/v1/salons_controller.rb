@@ -23,11 +23,11 @@ module V1
       salon = Salon.new(
         name: params[:name],
         caption: params[:caption],
-        image_top: params[:imageTop],
-        image_sub: params[:imageSub],
+        image_top: params[:image_top],
+        image_sub: params[:image_sub],
         content: params[:content],
         background: params[:background],
-        self_introduction: params[:selfIntroduction],
+        self_introduction: params[:self_introduction],
         precautions: params[:precautions]
       )
 
@@ -48,12 +48,12 @@ module V1
           user_id: params[:owner][:user_id],
           name: params[:owner][:name],
           address: params[:owner][:address],
-          mail_address: params[:owner][:mailAddress],
+          mail_address: params[:owner][:mail_address],
           birthday: params[:owner][:birthday],
           tel: params[:owner][:tel],
-          identification_1: params[:owner][:identification1],
-          identification_2: params[:owner][:identification2],
-          transfer_account: params[:owner][:transferAccount]
+          identification_1: params[:owner][:identification_1],
+          identification_2: params[:owner][:identification_2],
+          transfer_account: params[:owner][:transfer_account]
         )
       end
 
@@ -68,11 +68,11 @@ module V1
       salon = Salon.find(params[:id])
       salon.name = params[:name]
       salon.caption = params[:caption]
-      salon.image_top = params[:imageTop]
-      salon.image_sub = params[:imageSub]
+      salon.image_top = params[:image_top]
+      salon.image_sub = params[:image_sub]
       salon.content = params[:content]
       salon.background = params[:background]
-      salon.self_introduction = params[:selfIntroduction]
+      salon.self_introduction = params[:self_introduction]
       salon.precautions = params[:precautions]
 
       salon.plans = salon.upsert_plans(params[:plans]) if params[:plans].present?
@@ -122,11 +122,11 @@ module V1
           :id,
           :name, 
           :caption,
-          :imageTop, 
-          :iamgeSub, 
+          :image_top, 
+          :iamge_sub, 
           :content, 
           :background,
-          :selfIntroduction,
+          :self_introduction,
           :precautions,
           :user_id,
           plans: [
@@ -140,12 +140,12 @@ module V1
             :user_id,
             :name,
             :address,
-            :mailAddress,
+            :mail_address,
             :birthday,
             :tel,
-            :identification1,
-            :identification2,
-            :transferAccount
+            :identification_1,
+            :identification_2,
+            :transfer_account
           ])
     end  
   end
