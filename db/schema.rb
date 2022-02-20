@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_20_091435) do
+ActiveRecord::Schema.define(version: 2022_02_20_125531) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -95,9 +95,9 @@ ActiveRecord::Schema.define(version: 2022_02_20_091435) do
     t.string "address"
     t.string "mail_address"
     t.string "birthday"
-    t.integer "tel"
-    t.binary "identification_1"
-    t.binary "identification_2"
+    t.string "tel"
+    t.string "identification_1"
+    t.string "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -107,10 +107,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_091435) do
   create_table "funds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.binary "image_top"
-    t.binary "image_sub"
+    t.string "image_top"
+    t.string "image_sub"
     t.string "content"
-    t.binary "background"
+    t.string "background"
     t.string "self_introduction"
     t.string "precautions"
     t.integer "target_money"
@@ -128,9 +128,9 @@ ActiveRecord::Schema.define(version: 2022_02_20_091435) do
     t.string "address"
     t.string "mail_address"
     t.string "birthday"
-    t.integer "tel"
-    t.binary "identification_1"
-    t.binary "identification_2"
+    t.string "tel"
+    t.string "identification_1"
+    t.string "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -140,10 +140,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_091435) do
   create_table "matchings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.binary "image_top"
-    t.binary "image_sub"
+    t.string "image_top"
+    t.string "image_sub"
     t.string "content"
-    t.binary "background"
+    t.string "background"
     t.string "self_introduction"
     t.string "precautions"
     t.boolean "approval", default: false
@@ -212,9 +212,9 @@ ActiveRecord::Schema.define(version: 2022_02_20_091435) do
     t.string "address"
     t.string "mail_address"
     t.string "birthday"
-    t.integer "tel"
-    t.binary "identification_1"
-    t.binary "identification_2"
+    t.string "tel"
+    t.string "identification_1"
+    t.string "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -224,10 +224,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_091435) do
   create_table "salons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.binary "image_top"
-    t.binary "image_sub"
+    t.string "image_top"
+    t.string "image_sub"
     t.string "content"
-    t.binary "background"
+    t.string "background"
     t.string "self_introduction"
     t.string "precautions"
     t.datetime "created_at", precision: 6, null: false

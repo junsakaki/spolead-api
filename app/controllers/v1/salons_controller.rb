@@ -3,6 +3,8 @@ module V1
 
     def index
       salons = Salon.includes(:plans, :salon_owner)
+      # 実際の運用に乗ったらこっち↓
+      # salons = Salon.includes(:plans, :salon_owner).where(approval: true)
       paginated_salons = pagenate(salons, params[:page])
 
       render json: paginated_salons, each_serializer: V1::SalonSerializer, admin: false, meta: paginated_salons.total_pages
@@ -31,8 +33,8 @@ module V1
         precautions: params[:precautions]
       )
 
-      if params[:plan].present?
-        params[:plan].each {|each_plan|
+      if params[:plans].present?
+        params[:plans].each {|each_plan|
             salon.plans.build(
                 name: each_plan[:name],
                 salon_id: salon.id,

@@ -3,6 +3,8 @@ module V1
 
     def index
       matchings = Matching.includes(:matching_owner)
+      # 実際の運用に乗ったらこっち↓
+      # matchings = Matching.includes(:matching_owner).where(approval: true)
       paginated_matchings = pagenate(matchings, params[:page])
 
       render json: paginated_matchings, each_serializer: V1::MatchingSerializer, admin: false, meta: paginated_matchings.total_pages
@@ -27,7 +29,7 @@ module V1
         image_sub: params[:imageSub],
         content: params[:content],
         background: params[:background],
-        self_introduction: params[:selfIntroduction],
+        self_introduction: params[:self_introduction],
         precautions: params[:precautions]
       )
 
@@ -37,12 +39,12 @@ module V1
           user_id: params[:owner][:user_id],
           name: params[:owner][:name],
           address: params[:owner][:address],
-          mail_address: params[:owner][:mailAddress],
+          mail_address: params[:owner][:mail_address],
           birthday: params[:owner][:birthday],
           tel: params[:owner][:tel],
-          identification_1: params[:owner][:identification1],
-          identification_2: params[:owner][:identification2],
-          transfer_account: params[:owner][:transferAccount]
+          identification_1: params[:owner][:identification_1],
+          identification_2: params[:owner][:identification_2],
+          transfer_account: params[:owner][:transfer_account]
         )
       end
 
@@ -57,14 +59,14 @@ module V1
       matching = Matching.find(params[:id])
       matching.name = params[:name]
       matching.caption = params[:caption]
-      matching.image_top = params[:imageTop]
-      matching.image_sub = params[:imageSub]
+      matching.image_top = params[:image_top]
+      matching.image_sub = params[:image_sub]
       matching.content = params[:content]
       matching.background = params[:background]
-      matching.self_introduction = params[:selfIntroduction]
+      matching.self_introduction = params[:self_introduction]
       matching.precautions = params[:precautions]
 
-      matching.matching_owner = matching.upsert_owner(owner_params) if params[:owner].present?
+      matching.matching_owner = matching.upsert_owner(params[:owner]) if params[:owner].present?
 
       if matching.save
         render 200
@@ -89,11 +91,11 @@ module V1
           :id,
           :name,
           :caption,
-          :imageTop, 
-          :iamgeSub, 
+          :image_top, 
+          :iamge_sub, 
           :content, 
           :background,
-          :selfIntroduction,
+          :self_introduction,
           :precautions,
           :user_id,
           owner: [
@@ -101,12 +103,12 @@ module V1
             :user_id,
             :name,
             :address,
-            :mailAddress,
+            :mail_address,
             :birthday,
             :tel,
-            :identification1,
-            :identification2,
-            :transferAccount
+            :identification_1,
+            :identification_2,
+            :transfer_account
           ])
     end  
   end

@@ -27,12 +27,12 @@ class Fund < ApplicationRecord
             user_id: owner[:user_id],
             name: owner[:name],
             address: owner[:address],
-            mail_address: owner[:mailAddress],
+            mail_address: owner[:mail_address],
             birthday: owner[:birthday],
             tel: owner[:tel],
-            identification_1: owner[:identification1],
-            identification_2: owner[:identification2],
-            transfer_account: owner[:transferAccount]
+            identification_1: owner[:identification_1],
+            identification_2: owner[:identification_2],
+            transfer_account: owner[:transfer_account]
         )
         if new_owner.new_record?
             new_owner.save

@@ -11,7 +11,7 @@ module V1
       :precautions,
       :owner
 
-    attribute :approval, if: -> { instance_options[:admin?] }
+    attribute :approval
 
     def initialize(object, options = {})
       super

@@ -3,6 +3,8 @@ module V1
 
     def index
       funds = Fund.includes(:reductions, :fund_owner)
+      # 実際の運用に乗ったらこっち↓
+      # funds = Fund.includes(:reductions, :fund_owner).where(approval: true)
       paginated_funds = pagenate(funds, params[:page])
 
       render json: paginated_funds, each_serializer: V1::FundSerializer, admin: false, meta: paginated_funds.total_pages
@@ -23,14 +25,14 @@ module V1
       fund = Fund.new(
         name: params[:name],
         caption: params[:caption],
-        image_top: params[:imageTop],
-        image_sub: params[:imageSub],
+        image_top: params[:image_top],
+        image_sub: params[:image_sub],
         content: params[:content],
         background: params[:background],
-        self_introduction: params[:selfIntroduction],
+        self_introduction: params[:self_introduction],
         precautions: params[:precautions],
-        target_money: params[:targetMoney],
-        limit_date: params[:limitDate]
+        target_money: params[:target_money],
+        limit_date: params[:limit_date]
       )
 
       if params[:reductions].present?
@@ -50,12 +52,12 @@ module V1
           user_id: params[:owner][:user_id],
           name: params[:owner][:name],
           address: params[:owner][:address],
-          mail_address: params[:owner][:mailAddress],
+          mail_address: params[:owner][:mail_address],
           birthday: params[:owner][:birthday],
           tel: params[:owner][:tel],
-          identification_1: params[:owner][:identification1],
-          identification_2: params[:owner][:identification2],
-          transfer_account: params[:owner][:transferAccount]
+          identification_1: params[:owner][:identification_1],
+          identification_2: params[:owner][:identification_2],
+          transfer_account: params[:owner][:transfer_account]
         )
       end
 
@@ -70,17 +72,17 @@ module V1
       fund = Fund.find(params[:id])
       fund.name = params[:name]
       fund.caption = params[:caption]
-      fund.image_top = params[:imageTop]
-      fund.image_sub = params[:imageSub]
+      fund.image_top = params[:image_top]
+      fund.image_sub = params[:image_sub]
       fund.content = params[:content]
       fund.background = params[:background]
-      fund.self_introduction = params[:selfIntroduction]
+      fund.self_introduction = params[:self_introduction]
       fund.precautions = params[:precautions]
-      fund.target_money = params[:targetMoney]
-      fund.limit_date = params[:limitDate]
+      fund.target_money = params[:target_money]
+      fund.limit_date = params[:limit_date]
 
-      fund.reductions = fund.upsert_reductions(reduction_params) if params[:reductions].present?
-      fund.fund_owner = fund.upsert_owner(owner_params) if params[:owner].present?
+      fund.reductions = fund.upsert_reductions(params[:reductions]) if params[:reductions].present?
+      fund.fund_owner = fund.upsert_owner(params[:owner]) if params[:owner].present?
 
       if fund.save
         render 200
@@ -119,14 +121,14 @@ module V1
           :id,
           :name,
           :caption,
-          :imageTop, 
-          :iamgeSub, 
+          :image_top, 
+          :iamge_sub, 
           :content, 
           :background,
-          :selfIntroduction,
+          :self_introduction,
           :precautions,
-          :targetMoney,
-          :limitDate,
+          :target_money,
+          :limit_date,
           :user_id,
           :price,
           :count,
@@ -141,12 +143,12 @@ module V1
             :user_id,
             :name,
             :address,
-            :mailAddress,
+            :mail_address,
             :birthday,
             :tel,
-            :identification1,
-            :identification2,
-            :transferAccount
+            :identification_1,
+            :identification_2,
+            :transfer_account
           ])
     end  
   end

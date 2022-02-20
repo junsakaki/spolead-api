@@ -15,7 +15,7 @@ module V1
       :supported_money,
       :supporters_count
 
-    attribute :approval, if: -> { instance_options[:admin?] }
+    attribute :approval
 
     def initialize(object, options = {})
       super
