@@ -1,9 +1,9 @@
 class ChangeColumnTypeFundImages < ActiveRecord::Migration[6.0]
-  def change
-    change_column :funds, :image_top, :string
-    change_column :funds, :image_sub, :string
-    change_column :funds, :background, :string
-    change_column :fund_owners, :identification_1, :string
-    change_column :fund_owners, :identification_2, :string
+  def up
+    change_column :funds, :image_top, :text
+    change_column :funds, :image_sub, :text
+    change_column :funds, :background, :text
+    change_column :fund_owners, :identification_1, :text
+    change_column :fund_owners, :identification_2, :text
   end
 end

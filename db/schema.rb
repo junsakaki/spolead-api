@@ -96,8 +96,8 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
     t.string "mail_address"
     t.string "birthday"
     t.string "tel"
-    t.string "identification_1"
-    t.string "identification_2"
+    t.text "identification_1"
+    t.text "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -107,10 +107,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
   create_table "funds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.string "image_top"
-    t.string "image_sub"
+    t.text "image_top"
+    t.text "image_sub"
     t.string "content"
-    t.string "background"
+    t.text "background"
     t.string "self_introduction"
     t.string "precautions"
     t.integer "target_money"
@@ -129,8 +129,8 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
     t.string "mail_address"
     t.string "birthday"
     t.string "tel"
-    t.string "identification_1"
-    t.string "identification_2"
+    t.text "identification_1"
+    t.text "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -140,10 +140,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
   create_table "matchings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.string "image_top"
-    t.string "image_sub"
+    t.text "image_top"
+    t.text "image_sub"
     t.string "content"
-    t.string "background"
+    t.text "background"
     t.string "self_introduction"
     t.string "precautions"
     t.boolean "approval", default: false
@@ -213,8 +213,8 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
     t.string "mail_address"
     t.string "birthday"
     t.string "tel"
-    t.string "identification_1"
-    t.string "identification_2"
+    t.text "identification_1"
+    t.text "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -224,10 +224,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
   create_table "salons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.string "image_top"
-    t.string "image_sub"
+    t.text "image_top"
+    t.text "image_sub"
     t.string "content"
-    t.string "background"
+    t.text "background"
     t.string "self_introduction"
     t.string "precautions"
     t.datetime "created_at", precision: 6, null: false
