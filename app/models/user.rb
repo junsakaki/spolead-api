@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :fav, through: :favorite_teams, source: :team
   has_many :salon
   has_many :salon_owners
-  has_many :salon_owned, through: :salon_owners, class_name: 'Salon', source: :salon, foreign_key: 'salon_id'
+  has_many :salon_owned, through: :salon_owners, source: :salon
   has_many :users_salons_participation
   has_many :participating, through: :users_salons_participation, class_name: 'Salon', source: :salon
   has_many :fund
@@ -37,7 +37,7 @@ class User < ApplicationRecord
     }
   end
 
-  def salons
+  def funds
     self.funds = {
       owned: self.fund_owned,
       purchased: self.purchases
