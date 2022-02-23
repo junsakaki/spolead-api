@@ -1,9 +1,9 @@
 class ChangeColumnTypeFundImages < ActiveRecord::Migration[6.0]
-  def change
-    change_column :funds, :image_top, :string
-    change_column :funds, :image_sub, :string
-    change_column :funds, :background, :string
-    change_column :fund_owners, :identification_1, :string
-    change_column :fund_owners, :identification_2, :string
+  def up
+    change_column :funds, :image_top, :text, limit: 4294967295
+    change_column :funds, :image_sub, :text, limit: 4294967295
+    change_column :funds, :background, :text, limit: 4294967295
+    change_column :fund_owners, :identification_1, :text, limit: 4294967295
+    change_column :fund_owners, :identification_2, :text, limit: 4294967295
   end
 end

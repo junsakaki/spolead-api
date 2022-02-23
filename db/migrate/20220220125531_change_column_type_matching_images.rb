@@ -1,9 +1,9 @@
 class ChangeColumnTypeMatchingImages < ActiveRecord::Migration[6.0]
-  def change
-    change_column :matchings, :image_top, :string
-    change_column :matchings, :image_sub, :string
-    change_column :matchings, :background, :string
-    change_column :matching_owners, :identification_1, :string
-    change_column :matching_owners, :identification_2, :string
+  def up
+    change_column :matchings, :image_top, :text, limit: 4294967295
+    change_column :matchings, :image_sub, :text, limit: 4294967295
+    change_column :matchings, :background, :text, limit: 4294967295
+    change_column :matching_owners, :identification_1, :text, limit: 4294967295
+    change_column :matching_owners, :identification_2, :text, limit: 4294967295
   end
 end

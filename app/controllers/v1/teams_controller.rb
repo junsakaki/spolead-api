@@ -121,7 +121,7 @@ module V1
     end
 
     def teams_params
-        params.require(:team).permit(
+        params.permit(
           :id,
           :name, 
           :mail_address,
