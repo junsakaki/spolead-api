@@ -18,6 +18,8 @@ services:
     build: .
     command: >
       bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0' -d && rake jobs:work"
+    environment:
+      PAY_JP_KEY: sk_test_5caceb80b05a2b4dd40b9e33
     volumes:
       - .:/app
     ports:

@@ -1,0 +1,1 @@
+Payjp.api_key = ENV['PAY_JP_KEY']

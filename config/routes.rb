@@ -18,6 +18,10 @@ Rails.application.routes.draw do
         post 'purchase'
       end
     end
+    get 'lessons', to: 'matchings#index'
+    get 'lessons/:id', to: 'matchings#show'
+    post 'lessons', to: 'matchings#create'
+    patch 'lessons/:id', to: 'matchings#update'
     resources :matchings, only: [:index, :show, :create, :update]
     resource :manage do
       collection do
@@ -29,8 +33,8 @@ Rails.application.routes.draw do
         post 'funds/approval'
       end
       collection do
-        get 'matchings',  to: 'matchings#manage_index'
-        post 'matchings/approval'
+        get 'lessons',  to: 'matchings#manage_index'
+        post 'lessons/approval'
       end
     end
     post 'teams/favorite', to: 'teams#favorite'
@@ -45,5 +49,6 @@ Rails.application.routes.draw do
     get 'bbs/comments/:id', to: 'bbs/comments#show'
     post 'bbs/comments', to: 'bbs/comments#create'
     post 'bbs/reports', to: 'bbs/reports#create'
+    post 'payment', to: 'payment#pay'
   end
 end
