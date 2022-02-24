@@ -28,7 +28,10 @@ module V1
         content: params[:content],
         background: params[:background],
         self_introduction: params[:self_introduction],
-        precautions: params[:precautions]
+        precautions: params[:precautions],
+        precautions: params[:reqruitment_target],
+        precautions: params[:contact_type],
+        precautions: params[:payment_type]
       )
 
       if params[:owner].present?
@@ -63,6 +66,9 @@ module V1
       matching.background = params[:background]
       matching.self_introduction = params[:self_introduction]
       matching.precautions = params[:precautions]
+      matching.precautions = params[:reqruitment_target]
+      matching.precautions = params[:contact_type]
+      matching.precautions = params[:payment_type]
 
       matching.matching_owner = matching.upsert_owner(params[:owner]) if params[:owner].present?
 
@@ -95,6 +101,9 @@ module V1
           :background,
           :self_introduction,
           :precautions,
+          :reqruitment_target,
+          :contact_type,
+          :payment_type,
           :user_id,
           owner: [
             :id,

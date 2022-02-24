@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_20_125531) do
+ActiveRecord::Schema.define(version: 2022_02_24_120552) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -96,8 +96,8 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
     t.string "mail_address"
     t.string "birthday"
     t.string "tel"
-    t.text "identification_1"
-    t.text "identification_2"
+    t.string "identification_1"
+    t.string "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -107,10 +107,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
   create_table "funds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.text "image_top"
-    t.text "image_sub"
+    t.string "image_top"
+    t.string "image_sub"
     t.string "content"
-    t.text "background"
+    t.string "background"
     t.string "self_introduction"
     t.string "precautions"
     t.integer "target_money"
@@ -121,6 +121,13 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
     t.index ["name", "caption", "content", "precautions", "target_money", "limit_date"], name: "cover_funds_index"
   end
 
+  create_table "lessons_talk_rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "matching_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "matching_owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "matching_id"
     t.integer "user_id"
@@ -129,8 +136,8 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
     t.string "mail_address"
     t.string "birthday"
     t.string "tel"
-    t.text "identification_1"
-    t.text "identification_2"
+    t.string "identification_1"
+    t.string "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -140,15 +147,18 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
   create_table "matchings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.text "image_top"
-    t.text "image_sub"
+    t.string "image_top"
+    t.string "image_sub"
     t.string "content"
-    t.text "background"
+    t.string "background"
     t.string "self_introduction"
     t.string "precautions"
     t.boolean "approval", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "reqruitment_target"
+    t.string "contact_type"
+    t.string "payment_type"
     t.index ["name", "caption", "content", "precautions"], name: "cover_matchings_index"
   end
 
@@ -213,8 +223,8 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
     t.string "mail_address"
     t.string "birthday"
     t.string "tel"
-    t.text "identification_1"
-    t.text "identification_2"
+    t.string "identification_1"
+    t.string "identification_2"
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -224,10 +234,10 @@ ActiveRecord::Schema.define(version: 2022_02_20_125531) do
   create_table "salons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.text "image_top"
-    t.text "image_sub"
+    t.string "image_top"
+    t.string "image_sub"
     t.string "content"
-    t.text "background"
+    t.string "background"
     t.string "self_introduction"
     t.string "precautions"
     t.datetime "created_at", precision: 6, null: false
