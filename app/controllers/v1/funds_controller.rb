@@ -2,9 +2,7 @@ module V1
   class FundsController < ApplicationController
 
     def index
-      funds = Fund.includes(:reductions, :fund_owner)
-      # 実際の運用に乗ったらこっち↓
-      # funds = Fund.includes(:reductions, :fund_owner).where(approval: true)
+      funds = Fund.includes(:reductions, :fund_owner).where(approval: true)
       paginated_funds = pagenate(funds, params[:page])
 
       render json: paginated_funds, each_serializer: V1::FundSerializer, admin: false, meta: paginated_funds.total_pages

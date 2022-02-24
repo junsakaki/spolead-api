@@ -2,9 +2,7 @@ module V1
   class MatchingsController < ApplicationController
 
     def index
-      matchings = Matching.includes(:matching_owner)
-      # 実際の運用に乗ったらこっち↓
-      # matchings = Matching.includes(:matching_owner).where(approval: true)
+      matchings = Matching.includes(:matching_owner).where(approval: true)
       paginated_matchings = pagenate(matchings, params[:page])
 
       render json: paginated_matchings, each_serializer: V1::MatchingSerializer, admin: false, meta: paginated_matchings.total_pages

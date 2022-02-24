@@ -2,9 +2,7 @@ module V1
   class SalonsController < ApplicationController
 
     def index
-      salons = Salon.includes(:plans, :salon_owner)
-      # 実際の運用に乗ったらこっち↓
-      # salons = Salon.includes(:plans, :salon_owner).where(approval: true)
+      salons = Salon.includes(:plans, :salon_owner).where(approval: true)
       paginated_salons = pagenate(salons, params[:page])
 
       render json: paginated_salons, each_serializer: V1::SalonSerializer, admin: false, meta: paginated_salons.total_pages

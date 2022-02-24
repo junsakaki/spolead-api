@@ -50,5 +50,8 @@ Rails.application.routes.draw do
     post 'bbs/comments', to: 'bbs/comments#create'
     post 'bbs/reports', to: 'bbs/reports#create'
     post 'payment', to: 'payment#pay'
+    post 'payment/plan', to: 'payment#plan'
+    post 'payment/customer', to: 'payment#create_customer'
+    post 'payment/cancel', to: 'payment#cancel'
   end
 end
