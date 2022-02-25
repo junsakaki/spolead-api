@@ -103,7 +103,8 @@ module V1
       purchase = UsersReductionsPurchase.new(
         reduction_id: params[:id],
         user_id: params[:user_id],
-        price: params[:price],
+        amount: params[:amount],
+        payment_id: params[:payment_id],
         count: params[:count]
       )
       if purchase.save!
@@ -129,7 +130,9 @@ module V1
           :limit_date,
           :user_id,
           :price,
+          :amount,
           :count,
+          :payment_id,
           reductions: [
             :id,
             :name,

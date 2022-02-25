@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_24_120552) do
+ActiveRecord::Schema.define(version: 2022_02_25_101809) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -298,10 +298,11 @@ ActiveRecord::Schema.define(version: 2022_02_24_120552) do
   create_table "users_reductions_purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "reduction_id"
     t.integer "user_id"
-    t.integer "price"
+    t.integer "amount"
     t.integer "count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "payment_id"
   end
 
   create_table "users_salons_participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
