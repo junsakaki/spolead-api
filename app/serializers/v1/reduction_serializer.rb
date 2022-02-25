@@ -3,7 +3,8 @@ module V1
     attributes :id, 
       :name, 
       :caption,
-      :price,
-      :purhcased_count
+      :amount,
+      :purhcased_count,
+      :payment_id
   end
 end
