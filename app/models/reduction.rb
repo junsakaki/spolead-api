@@ -8,7 +8,7 @@ class Reduction < ApplicationRecord
     end
 
     def total_price
-        self.purchases.pluck(:price).sum
+        self.purchases.pluck(:amount).sum
     end
     
 end

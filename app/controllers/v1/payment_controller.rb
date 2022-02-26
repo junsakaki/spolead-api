@@ -45,6 +45,16 @@ module V1
         render json: {error: e}, status: 500
       end
     end
+    
+    def cancel
+      begin 
+        charge = Payjp::Charge.retrieve(params[:charge_id])
+        charge.refund
+        render json: {date: charge}, status: 200
+      rescue => e
+        render json: {error: e}, status: 500
+      end
+    end
 
     private
     def matching_params
@@ -54,7 +64,8 @@ module V1
           :interval,
           :amount,
           :plan,
-          :customer
+          :customer,
+          :charge_id
         )
     end
   end
