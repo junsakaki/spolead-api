@@ -4,7 +4,6 @@ module V1
       :name, 
       :caption,
       :price,
-      :purhcased_count,
-      :payment_id
+      :purhcased_count
   end
 end
