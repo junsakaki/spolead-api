@@ -48,7 +48,7 @@ module V1
     
     def cancel
       begin 
-        charge = Payjp::Charge.retrieve(params[:charge_id])
+        charge = Payjp::Charge.retrieve(params[:payment_id])
         charge.refund
         render json: {date: charge}, status: 200
       rescue => e
@@ -65,7 +65,7 @@ module V1
           :amount,
           :plan,
           :customer,
-          :charge_id
+          :payment_id
         )
     end
   end
