@@ -1,26 +1,26 @@
 module V1
-  class MatchingsController < ApplicationController
+  class LessonsController < ApplicationController
 
     def index
-      matchings = Matching.includes(:matching_owner).where(approval: true)
-      paginated_matchings = pagenate(matchings, params[:page])
+      lessons = Lesson.includes(:lesson_owner).where(approval: true)
+      paginated_lessons = pagenate(lessons, params[:page])
 
-      render json: paginated_matchings, each_serializer: V1::MatchingSerializer, admin: false, meta: paginated_matchings.total_pages
+      render json: paginated_lessons, each_serializer: V1::LessonSerializer, admin: false, meta: paginated_lessons.total_pages
     end
 
     def manage_index
-      matchings = Matching.includes(:matching_owner)
-      paginated_matchings = pagenate(matchings, params[:page])
+      lessons = Lesson.includes(:lesson_owner)
+      paginated_lessons = pagenate(lessons, params[:page])
 
-      render json: paginated_matchings, each_serializer: V1::MatchingSerializer, admin: true, meta: paginated_matchings.total_pages
+      render json: paginated_lessons, each_serializer: V1::LessonSerializer, admin: true, meta: paginated_lessons.total_pages
     end
     
     def show
-      render json: Matching.find(params[:id]), serializer: V1::MatchingSerializer
+      render json: Lesson.find(params[:id]), serializer: V1::LessonSerializer
     end
 
     def create
-      matching = Matching.new(
+      lesson = Lesson.new(
         name: params[:name],
         caption: params[:caption],
         image_top: params[:imageTop],
@@ -35,8 +35,8 @@ module V1
       )
 
       if params[:owner].present?
-        matching.build_matching_owner(
-          matching_id: matching.id,
+        lesson.build_lesson_owner(
+          lesson_id: lesson.id,
           user_id: params[:owner][:user_id],
           name: params[:owner][:name],
           address: params[:owner][:address],
@@ -49,7 +49,7 @@ module V1
         )
       end
 
-      if matching.save!
+      if lesson.save!
         render 200
       else
         render 500
@@ -57,22 +57,22 @@ module V1
     end
 
     def update
-      matching = Matching.find(params[:id])
-      matching.name = params[:name]
-      matching.caption = params[:caption]
-      matching.image_top = params[:image_top]
-      matching.image_sub = params[:image_sub]
-      matching.content = params[:content]
-      matching.background = params[:background]
-      matching.self_introduction = params[:self_introduction]
-      matching.precautions = params[:precautions]
-      matching.precautions = params[:reqruitment_target]
-      matching.precautions = params[:contact_type]
-      matching.precautions = params[:payment_type]
+      lesson = Lesson.find(params[:id])
+      lesson.name = params[:name]
+      lesson.caption = params[:caption]
+      lesson.image_top = params[:image_top]
+      lesson.image_sub = params[:image_sub]
+      lesson.content = params[:content]
+      lesson.background = params[:background]
+      lesson.self_introduction = params[:self_introduction]
+      lesson.precautions = params[:precautions]
+      lesson.precautions = params[:reqruitment_target]
+      lesson.precautions = params[:contact_type]
+      lesson.precautions = params[:payment_type]
 
-      matching.matching_owner = matching.upsert_owner(params[:owner]) if params[:owner].present?
+      lesson.lesson_owner = lesson.upsert_owner(params[:owner]) if params[:owner].present?
 
-      if matching.save
+      if lesson.save
         render 200
       else
         render 500
@@ -80,9 +80,9 @@ module V1
     end
 
     def approval
-      matching = Matching.find(params[:id])
-      matching.approval = !matching.approval
-      if matching.save
+      lesson = Lesson.find(params[:id])
+      lesson.approval = !lesson.approval
+      if lesson.save
         render 200
       else
         render 500
@@ -90,7 +90,7 @@ module V1
     end
 
     private
-    def matching_params
+    def lesson_params
         params.permit(
           :id,
           :name,

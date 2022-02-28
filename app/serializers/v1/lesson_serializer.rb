@@ -1,5 +1,5 @@
 module V1
-  class MatchingSerializer < ActiveModel::Serializer
+  class LessonSerializer < ActiveModel::Serializer
     attributes :id, 
       :name,
       :caption,
@@ -23,11 +23,11 @@ module V1
     end
 
     def owner
-      if object.matching_owner.present?
+      if object.lesson_owner.present?
         if @admin 
-          object.matching_owner
+          object.lesson_owner
         else
-          {name: object.matching_owner.name}
+          {name: object.lesson_owner.name}
         end  
       end
     end

@@ -14,9 +14,9 @@ class User < ApplicationRecord
   has_many :fund_owned, through: :fund_owners, class_name: 'Fund', source: :fund
   has_many :users_reductions_purchases
   has_many :purchases, through: :users_reductions_purchases, class_name: 'Reduction', source: :reduction, foreign_key: 'fund_id'
-  has_many :matching
-  has_many :matching_owners
-  has_many :matching_owned, through: :matching_owners, class_name: 'Matching', source: :matching
+  has_many :lesson
+  has_many :lesson_owners
+  has_many :lesson_owned, through: :lesson_owners, class_name: 'Lesson', source: :lesson
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable
@@ -40,12 +40,12 @@ class User < ApplicationRecord
   def funds
     self.funds = {
       owned: self.fund_owned,
-      purchased: self.purchases
+      purchased: self.users_reductions_purchases
     }
   end
 
   def lessons
-    self.lessons = self.matching_owned
+    self.lessons = self.lesson_owned
   end
 
 end

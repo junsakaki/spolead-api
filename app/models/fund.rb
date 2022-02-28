@@ -10,7 +10,7 @@ class Fund < ApplicationRecord
                 name: reduction[:name],
                 fund_id: self.id,
                 caption: reduction[:caption],
-                price: reduction[:price]
+                amount: reduction[:amount]
             )
             if new_reduction.new_record?
                 new_reduction.save

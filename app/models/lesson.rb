@@ -1,12 +1,12 @@
-class Matching < ApplicationRecord
-    has_one :matching_owner
+class Lesson < ApplicationRecord
+    has_one :lesson_owner
     # has_many :talks_comments
 
 
     def upsert_owner(owner)
-        new_owner = MatchingOwner.find_or_initialize_by(id: owner[:id])
+        new_owner = LessonOwner.find_or_initialize_by(id: owner[:id])
         new_owner.update(
-            matching_id: self.id,
+            lesson_id: self.id,
             user_id: owner[:user_id],
             name: owner[:name],
             address: owner[:address],

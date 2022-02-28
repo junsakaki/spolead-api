@@ -18,11 +18,11 @@ Rails.application.routes.draw do
         post 'purchase'
       end
     end
-    get 'lessons', to: 'matchings#index'
-    get 'lessons/:id', to: 'matchings#show'
-    post 'lessons', to: 'matchings#create'
-    patch 'lessons/:id', to: 'matchings#update'
-    resources :matchings, only: [:index, :show, :create, :update]
+    # get 'lessons', to: 'lessons#index'
+    # get 'lessons/:id', to: 'lessons#show'
+    # post 'lessons', to: 'lessons#create'
+    # patch 'lessons/:id', to: 'lessons#update'
+    resources :lessons, only: [:index, :show, :create, :update]
     resource :manage do
       collection do
         get 'salons',  to: 'salons#manage_index'
@@ -33,7 +33,7 @@ Rails.application.routes.draw do
         post 'funds/approval'
       end
       collection do
-        get 'lessons',  to: 'matchings#manage_index'
+        get 'lessons',  to: 'lessons#manage_index'
         post 'lessons/approval'
       end
     end

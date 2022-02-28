@@ -39,7 +39,7 @@ module V1
                 name: each_reduction[:name],
                 fund_id: fund.id,
                 caption: each_reduction[:caption],
-                price: each_reduction[:price]
+                amount: each_reduction[:amount]
             )
         }
       end 
@@ -137,7 +137,8 @@ module V1
             :id,
             :name,
             :caption,
-            :price
+            :price,
+            :amount
           ],
           owner: [
             :id,

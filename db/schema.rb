@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_25_101809) do
+ActiveRecord::Schema.define(version: 2022_02_28_082636) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -121,15 +121,8 @@ ActiveRecord::Schema.define(version: 2022_02_25_101809) do
     t.index ["name", "caption", "content", "precautions", "target_money", "limit_date"], name: "cover_funds_index"
   end
 
-  create_table "lessons_talk_rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "matching_id"
-    t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "matching_owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "matching_id"
+  create_table "lesson_owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "lesson_id"
     t.integer "user_id"
     t.string "name"
     t.string "address"
@@ -141,10 +134,10 @@ ActiveRecord::Schema.define(version: 2022_02_25_101809) do
     t.string "transfer_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name", "address", "mail_address"], name: "index_matching_owners_on_name_and_address_and_mail_address"
+    t.index ["name", "address", "mail_address"], name: "index_lesson_owners_on_name_and_address_and_mail_address"
   end
 
-  create_table "matchings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "lessons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
     t.string "image_top"
@@ -162,6 +155,13 @@ ActiveRecord::Schema.define(version: 2022_02_25_101809) do
     t.index ["name", "caption", "content", "precautions"], name: "cover_matchings_index"
   end
 
+  create_table "lessons_talk_rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "lesson_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "salon_id"
     t.string "name"
@@ -175,7 +175,7 @@ ActiveRecord::Schema.define(version: 2022_02_25_101809) do
   create_table "reductions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "caption"
-    t.integer "price"
+    t.integer "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "fund_id"
