@@ -56,6 +56,15 @@ module V1
       end
     end
 
+    def api_confirm
+      begin 
+        charge = Payjp::Charge.all
+        render json: {date: charge}, status: 200
+      rescue => e
+        render json: {error: e}, status: 500
+      end
+    end
+    
     private
     def matching_params
         params.permit(

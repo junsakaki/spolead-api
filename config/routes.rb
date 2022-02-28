@@ -53,5 +53,6 @@ Rails.application.routes.draw do
     post 'payment/plan', to: 'payment#plan'
     post 'payment/customer', to: 'payment#create_customer'
     post 'payment/cancel', to: 'payment#cancel'
+    get 'payment/api_confirm', to: 'payment#api_confirm'
   end
 end
