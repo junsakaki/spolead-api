@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_28_082636) do
+ActiveRecord::Schema.define(version: 2022_03_01_062612) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -119,6 +119,22 @@ ActiveRecord::Schema.define(version: 2022_02_28_082636) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "approval", default: false
     t.index ["name", "caption", "content", "precautions", "target_money", "limit_date"], name: "cover_funds_index"
+  end
+
+  create_table "lesson_comment_payments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "lesson_comment_id"
+    t.integer "amount"
+    t.boolean "paid", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "lesson_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "talk_id"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "lesson_owners", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

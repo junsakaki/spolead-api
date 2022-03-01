@@ -18,11 +18,13 @@ Rails.application.routes.draw do
         post 'purchase'
       end
     end
-    # get 'lessons', to: 'lessons#index'
-    # get 'lessons/:id', to: 'lessons#show'
-    # post 'lessons', to: 'lessons#create'
-    # patch 'lessons/:id', to: 'lessons#update'
     resources :lessons, only: [:index, :show, :create, :update]
+    resources :talks, except: [:update] do
+      collection do
+        post ':id/comment',  to: 'talks#create_comment'
+        patch ':id/comment/payment',  to: 'talks#payment_status'
+      end
+    end
     resource :manage do
       collection do
         get 'salons',  to: 'salons#manage_index'
