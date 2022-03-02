@@ -26,8 +26,10 @@ module V1
       purchased = object.users_reductions_purchases
       purchased.each{|purchase|
         owner = purchase.reduction.fund.fund_owner.attributes
+        reduction = purchase.reduction
         purchase_hash = purchase.attributes
         purchase_hash[:owner] = owner
+        purchase_hash[:reduction] = reduction
         purchased_array.push(purchase_hash)
       }
       result = {  
