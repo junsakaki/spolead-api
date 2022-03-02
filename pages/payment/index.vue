@@ -6,92 +6,16 @@
       </template>
     </v-breadcrumbs>
     <v-row class="body-1" no-gutters>
-      <template v-if="$route.query.type === 'fund'">
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            ファンド名称
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            {{ reduction.fund.name }}
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            ファンド概要
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            {{ reduction.fund.caption }}
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            主催者
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            {{ reduction.fund.owner.name }}
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            リターン名称
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            {{ reduction.name }}
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            リターン概要
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            {{ reduction.caption }}
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            単価
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            {{ reduction.price.toLocaleString() }}円
-          </v-card>
-        </v-col>
-      </template>
-      <template v-if="$route.query.type === 'salon'">
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            サロン名称
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            サロン名
-          </v-card>
-        </v-col>
-      </template>
-      <template v-if="$route.query.type === 'lesson'">
-        <v-col cols="12" sm="3" class="font-weight-bold">
-          <v-card outlined tile class="pa-2">
-            指導者マッチング名称
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="9">
-          <v-card outlined tile class="pa-2">
-            指導者マッチング名
-          </v-card>
-        </v-col>
-      </template>
+      <v-col cols="12" sm="3" class="font-weight-bold">
+        <v-card outlined tile class="pa-2">
+          名称
+        </v-card>
+      </v-col>
+      <v-col cols="12" sm="9">
+        <v-card outlined tile class="pa-2">
+          {{ $route.query.name }}
+        </v-card>
+      </v-col>
       <v-col cols="12" sm="3" class="font-weight-bold">
         <v-card outlined tile class="pa-2">
           購入個数
@@ -117,7 +41,7 @@
       </v-col>
       <v-col cols="12" sm="9">
         <v-card outlined tile class="pa-2">
-          {{ (purhaseCount * reduction.price).toLocaleString() }}円
+          {{ (purhaseCount * Number($route.query.amount)).toLocaleString() }}円
         </v-card>
       </v-col>
       <v-col cols="12" sm="3" class="font-weight-bold">
@@ -185,7 +109,7 @@ export default {
           disabled: true
         }
       ],
-      purhaseCount: null,
+      purhaseCount: 1,
       purhaseCounts: [
         { label: '選択してください', value: null },
         { label: '1', value: 1 },
@@ -203,20 +127,9 @@ export default {
         display: false,
         text: ''
       },
+      token: '',
       dialog: false,
-      reduction: {
-        name: '選択されたリターンの名称',
-        caption: '選択されたリターンの説明',
-        price: 1000,
-        fund: {
-          id: 1,
-          name: 'ファンドの名称',
-          caption: 'ファンドの説明',
-          owner: {
-            name: '主催者の名前'
-          }
-        }
-      }
+      userId: null
     }
   },
   head () {
@@ -224,7 +137,27 @@ export default {
       title: '商品購入 | '
     }
   },
+  created () {
+    this.getUser()
+  },
   methods: {
+    getUser () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      } else {
+        this.$router.push('/login')
+      }
+    },
     confirmBeforePurchase () {
       const token = document.getElementsByName('payjp-token')[0].value
       if (token === '') {
@@ -234,19 +167,108 @@ export default {
         }
         return
       }
-      console.log(token)
+      this.token = token
       this.dialog = true
+    },
+    onPurchaseCompleted ({ paymentId }) {
+      const data = {
+        user_id: this.userId,
+        id: Number(this.$route.query.id),
+        amount: Number(this.$route.query.amount),
+        count: this.purhaseCount,
+        payment_id: paymentId,
+        type: this.$route.query.paymentType
+      }
+      if (this.$route.query.type === 'fund') {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'fundPurchase',
+            data
+          }).then((res) => {
+            if (res.status === 200) {
+              window.close()
+            }
+          }).catch(() => {
+            this.snackbar = {
+              display: true,
+              text: 'クラウドファンディングの購入処理に失敗しました'
+            }
+          })
+      }
+      if (this.$route.query.type === 'salon') {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'salonParticipate',
+            data: {
+              ...data,
+              plan_id: Number(this.$route.query.planId)
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              window.close()
+            }
+          }).catch(() => {
+            this.snackbar = {
+              display: true,
+              text: 'オンラインサロンの購入処理に失敗しました'
+            }
+          })
+      }
+      if (this.$route.query.type === 'lesson') {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'lessonPurchase',
+            data
+          }).then((res) => {
+            if (res.status === 200) {
+              window.close()
+            }
+          }).catch(() => {
+            this.snackbar = {
+              display: true,
+              text: '指導者マッチングの購入処理に失敗しました'
+            }
+          })
+      }
     },
     submitPurchase () {
       this.closeModal()
-      try {
-        // TODO: API通信成功後のみ遷移
-        this.$router.replace('/payment/complete')
-      } catch (e) {
-        this.snackbar = {
-          display: true,
-          text: '購入に失敗しました'
-        }
+      const data = {
+        token: this.token,
+        amount: Number(this.$route.query.amount) * this.purhaseCount,
+        type: this.$route.query.paymentType
+      }
+      if (this.$route.query.paymentType === 'charge') {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'payment',
+            data
+          }).then((res) => {
+            if (res.status === 200) {
+              this.onPurchaseCompleted({ paymentId: res.data.data.id })
+            }
+          }).catch(() => {
+            this.snackbar = {
+              display: true,
+              text: '購入に失敗しました'
+            }
+          })
+      } else if (this.$route.query.paymentType === 'subscription') {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'payment',
+            data
+          }).then((res) => {
+            if (res.status === 200) {
+              this.$router.replace('/payment/complete')
+              this.onPurchaseCompleted({ paymentId: res.data.date.id })
+            }
+          }).catch(() => {
+            this.snackbar = {
+              display: true,
+              text: '購入に失敗しました'
+            }
+          })
       }
     },
     closeModal () {

@@ -15,7 +15,7 @@
       <div v-if="funds.purchased.length > 0" class="mt-2">
         <v-card outlined tile style="margin-top: -1px;" class="fund-card">
           <v-row class="my-1 px-2">
-            <v-col cols="12" sm="4" class="body-2 font-weight-bold">
+            <v-col cols="12" sm="3" class="body-2 font-weight-bold">
               リターン名
             </v-col>
             <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
@@ -30,35 +30,48 @@
             <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
               オーナー名
             </v-col>
+            <v-col cols="12" sm="1" class="body-2 font-weight-bold text-center" />
           </v-row>
         </v-card>
-        <router-link v-for="(reduction, i) in funds.purchased" :key="`fund-${reduction.id}-${i}`" :to="`/funds/${reduction.id}`" class="fund-link">
-          <v-card outlined tile style="margin-top: -1px;" class="fund-card">
-            <v-row class="my-1 px-2">
-              <v-col cols="12" sm="4" class="body-2 font-weight-bold">
-                {{ reduction.name }}
-              </v-col>
-              <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
-                {{ reduction.price }}円
-              </v-col>
-              <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
-                {{ reduction.quantity }}個
-              </v-col>
-              <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
-                {{ reduction.price*reduction.quantity }}円
-              </v-col>
-              <v-col cols="12" sm="2" class="d-flex justify-center align-center caption">
-                <v-icon small class="mr-1">
-                  mdi-account
-                </v-icon>
-                {{ reduction.owner.name }}
-              </v-col>
-            </v-row>
-          </v-card>
-        </router-link>
+        <div v-for="(item, i) in funds.purchased" :key="`fund-${item.id}-${i}`" class="fund-purchased-item">
+          <router-link :to="`/funds/${item.owner.fund_id}`" class="fund-link">
+            <v-card outlined tile style="margin-top: -1px;" class="fund-card">
+              <v-row class="my-1 px-2">
+                <v-col cols="12" sm="3" class="body-2 font-weight-bold">
+                  {{ item.reduction.name }}
+                </v-col>
+                <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
+                  {{ item.amount }}円
+                </v-col>
+                <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
+                  {{ item.count }}個
+                </v-col>
+                <v-col cols="12" sm="2" class="body-2 font-weight-bold text-center">
+                  {{ item.amount*item.count }}円
+                </v-col>
+                <v-col cols="12" sm="2" class="d-flex justify-center align-center caption">
+                  <v-icon small class="mr-1">
+                    mdi-account
+                  </v-icon>
+                  {{ item.owner.name }}
+                </v-col>
+                <v-col cols="12" sm="1" class="d-flex justify-center align-center caption" />
+              </v-row>
+            </v-card>
+          </router-link>
+          <div v-if="isWithinDeadline(item.created_at)" class="cancel">
+            <v-btn x-small color="error" icon @click="showPaymentCancelModal(item)">
+              <v-icon x-small>
+                mdi-close
+              </v-icon>
+            </v-btn>
+          </div>
+        </div>
       </div>
-      <div v-else class="mt-2">
-        購入したリターンはありません
+      <div v-else class="d-flex justify-cente mt-2">
+        <span class="grey--text">
+          購入したリターンはありません
+        </span>
       </div>
     </div>
     <div class="subtitle-1 font-weight-bold mt-8">
@@ -77,8 +90,8 @@
               {{ fund.name }}
             </v-col>
             <v-col cols="12" sm="3" class="d-flex justify-end align-center">
-              <v-btn x-small class="ml-2 font-weight-bold" :color="fund.approval ? 'error' : 'primary'" elevation="0">
-                {{ fund.approval ? '審査中' : '掲載中' }}
+              <v-btn x-small class="ml-2 font-weight-bold" :color="fund.approval ? 'primary' : 'error'" elevation="0">
+                {{ fund.approval ? '掲載中' : '審査中' }}
               </v-btn>
               <router-link :to="`/funds/${fund.id}`" class="ml-2 fund-link">
                 <v-btn icon small>
@@ -101,8 +114,10 @@
           </v-row>
         </v-card>
       </div>
-      <div v-else class="mt-2">
-        掲載中のオンラインサロンはありません
+      <div v-else class="d-flex justify-cente mt-2">
+        <span class="grey--text">
+          掲載中のオンラインサロンはありません
+        </span>
       </div>
     </div>
     <fund-analytics-modal
@@ -115,15 +130,22 @@
       :fund="selectedFund"
       @closeModal="closeModal"
     />
+    <fund-payment-cancel-modal
+      :dialog="paymentCancelModal"
+      :reduction="selectedReduction"
+      @closeModal="closeModal"
+    />
   </div>
 </template>
 
 <script>
+import { addDays, isAfter } from 'date-fns'
 import FundAnalyticsModal from '~/components/settings/organisms/FundAnalyticsModal.vue'
 import FundEditModal from '~/components/settings/organisms/FundEditModal.vue'
+import FundPaymentCancelModal from '~/components/settings/organisms/FundPaymentCancelModal.vue'
 
 export default {
-  components: { FundAnalyticsModal, FundEditModal },
+  components: { FundAnalyticsModal, FundEditModal, FundPaymentCancelModal },
   props: {
     funds: {
       type: Object,
@@ -134,15 +156,21 @@ export default {
     return {
       analyticsModal: false,
       editModal: false,
-      selectedFund: null
+      paymentCancelModal: false,
+      selectedFund: null,
+      selectedReduction: null
     }
   },
   methods: {
     closeModal (shouldUpdateUser) {
       this.editModal = false
       this.analyticsModal = false
+      this.paymentCancelModal = false
       this.selectedFund = null
-      // TODO: 必要があればサロン情報を含むユーザー情報を再取得する
+      this.selectedReduction = null
+      if (shouldUpdateUser) {
+        this.$emit('getUser')
+      }
     },
     showAnalyticsModal (fund) {
       this.selectedFund = fund
@@ -151,6 +179,17 @@ export default {
     showEditModal (fund) {
       this.selectedFund = fund
       this.editModal = true
+    },
+    showPaymentCancelModal (reduction) {
+      this.selectedReduction = reduction
+      this.paymentCancelModal = true
+    },
+    isWithinDeadline (createdAt) {
+      const coolingOffDays = 8
+      const startDate = new Date(createdAt)
+      const limitDate = addDays(startDate, coolingOffDays)
+      const today = new Date()
+      return isAfter(limitDate, today)
     }
   }
 }
@@ -164,6 +203,14 @@ export default {
     transition-duration: 0.28s;
     transition-property: background-color;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+.fund-purchased-item {
+  position: relative;
+  .cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 </style>

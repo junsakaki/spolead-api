@@ -5,25 +5,15 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <div v-if="$vuetify.breakpoint.smAndDown">
-      <Menu />
-    </div>
-    <v-row v-else>
-      <v-col cols="12" sm="3">
-        <Menu />
-      </v-col>
-      <v-col cols="12" sm="9">
-        <Account />
-      </v-col>
-    </v-row>
+    <Menu />
   </div>
 </template>
 
 <script>
-import Menu from '~/components/settings/organisms/Menu.vue'
-import Account from '~/components/settings/organisms/Account.vue'
+import Menu from '~/components/manage/organisms/Menu.vue'
+
 export default {
-  components: { Menu, Account },
+  components: { Menu },
   data () {
     return {
       breadcrumbs: [

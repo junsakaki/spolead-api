@@ -19,11 +19,11 @@
             label="トップ画像"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'imageTop')"
+            @change="f => upload(f, 'image_top')"
           />
           <v-img
-            v-if="form.imageTop"
-            :src="form.imageTop"
+            v-if="form.image_top"
+            :src="form.image_top"
             max-height="150"
             max-width="250"
             contain
@@ -34,11 +34,11 @@
             label="サブ画像"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'imageSub')"
+            @change="f => upload(f, 'image_sub')"
           />
           <v-img
-            v-if="form.imageSub"
-            :src="form.imageSub"
+            v-if="form.image_sub"
+            :src="form.image_sub"
             max-height="150"
             max-width="250"
             contain
@@ -54,7 +54,7 @@
           />
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model="form.targetMoney" label="目標金額" type="number" required />
+          <v-text-field v-model.number="form.target_money" label="目標金額" type="number" required />
         </v-col>
         <v-col cols="12">
           <v-menu
@@ -67,7 +67,7 @@
           >
             <template #activator="{ on, attrs }">
               <v-text-field
-                v-model="form.limitDate"
+                v-model="form.limit_date"
                 label="期限日"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -76,7 +76,7 @@
               />
             </template>
             <v-date-picker
-              v-model="form.limitDate"
+              v-model="form.limit_date"
               :day-format="date => new Date(date).getDate()"
               locale="ja-jp"
               @input="dateMenu = false"
@@ -94,7 +94,7 @@
         </v-col>
         <v-col cols="12">
           <v-textarea
-            v-model="form.selfIntroduction"
+            v-model="form.self_introduction"
             autocomplete="自己紹介"
             label="自己紹介"
             dense
@@ -126,7 +126,7 @@
             <v-text-field v-model="reduction.caption" label="リターンの説明" required />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="reduction.price" label="価格" type="number" required />
+            <v-text-field v-model.number="reduction.amount" label="価格" type="number" required />
           </v-col>
         </v-card>
         <v-btn color="primary" outlined block @click="addReduction">
@@ -152,11 +152,11 @@
             label="本人確認書類①"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'owner', 'identification1')"
+            @change="f => upload(f, 'owner', 'identification_1')"
           />
           <v-img
-            v-if="form.owner.identification1"
-            :src="form.owner.identification1"
+            v-if="form.owner.identification_1"
+            :src="form.owner.identification_1"
             max-height="150"
             max-width="250"
             contain
@@ -167,18 +167,18 @@
             label="本人確認書類②"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'owner', 'identification2')"
+            @change="f => upload(f, 'owner', 'identification_2')"
           />
           <v-img
-            v-if="form.owner.identification2"
-            :src="form.owner.identification2"
+            v-if="form.owner.identification_2"
+            :src="form.owner.identification_2"
             max-height="150"
             max-width="250"
             contain
           />
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model="form.owner.transferAccount" label="振り込み口座情報" required />
+          <v-text-field v-model="form.owner.transfer_account" label="振り込み口座情報" required />
         </v-col>
       </v-container>
     </v-card-text>
@@ -214,16 +214,16 @@ export default {
       form: {
         name: '',
         caption: '',
-        imageTop: '',
-        imageSub: '',
+        image_top: '',
+        image_sub: '',
         content: '',
         background: '',
-        selfIntroduction: '',
+        self_introduction: '',
         precautions: '',
-        targetMoney: 1,
-        limitDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        target_money: 1,
+        limit_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         reductions: [
-          { id: 1, name: '', caption: '', price: 0 }
+          { id: 1, name: '', caption: '', amount: 0 }
         ],
         owner: {
           name: '',
@@ -231,9 +231,9 @@ export default {
           mail_address: '',
           birthday: '',
           tel: '',
-          identification1: '',
-          identification2: '',
-          transferAccount: ''
+          identification_1: '',
+          identification_2: '',
+          transfer_account: ''
         }
       }
     }
@@ -245,7 +245,7 @@ export default {
   },
   methods: {
     submit () {
-      console.log(this.form)
+      this.$emit('submit', this.form)
       this.closeModal(true)
     },
     upload (file, p, c) {
@@ -269,11 +269,11 @@ export default {
       }
     },
     addReduction () {
-      const lastValue = this.form.reductions[this.form.form.length - 1]
+      const lastValue = this.form.reductions[this.form.reductions.length - 1]
       if (lastValue.name === '' || lastValue.caption === '') {
         return
       }
-      this.form.form.push({ id: this.form.form.length + 1, name: '', caption: '', price: 0 })
+      this.form.reductions.push({ id: this.form.reductions.length + 1, name: '', caption: '', amount: 0 })
     },
     reduceReduction (index) {
       this.form.form.splice(index, 1)

@@ -17,8 +17,8 @@
           <router-link :to="`/funds/${fund.id}`" class="fund">
             <v-card class="pb-2">
               <v-img
-                v-if="fund.imageTop"
-                :src="fund.imageTop"
+                v-if="fund.image_top"
+                :src="fund.image_top"
                 max-height="100"
                 max-width="100%"
               />
@@ -34,31 +34,30 @@
               </div>
               <div class="meter mt-4">
                 <div class="meter-in">
-                  <div class="bar" :style="`width: ${fund.achievement}%;`">
-                    <span>{{ fund.achievement }}%</span>
+                  <div class="bar" :style="`width: ${Math.floor(fund.supported_money/fund.target_money*100)}%;`">
+                    <span>{{ Math.floor(fund.supported_money/fund.target_money*100) }}%</span>
                   </div>
                 </div>
-                <span>{{ fund.achievement }}%</span>
+                <span>{{ fund.supported_money/fund.target_money }}%</span>
               </div>
               <v-row no-gutters class="mt-4">
-                <v-col cols="12" sm="5" class="caption text-center">
+                <v-col cols="12" sm="4" class="caption text-center">
                   現在
                 </v-col>
                 <v-col cols="12" sm="4" class="caption text-center">
                   支援者
                 </v-col>
-                <v-col cols="12" sm="3" class="caption text-center">
+                <v-col cols="12" sm="4" class="caption text-center">
                   残り
                 </v-col>
-                <v-col cols="12" sm="5" class="caption text-center font-weight-bold">
-                  {{ fund.supportedMoney.toLocaleString() }}円
+                <v-col cols="12" sm="4" class="caption text-center font-weight-bold">
+                  {{ fund.supported_money.toLocaleString() }}円
                 </v-col>
                 <v-col cols="12" sm="4" class="caption text-center font-weight-bold">
-                  {{ fund.supportersCount.toLocaleString() }}人
+                  {{ fund.supporters_count.toLocaleString() }}人
                 </v-col>
-                <v-col cols="12" sm="3" class="caption text-center font-weight-bold">
-                  10日
-                  <!-- {{ fund.limitDate }}日 -->
+                <v-col cols="12" sm="4" class="caption text-center font-weight-bold">
+                  {{ fund.limit_date ? getDaysLeft(fund.limit_date) : '' }}
                 </v-col>
               </v-row>
             </v-card>
@@ -70,9 +69,12 @@
 </template>
 
 <script>
+import getDaysLeft from '~/utils/getDaysLeft'
+
 export default {
   data () {
     return {
+      getDaysLeft,
       breadcrumbs: [
         ...this.$BREADCRUMBS,
         {
@@ -93,23 +95,14 @@ export default {
   },
   methods: {
     getFunds () {
-      const list = []
-      for (let i = 0; i < 10; i++) {
-        list.push({
-          id: i,
-          name: 'ファンドファンドファンドファンド',
-          owner: {
-            name: 'オーナー'
-          },
-          achievement: i * 10,
-          supportedMoney: 100000,
-          supportersCount: 100,
-          limitDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-          caption: 'ファンドの説明が入りますファンドの説明が入りますファンドの説明が入ります',
-          imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU'
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'fundIndex'
+        }).then((res) => {
+          if (res.status === 200) {
+            this.funds = res.data.funds
+          }
         })
-      }
-      this.funds = list
     }
   }
 }

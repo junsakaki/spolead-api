@@ -166,7 +166,7 @@
             指導者マッチング
           </p>
         </router-link>
-        <div class="d-flex align-center justify-center">
+        <div v-if="$auth && $auth.user" class="d-flex align-center justify-center">
           <v-menu
             open-on-hover
             bottom
@@ -200,6 +200,14 @@
             </v-list>
           </v-menu>
         </div>
+        <router-link v-else to="/login" class="link icon-button align-center">
+          <v-icon>
+            mdi-account
+          </v-icon>
+          <p class="icon-button-link">
+            ログイン
+          </p>
+        </router-link>
       </div>
     </div>
   </div>

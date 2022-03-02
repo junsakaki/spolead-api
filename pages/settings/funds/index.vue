@@ -6,14 +6,14 @@
       </template>
     </v-breadcrumbs>
     <div v-if="$vuetify.breakpoint.smAndDown" class="mb-6">
-      <Funds :funds="user.funds" />
+      <Funds :funds="user.funds" @getUser="getUser" />
     </div>
     <v-row v-else class="mb-6">
       <v-col cols="12" sm="3">
         <Menu />
       </v-col>
       <v-col cols="12" sm="9">
-        <Funds :funds="user.funds" />
+        <Funds :funds="user.funds" @getUser="getUser" />
       </v-col>
     </v-row>
   </div>
@@ -43,7 +43,13 @@ export default {
           disabled: true
         }
       ],
-      user: {}
+      user: {
+        funds: {
+          owned: [],
+          purchased: []
+        }
+
+      }
     }
   },
   head () {
@@ -60,83 +66,18 @@ export default {
   },
   methods: {
     getUser () {
-      this.user = {
-        id: 1,
-        name: 'ユーザー名',
-        mailAddress: 'test@gmail.com',
-        favoriteTeams: [],
-        funds: {
-          owned: [{
-            id: 101,
-            name: '公開中のクラウドファンディング',
-            caption: '運営中のファンド1の説明',
-            imageTop: '',
-            imageSub: '',
-            content: '運営中のファンド1の内容',
-            background: '運営中のファンド1の開催背景',
-            selfIntroduction: '自己紹介',
-            precautions: '注意事項',
-            targetMoney: 500000,
-            supportedMoney: 490000,
-            supportersCount: 100,
-            limitDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-            reductions: [
-              { id: 1, name: 'リターン1', caption: 'リターン1の説明', price: 10000, purchased_count: 100 },
-              { id: 2, name: 'リターン2', caption: 'リターン2の説明', price: 20000, purchased_count: 10 }
-            ],
-            owner: {
-              name: 'オーナー名',
-              address: '住所',
-              mail_address: 'mail@gmail.com',
-              birthday: '生年月日',
-              tel: '電話番号',
-              identification1: '',
-              identification2: '',
-              transferAccount: '振り込み口座情報'
-            },
-            approval: true
-          }, {
-            id: 102,
-            name: '公開中のクラウドファンディング',
-            caption: '運営中のファンド1の説明',
-            imageTop: '',
-            imageSub: '',
-            content: '運営中のファンド1の内容',
-            background: '運営中のファンド1の開催背景',
-            selfIntroduction: '自己紹介',
-            precautions: '注意事項',
-            targetMoney: 500000,
-            supportedMoney: 490000,
-            supportersCount: 100,
-            limitDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-            reductions: [
-              { id: 1, name: 'リターン1', caption: 'リターン1の説明', price: 10000, purchased_count: 100 },
-              { id: 2, name: 'リターン2', caption: 'リターン2の説明', price: 20000, purchased_count: 10 }
-            ],
-            owner: {
-              name: 'オーナー名',
-              address: '住所',
-              mail_address: 'mail@gmail.com',
-              birthday: '生年月日',
-              tel: '電話番号',
-              identification1: '',
-              identification2: '',
-              transferAccount: '振り込み口座情報'
-            },
-            approval: false
-          }],
-          purchased: [
-            {
-              id: 201,
-              name: '購入したリターン',
-              price: 1000,
-              quantity: 1,
-              owner: {
-                name: 'オーナー名'
-              }
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
             }
-          ]
-        }
+          }).then((res) => {
+            if (res.status === 200) {
+              this.user = res.data.user
+            }
+          })
       }
     }
   }

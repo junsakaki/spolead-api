@@ -28,7 +28,7 @@
             </v-col>
             <v-col cols="12" sm="9" class="body-2">
               <v-card outlined tile class="pa-1">
-                {{ fund.targetMoney }}
+                {{ fund.target_money }}
               </v-card>
             </v-col>
             <v-col cols="12" sm="3" class="body-2 font-weight-bold">
@@ -36,7 +36,7 @@
             </v-col>
             <v-col cols="12" sm="9" class="body-2">
               <v-card outlined tile class="pa-1">
-                {{ fund.limitDate }}
+                {{ fund.limit_date }}
               </v-card>
             </v-col>
             <v-col cols="12" sm="3" class="body-2 font-weight-bold">
@@ -44,8 +44,25 @@
             </v-col>
             <v-col cols="12" sm="9" class="body-2">
               <v-img
-                v-if="fund.imageTop"
-                :src="fund.imageTop"
+                v-if="fund.image_top"
+                :src="fund.image_top"
+                max-height="150"
+                max-width="250"
+                contain
+              />
+              <div v-else>
+                <v-card outlined tile class="pa-1">
+                  画像はありません
+                </v-card>
+              </div>
+            </v-col>
+            <v-col cols="12" sm="3" class="body-2 font-weight-bold">
+              サブ画像
+            </v-col>
+            <v-col cols="12" sm="9" class="body-2">
+              <v-img
+                v-if="fund.image_sub"
+                :src="fund.image_sub"
                 max-height="150"
                 max-width="250"
                 contain
@@ -77,7 +94,7 @@
             </v-col>
             <v-col cols="12" sm="9" class="body-2">
               <v-card outlined tile class="pa-1">
-                <p v-html="transformTextToHtml(fund.selfIntroduction)" />
+                <p v-html="transformTextToHtml(fund.self_introduction)" />
               </v-card>
             </v-col>
             <v-col cols="12" sm="3" class="body-2 font-weight-bold">
@@ -97,7 +114,7 @@
             <v-col cols="12" sm="9" class="body-2">
               <v-card outlined tile class="pa-1">
                 <div>
-                  価格: {{ reduction.price.toLocaleString() }}円
+                  価格: {{ reduction.amount.toLocaleString() }}円
                 </div>
                 <div>
                   {{ reduction.caption }}
@@ -152,8 +169,8 @@
             </v-col>
             <v-col cols="12" sm="9" class="body-2">
               <v-img
-                v-if="fund.owner.identification1"
-                :src="fund.owner.identification1"
+                v-if="fund.owner.identification_1"
+                :src="fund.owner.identification_1"
                 max-height="150"
                 max-width="250"
                 contain
@@ -169,8 +186,8 @@
             </v-col>
             <v-col cols="12" sm="9" class="body-2">
               <v-img
-                v-if="fund.owner.identification2"
-                :src="fund.owner.identification2"
+                v-if="fund.owner.identification_2"
+                :src="fund.owner.identification_2"
                 max-height="150"
                 max-width="250"
                 contain
@@ -186,7 +203,7 @@
             </v-col>
             <v-col cols="12" sm="9" class="body-2">
               <v-card outlined tile class="pa-1">
-                {{ fund.owner.transferAccount }}
+                {{ fund.owner.transfer_account }}
               </v-card>
             </v-col>
           </v-row>
@@ -220,9 +237,6 @@ export default {
     return {
       transformTextToHtml
     }
-  },
-  created () {
-    console.log(this.fund)
   },
   methods: {
     closeModal (shouldUpdateTeamDetail) {

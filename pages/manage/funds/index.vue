@@ -22,12 +22,12 @@
 <script>
 import Menu from '~/components/manage/organisms/Menu.vue'
 import Funds from '~/components/manage/organisms/Funds.vue'
-import constants from '~/pages/funds/constants.js'
 
 export default {
   components: { Menu, Funds },
   data () {
     return {
+      funds: [],
       breadcrumbs: [
         ...this.$BREADCRUMBS,
         {
@@ -43,8 +43,7 @@ export default {
           text: 'オンラインサロン',
           disabled: true
         }
-      ],
-      ...constants
+      ]
     }
   },
   head () {
@@ -61,7 +60,27 @@ export default {
   },
   methods: {
     updateApproval (funds) {
-      console.log('現在は', funds.approval ? '承認済み' : '未承認', 'なので、値を', !funds.approval, 'にします')
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'manageFundApproval',
+          data: {
+            id: funds.id
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.getFunds()
+          }
+        })
+    },
+    getFunds () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'manageFundIndex'
+        }).then((res) => {
+          if (res.status === 200) {
+            this.funds = res.data.funds
+          }
+        })
     },
     checkRole () {
       if (this.$auth && this.$auth.user) {
@@ -75,6 +94,8 @@ export default {
             if (res.status === 200) {
               if (res.data.user.role !== 'admin') {
                 this.$router.replace('/')
+              } else {
+                this.getFunds()
               }
             }
           })

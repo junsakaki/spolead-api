@@ -17,21 +17,21 @@
           {{ fund.owner.name }}
         </div>
         <v-img
-          v-if="fund.imageTop"
-          :src="fund.imageTop"
+          v-if="fund.image_top"
+          :src="fund.image_top"
           max-height="200"
           max-width="100%"
           class="fund-image mt-8"
         />
         <div v-else class="fund-image mt-8" />
-        <!-- <v-img
-          v-if="fund.imageSub"
-          :src="fund.imageSub"
+        <v-img
+          v-if="fund.image_sub"
+          :src="fund.image_sub"
           max-height="200"
           max-width="100%"
           class="fund-image mt-8"
         />
-        <div v-else class="fund-image mt-8" /> -->
+        <div v-else class="fund-image mt-8" />
         <div class="content mt-8">
           <div class="text-h5 font-weight-bold">
             ファンド概要
@@ -53,7 +53,7 @@
             自己紹介
           </div>
           <div class="mt-2">
-            <p class="body-1" v-html="transformTextToHtml(fund.selfIntroduction)" />
+            <p class="body-1" v-html="transformTextToHtml(fund.self_introduction)" />
           </div>
         </div>
         <div class="precautions mt-8">
@@ -72,31 +72,30 @@
               現在
             </div>
             <div class="text-h4  font-weight-bold ml-4">
-              {{ fund.supportedMoney.toLocaleString() }}円
+              {{ fund.supported_money ? fund.supported_money.toLocaleString() : 0 }}円
             </div>
             <div class="meter mt-4">
               <div class="meter-in">
-                <div class="bar" :style="`width: ${Math.floor(fund.supportedMoney/fund.targetMoney*100)}%;`">
-                  <span>{{ Math.floor(fund.supportedMoney/fund.targetMoney*100) }}%</span>
+                <div class="bar" :style="`width: ${Math.floor(fund.supported_money/fund.target_money*100)}%;`">
+                  <span>{{ Math.floor(fund.supported_money/fund.target_money*100) }}%</span>
                 </div>
               </div>
-              <span>{{ Math.floor(fund.supportedMoney/fund.targetMoney*100) }}%</span>
+              <span>{{ Math.floor(fund.supported_money/fund.target_money*100) }}%</span>
             </div>
             <div class="caption  font-weight-bold ml-4">
-              目標金額: {{ fund.targetMoney.toLocaleString() }}円
+              目標金額: {{ fund.target_money ? fund.target_money.toLocaleString() : 0 }}円
             </div>
             <div class="body-2 font-weight-bold">
               支援者
             </div>
             <div class="text-h4 font-weight-bold ml-4">
-              {{ fund.supportersCount.toLocaleString() }}人
+              {{ fund.supporters_count ? fund.supporters_count.toLocaleString() : 0 }}人
             </div>
             <div class="body-2 font-weight-bold">
               残り
             </div>
             <div class="text-h4 font-weight-bold ml-4">
-              10日
-              <!-- {{ fund.limitDate }}日 -->
+              {{ fund.limit_date ? getDaysLeft(fund.limit_date) : '' }}
             </div>
           </div>
         </v-banner>
@@ -110,12 +109,12 @@
             </div>
             <div class="text-center mt-4">
               <font style="font-size: 28px;">
-                {{ item.price.toLocaleString() }}
+                {{ item.amount.toLocaleString() }}
               </font>
               円
             </div>
             <div class="d-flex justify-center align-center">
-              <router-link :to="`/payment?type=fund&id=${item.id}`" class="text-center mt-4">
+              <router-link :to="`/payment?type=fund&id=${item.id}&name=${item.name}&amount=${item.amount}&paymentType=charge`" target="_blank" class="text-center mt-4">
                 <common-button button-color="primary">
                   このリターンで支援する
                 </common-button>
@@ -131,6 +130,7 @@
 
 <script>
 import transformTextToHtml from '~/utils/transformTextToHtml'
+import getDaysLeft from '~/utils/getDaysLeft'
 import CommonButton from '~/components/shared/atoms/CommonButton.vue'
 
 export default {
@@ -138,8 +138,9 @@ export default {
   data () {
     return {
       transformTextToHtml,
+      getDaysLeft,
       breadcrumbs: [],
-      fund: {}
+      fund: { owner: {} }
     }
   },
   head () {
@@ -152,44 +153,33 @@ export default {
   },
   methods: {
     getFundDetail () {
-      this.fund = {
-        id: 101,
-        name: ' 何度でも立ち上がる強い心と体でプロレス地方大会を開催したい',
-        caption: '2022年4月3日(13時開始)愛知県スポルティーバアリーナで初の地方大会を開催することになりました。何度でも立ち上がる強い心と体で東京以外の土地でも自分の好きな選手と共にプロレス大会を開催します！ご支援のほど宜しくお願い致します。',
-        imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
-        // imageSub: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
-        content: '<h1>タイトル</h1><h2>サブタイトル</h2><div>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a</div>',
-        background: 'クラウドファンディングを募集した背景',
-        selfIntroduction: '運営者の自己紹介',
-        precautions: '注意事項',
-        targetMoney: 500000,
-        supportedMoney: 490000,
-        supportersCount: 100,
-        limitDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        reductions: [
-          { id: 1, name: 'リターン1', caption: 'リターン1の説明', price: 10000, participations_count: 100 },
-          { id: 2, name: 'リターン2', caption: 'リターン2の説明', price: 20000, participations_count: 10 }
-        ],
-        owner: {
-          name: '落合陽一'
-        }
-      }
-      this.breadcrumbs = [
-        ...this.$BREADCRUMBS,
-        {
-          text: 'クラウドファンディング',
-          link: true,
-          exact: true,
-          disabled: false,
-          to: {
-            path: '/funds'
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'fundDetail',
+          query: {
+            id: this.$route.params.fundId
           }
-        },
-        {
-          text: this.fund.name,
-          disabled: true
-        }
-      ]
+        }).then((res) => {
+          if (res.status === 200) {
+            this.fund = res.data.fund
+          }
+          this.breadcrumbs = [
+            ...this.$BREADCRUMBS,
+            {
+              text: 'クラウドファンディング',
+              link: true,
+              exact: true,
+              disabled: false,
+              to: {
+                path: '/funds'
+              }
+            },
+            {
+              text: this.fund.name,
+              disabled: true
+            }
+          ]
+        })
     }
   }
 }

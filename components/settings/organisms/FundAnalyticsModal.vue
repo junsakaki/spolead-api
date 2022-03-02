@@ -20,17 +20,16 @@
               残り
             </v-col>
             <v-col cols="12" sm="3">
-              {{ fund.targetMoney.toLocaleString() }}円
+              {{ fund.target_money ? fund.target_money.toLocaleString() : 0 }}円
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
-              {{ fund.supportedMoney.toLocaleString() }}円
+              {{ fund.supported_money ? fund.supported_money.toLocaleString() : 0 }}円
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
-              {{ fund.supportersCount.toLocaleString() }}人
+              {{ fund.supporters_count ? fund.supporters_count.toLocaleString() : 0 }}人
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
-              10日
-              <!-- {{ fund.limitDate }}日 -->
+              {{ fund.limit_date ? getDaysLeft(fund.limit_date) : '' }}
             </v-col>
           </v-row>
         </v-card-text>
@@ -40,7 +39,7 @@
         <v-card-text>
           <v-row>
             <v-col cols="12" sm="6">
-              プラン名
+              リターン名
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
               価格
@@ -54,7 +53,7 @@
               {{ reduction.name }}
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
-              {{ reduction.price.toLocaleString() }}
+              {{ reduction.amount.toLocaleString() }}
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
               {{ reduction.purchased_count }}人
@@ -73,6 +72,8 @@
 </template>
 
 <script>
+import getDaysLeft from '~/utils/getDaysLeft'
+
 export default {
   props: {
     dialog: {
@@ -82,6 +83,11 @@ export default {
     fund: {
       type: Object,
       default: null
+    }
+  },
+  data () {
+    return {
+      getDaysLeft
     }
   },
   created () {
