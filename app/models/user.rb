@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :salons, :funds, :lessons
-
+  # attr_accessor :salons, :funds, :lessons
   has_many :teams
   has_many :favorite_teams
   has_many :fav, through: :favorite_teams, source: :team

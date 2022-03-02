@@ -9,7 +9,7 @@ module V1
       :background, 
       :self_introduction,
       :precautions,
-      :reqruitment_target,
+      :recruitment_target,
       :contact_type,
       :payment_type,
       :owner

@@ -23,15 +23,15 @@ module V1
       lesson = Lesson.new(
         name: params[:name],
         caption: params[:caption],
-        image_top: params[:imageTop],
-        image_sub: params[:imageSub],
+        image_top: params[:image_top],
+        image_sub: params[:image_sub],
         content: params[:content],
         background: params[:background],
         self_introduction: params[:self_introduction],
         precautions: params[:precautions],
-        precautions: params[:reqruitment_target],
-        precautions: params[:contact_type],
-        precautions: params[:payment_type]
+        recruitment_target: params[:recruitment_target],
+        contact_type: params[:contact_type],
+        payment_type: params[:payment_type]
       )
 
       if params[:owner].present?
@@ -66,9 +66,9 @@ module V1
       lesson.background = params[:background]
       lesson.self_introduction = params[:self_introduction]
       lesson.precautions = params[:precautions]
-      lesson.precautions = params[:reqruitment_target]
-      lesson.precautions = params[:contact_type]
-      lesson.precautions = params[:payment_type]
+      lesson.recruitment_target = params[:recruitment_target]
+      lesson.contact_type = params[:contact_type]
+      lesson.payment_type = params[:payment_type]
 
       lesson.lesson_owner = lesson.upsert_owner(params[:owner]) if params[:owner].present?
 
@@ -101,7 +101,7 @@ module V1
           :background,
           :self_introduction,
           :precautions,
-          :reqruitment_target,
+          :recruitment_target,
           :contact_type,
           :payment_type,
           :user_id,
