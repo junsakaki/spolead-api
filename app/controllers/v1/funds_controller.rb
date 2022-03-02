@@ -114,6 +114,15 @@ module V1
       end
     end
 
+    def delete_purchase
+      purchase = UsersReductionsPurchase.find_by(payment_id: params[:payment_id])
+      if purchase.destroy
+        render 200
+      else
+        render 500
+      end
+    end
+
     private
     def fund_params
         params.permit(

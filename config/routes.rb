@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :funds do
       collection do
         post 'purchase'
+        patch 'purchase', to: 'funds#delete_purchase'
       end
     end
     resources :lessons, only: [:index, :show, :create, :update]
