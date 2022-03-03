@@ -138,7 +138,6 @@ module V1
           :target_money,
           :limit_date,
           :user_id,
-          :price,
           :amount,
           :count,
           :payment_id,
@@ -146,7 +145,6 @@ module V1
             :id,
             :name,
             :caption,
-            :price,
             :amount
           ],
           owner: [

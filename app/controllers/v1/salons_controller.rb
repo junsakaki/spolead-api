@@ -37,7 +37,7 @@ module V1
                 name: each_plan[:name],
                 salon_id: salon.id,
                 caption: each_plan[:caption],
-                price: each_plan[:price]
+                amount: each_plan[:amount]
             )
         }
       end 
@@ -133,7 +133,7 @@ module V1
             :id,
             :name,
             :caption,
-            :price
+            :amount
           ],
           owner: [
             :id,

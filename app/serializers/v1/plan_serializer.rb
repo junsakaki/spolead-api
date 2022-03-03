@@ -3,6 +3,6 @@ module V1
     attributes :id, 
       :name, 
       :caption,
-      :price
+      :amount
   end
 end
