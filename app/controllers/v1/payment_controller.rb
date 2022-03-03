@@ -4,10 +4,10 @@ module V1
 
     def create_customer
       begin 
-        Payjp::Customer.create(
+        charge = Payjp::Customer.create(
           card: params[:token]
         )
-        render json: {date: charge}, status: 200
+        render json: {data: charge}, status: 200
       rescue => e
         render json: {error: e}, status: 500
       end
@@ -15,12 +15,12 @@ module V1
     
     def plan
       begin 
-        Payjp::Plan.create(
+        charge = Payjp::Plan.create(
           amount: params[:amount],
           currency: 'jpy',
           interval: params[:interval]
         )
-        render json: {date: charge}, status: 200
+        render json: {data: charge}, status: 200
       rescue => e
         render json: {error: e}, status: 500
       end
@@ -40,7 +40,7 @@ module V1
             :customer => params[:customer]
           )
         end
-        render json: {date: charge}, status: 200
+        render json: {data: charge}, status: 200
       rescue => e
         render json: {error: e}, status: 500
       end
@@ -50,7 +50,7 @@ module V1
       begin 
         charge = Payjp::Charge.retrieve(params[:payment_id])
         charge.refund
-        render json: {date: charge}, status: 200
+        render json: {data: charge}, status: 200
       rescue => e
         render json: {error: e}, status: 500
       end
@@ -59,7 +59,7 @@ module V1
     def api_confirm
       begin 
         charge = Payjp::Charge.all
-        render json: {date: charge}, status: 200
+        render json: {data: charge}, status: 200
       rescue => e
         render json: {error: e}, status: 500
       end
