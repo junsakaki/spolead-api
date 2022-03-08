@@ -4,6 +4,6 @@ module V1
       :name, 
       :caption,
       :amount,
-      :salon_id
+      :plan_id
   end
 end
