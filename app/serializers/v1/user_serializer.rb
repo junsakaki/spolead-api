@@ -41,10 +41,10 @@ module V1
 
     def lessons
       lessons_array = []
-      lessons = object.lesson_owned
-      lessons.each{|lesson|
-        owner = lesson.lesson_owner
-        lesson_hash = lesson.attributes
+      lesson = object.lesson_owned
+      lesson.each{|l|
+        owner = l.lesson_owner
+        lesson_hash = l.attributes
         lesson_hash[:owner] = owner
         lessons_array.push(lesson_hash)
       }
