@@ -11,7 +11,8 @@ class Salon < ApplicationRecord
                 name: plan[:name],
                 salon_id: self.id,
                 caption: plan[:caption],
-                amount: plan[:amount]
+                amount: plan[:amount],
+                plan_id: plan[:plan_id]
             )
             if new_plan.new_record?
                 new_plan.save

@@ -37,7 +37,8 @@ module V1
                 name: each_plan[:name],
                 salon_id: salon.id,
                 caption: each_plan[:caption],
-                amount: each_plan[:amount]
+                amount: each_plan[:amount],
+                plan_id: each_plan[:plan_id]
             )
         }
       end 
@@ -129,6 +130,7 @@ module V1
           :self_introduction,
           :precautions,
           :user_id,
+          :plan_id,
           plans: [
             :id,
             :name,

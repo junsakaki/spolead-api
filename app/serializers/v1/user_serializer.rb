@@ -15,7 +15,7 @@ module V1
         participating_array.push(participating_hash)
       }
       result = {  
-        owned: object.fund_owned,
+        owned: object.salon_owned,
         participating: participating_array
       }
       return result

@@ -3,6 +3,7 @@ module V1
     attributes :id, 
       :name, 
       :caption,
-      :amount
+      :amount,
+      :salon_id
   end
 end
