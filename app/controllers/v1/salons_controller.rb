@@ -114,7 +114,7 @@ module V1
 
     def cancel
       begin
-        UsersSalonsParticipation.find_by(salon_id: params[:id], user_id: params[:user_id]).destroy
+        UsersSalonsParticipation.find_by(payment_id: params[:payment_id]).destroy
         render 200
       rescue
         render 500
