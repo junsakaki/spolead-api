@@ -5,11 +5,11 @@ module V1
 
     def salons
       participating_array = []
-      participatings = object.participating
+      participatings = object.users_salons_participation
       participatings.each{|participating|
-        owner = participating.salon_owner
-        plans = participating.plans
-        participating_hash = participating.attributes
+        owner = participating.salon.salon_owner
+        plans = participating.plan
+        participating_hash = participating.salon.attributes
         participating_hash[:owner] = owner
         participating_hash[:plans] = plans
         participating_array.push(participating_hash)

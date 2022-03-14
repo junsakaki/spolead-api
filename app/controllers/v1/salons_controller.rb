@@ -99,7 +99,11 @@ module V1
     def participate
       participation = UsersSalonsParticipation.new(
         salon_id: params[:id],
-        user_id: params[:user_id]
+        user_id: params[:user_id],
+        plan_id: params[:plan_id],
+        amount: params[:amount],
+        count: params[:count],
+        payment_id: params[:payment_id]
       )
       if participation.save
         render 200
@@ -131,6 +135,9 @@ module V1
           :precautions,
           :user_id,
           :plan_id,
+          :amount,
+          :count,
+          :payment_id,
           plans: [
             :id,
             :name,
