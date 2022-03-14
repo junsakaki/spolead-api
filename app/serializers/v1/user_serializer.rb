@@ -9,9 +9,11 @@ module V1
       participatings.each{|participating|
         owner = participating.salon.salon_owner
         plans = participating.plan
-        participating_hash = participating.salon.attributes
+        salon = participating.salon
+        participating_hash = participating.attributes
         participating_hash[:owner] = owner
         participating_hash[:plans] = plans
+        participating_hash[:salon] = salon
         participating_array.push(participating_hash)
       }
       result = {  
