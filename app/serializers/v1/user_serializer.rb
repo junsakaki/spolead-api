@@ -16,8 +16,15 @@ module V1
         participating_hash[:salon] = salon
         participating_array.push(participating_hash)
       }
+      owned_array = []
+      object.salon_owned.each{|own_salon|
+        owner = own_salon.salon_owner
+        owner_hash = own_salon.attributes
+        owner_hash[:owner] = owner
+        owned_array.push(owner_hash)
+      }
       result = {  
-        owned: object.salon_owned,
+        owned: owned_array,
         participating: participating_array
       }
       return result
@@ -34,8 +41,15 @@ module V1
         purchase_hash[:reduction] = reduction
         purchased_array.push(purchase_hash)
       }
+      owned_array = []
+      object.fund_owned.each{|own_fund|
+        owner = own_fund.fund_owner
+        owner_hash = own_fund.attributes
+        owner_hash[:owner] = owner
+        owned_array.push(owner_hash)
+      }
       result = {  
-        owned: object.fund_owned,
+        owned: owned_array,
         purchased: purchased_array
       }
       return result
