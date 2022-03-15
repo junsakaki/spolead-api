@@ -6,14 +6,14 @@
       </template>
     </v-breadcrumbs>
     <div v-if="$vuetify.breakpoint.smAndDown" class="mb-6">
-      <Salons :salons="user.salons" />
+      <Salons :salons="user.salons" @getUser="getUser" />
     </div>
     <v-row v-else class="mb-6">
       <v-col cols="12" sm="3">
         <Menu />
       </v-col>
       <v-col cols="12" sm="9">
-        <Salons :salons="user.salons" />
+        <Salons :salons="user.salons" @getUser="getUser" />
       </v-col>
     </v-row>
   </div>
@@ -43,7 +43,12 @@ export default {
           disabled: true
         }
       ],
-      user: {}
+      user: {
+        salons: {
+          owned: [],
+          participating: []
+        }
+      }
     }
   },
   head () {
@@ -60,81 +65,18 @@ export default {
   },
   methods: {
     getUser () {
-      this.user = {
-        id: 1,
-        name: 'ユーザー名',
-        mailAddress: 'test@gmail.com',
-        favoriteTeams: [],
-        salons: {
-          owned: [{
-            id: 101,
-            name: '運営中のサロン1',
-            caption: '運営中のサロン1の説明',
-            imageTop: '',
-            imageSub: '',
-            content: '運営中のサロン1の内容',
-            background: '運営中のサロン1の開催背景',
-            selfIntroduction: '自己紹介',
-            precautions: '注意事項',
-            plans: [
-              { id: 1, name: 'プラン1', caption: 'プラン1の説明', price: 10000, participations_count: 100 },
-              { id: 2, name: 'プラン2', caption: 'プラン2の説明', price: 20000, participations_count: 10 }
-            ],
-            owner: {
-              name: 'オーナー名',
-              address: '住所',
-              mail_address: 'mail@gmail.com',
-              birthday: '生年月日',
-              tel: '電話番号',
-              identification1: '',
-              identification2: '',
-              transferAccount: '振り込み口座情報'
-            },
-            approval: true
-          }, {
-            id: 102,
-            name: '運営中のサロン2',
-            caption: '運営中のサロン2の説明',
-            imageTop: '',
-            imageSub: '',
-            content: '運営中のサロン2の内容',
-            background: '運営中のサロン2の開催背景',
-            selfIntroduction: '自己紹介',
-            precautions: '注意事項',
-            plans: [
-              { id: 1, name: 'プラン1', caption: 'プラン1の説明', price: 10000, participations_count: 20 }
-            ],
-            owner: {
-              name: 'オーナー名',
-              address: '住所',
-              mail_address: 'mail@gmail.com',
-              birthday: '生年月日',
-              tel: '電話番号',
-              identification1: '',
-              identification2: '',
-              transferAccount: '振り込み口座情報'
-            },
-            approval: false
-          }],
-          participating: [
-            {
-              id: 201,
-              name: '参加中のサロン1',
-              plan: { id: 1, name: 'プラン1', caption: 'プラン1の説明', price: 10000 },
-              owner: {
-                name: 'オーナー名'
-              }
-            },
-            {
-              id: 201,
-              name: '参加中のサロン1',
-              plan: { id: 2, name: 'プラン2', caption: 'プラン2の説明', price: 20000 },
-              owner: {
-                name: 'オーナー名'
-              }
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
             }
-          ]
-        }
+          }).then((res) => {
+            if (res.status === 200) {
+              this.user = res.data.user
+            }
+          })
       }
     }
   }

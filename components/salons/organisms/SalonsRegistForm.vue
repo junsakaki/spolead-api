@@ -19,11 +19,11 @@
             label="トップ画像"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'imageTop')"
+            @change="f => upload(f, 'image_top')"
           />
           <v-img
-            v-if="form.imageTop"
-            :src="form.imageTop"
+            v-if="form.image_top"
+            :src="form.image_top"
             max-height="150"
             max-width="250"
             contain
@@ -34,11 +34,11 @@
             label="サブ画像"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'imageSub')"
+            @change="f => upload(f, 'image_sub')"
           />
           <v-img
-            v-if="form.imageSub"
-            :src="form.imageSub"
+            v-if="form.image_sub"
+            :src="form.image_sub"
             max-height="150"
             max-width="250"
             contain
@@ -64,7 +64,7 @@
         </v-col>
         <v-col cols="12">
           <v-textarea
-            v-model="form.selfIntroduction"
+            v-model="form.self_introduction"
             autocomplete="自己紹介"
             label="自己紹介"
             dense
@@ -96,7 +96,7 @@
             <v-text-field v-model="plan.caption" label="プランの説明" required />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="plan.price" label="月額料金" type="number" required />
+            <v-text-field v-model.number="plan.amount" label="月額料金" type="number" required />
           </v-col>
         </v-card>
         <v-btn color="primary" outlined block @click="addPlan">
@@ -122,11 +122,11 @@
             label="本人確認書類①"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'owner', 'identification1')"
+            @change="f => upload(f, 'owner', 'identification_1')"
           />
           <v-img
-            v-if="form.owner.identification1"
-            :src="form.owner.identification1"
+            v-if="form.owner.identification_1"
+            :src="form.owner.identification_1"
             max-height="150"
             max-width="250"
             contain
@@ -137,18 +137,18 @@
             label="本人確認書類②"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'owner', 'identification2')"
+            @change="f => upload(f, 'owner', 'identification_2')"
           />
           <v-img
-            v-if="form.owner.identification2"
-            :src="form.owner.identification2"
+            v-if="form.owner.identification_2"
+            :src="form.owner.identification_2"
             max-height="150"
             max-width="250"
             contain
           />
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model="form.owner.transferAccount" label="振り込み口座情報" required />
+          <v-text-field v-model="form.owner.transfer_account" label="振り込み口座情報" required />
         </v-col>
       </v-container>
     </v-card-text>
@@ -183,14 +183,14 @@ export default {
       form: {
         name: '',
         caption: '',
-        imageTop: '',
-        imageSub: '',
+        image_top: '',
+        image_sub: '',
         content: '',
         background: '',
-        selfIntroduction: '',
+        self_introduction: '',
         precautions: '',
         plans: [
-          { id: 1, name: '', caption: '', price: 0 }
+          { id: 1, name: '', caption: '', amount: 0 }
         ],
         owner: {
           name: '',
@@ -198,21 +198,22 @@ export default {
           mail_address: '',
           birthday: '',
           tel: '',
-          identification1: '',
-          identification2: '',
-          transferAccount: ''
+          identification_1: '',
+          identification_2: '',
+          transfer_account: ''
         }
       }
     }
   },
   created () {
     if (this.salon) {
+      console.log(this.salon)
       this.form = { ...this.salon }
     }
   },
   methods: {
     submit () {
-      console.log(this.form)
+      this.$emit('submit', this.form)
       this.closeModal(true)
     },
     upload (file, p, c) {
@@ -240,7 +241,7 @@ export default {
       if (lastValue.name === '' || lastValue.caption === '') {
         return
       }
-      this.form.plans.push({ id: this.form.plans.length + 1, name: '', caption: '', price: 0 })
+      this.form.plans.push({ id: this.form.plans.length + 1, name: '', caption: '', amount: 0 })
     },
     reducePlan (index) {
       this.form.plans.splice(index, 1)

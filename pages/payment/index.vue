@@ -16,7 +16,7 @@
           {{ $route.query.name }}
         </v-card>
       </v-col>
-      <v-col cols="12" sm="3" class="font-weight-bold">
+      <v-col v-if="$route.query.paymentType !== 'subscription'" cols="12" sm="3" class="font-weight-bold">
         <v-card outlined tile class="pa-2">
           購入個数
           <font color="red" class="ml-2 caption font-weight-bold">
@@ -24,7 +24,7 @@
           </font>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="9">
+      <v-col v-if="$route.query.paymentType !== 'subscription'" cols="12" sm="9">
         <v-card outlined tile class="pa-2">
           <select v-model="purhaseCount" class="select-box px-2">
             <option v-for="item in purhaseCounts" :key="`selectItem-${item.value}`" :value="item.value">
@@ -36,7 +36,7 @@
       </v-col>
       <v-col cols="12" sm="3" class="font-weight-bold">
         <v-card outlined tile class="pa-2">
-          支払い金額
+          {{ $route.query.paymentType === 'subscription' ? '月額' : '支払い金額' }}
         </v-card>
       </v-col>
       <v-col cols="12" sm="9">
@@ -256,17 +256,33 @@ export default {
       } else if (this.$route.query.paymentType === 'subscription') {
         this.$store
           .dispatch('api/apiRequest', {
-            api: 'payment',
-            data
+            api: 'paymentCustomer',
+            data: { token: this.token }
           }).then((res) => {
             if (res.status === 200) {
-              this.$router.replace('/payment/complete')
-              this.onPurchaseCompleted({ paymentId: res.data.date.id })
+              this.$store
+                .dispatch('api/apiRequest', {
+                  api: 'payment',
+                  data: {
+                    ...data,
+                    plan: this.$route.query.subscriptionPlanId,
+                    customer: res.data.data.id
+                  }
+                }).then((res) => {
+                  if (res.status === 200) {
+                    this.onPurchaseCompleted({ paymentId: res.data.data.id })
+                  }
+                }).catch(() => {
+                  this.snackbar = {
+                    display: true,
+                    text: 'サブスクリプションの登録に失敗しました'
+                  }
+                })
             }
           }).catch(() => {
             this.snackbar = {
               display: true,
-              text: '購入に失敗しました'
+              text: 'サブスクリプションにおける顧客情報登録に失敗しました'
             }
           })
       }

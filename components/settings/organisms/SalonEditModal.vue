@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-dialog v-if="dialog" :value="dialog" persistent max-width="600px">
-      <salons-regist-form :salon="salon" @closeModal="closeModal" />
+      <salons-regist-form :salon="salon" @closeModal="closeModal" @submit="submit" />
     </v-dialog>
   </v-row>
 </template>
@@ -27,12 +27,20 @@ export default {
       content: ''
     }
   },
-  created () {
-    console.log(this.salon)
-  },
   methods: {
-    update () {
-      this.closeModal(true)
+    submit (data) {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'salonEdit',
+          query: {
+            id: this.salon.id
+          },
+          data
+        }).then((res) => {
+          if (res.status === 200) {
+            this.closeModal(true)
+          }
+        })
     },
     closeModal (shouldUpdateUser) {
       this.$emit('closeModal', shouldUpdateUser)

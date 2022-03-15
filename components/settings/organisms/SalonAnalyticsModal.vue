@@ -22,7 +22,7 @@
               {{ plan.name }}
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
-              {{ plan.price.toLocaleString() }}/1ヶ月
+              {{ plan.amount.toLocaleString() }}/1ヶ月
             </v-col>
             <v-col cols="12" sm="3" class="text-center">
               {{ plan.participations_count }}人

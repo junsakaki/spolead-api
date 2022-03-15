@@ -342,7 +342,7 @@ export default {
     url: foundation + '/manage/lessons/approval',
     method: 'post'
   },
-  // 支払い
+  // 支払い（単発 or サブスク）
   payment: {
     url: foundation + '/payment',
     method: 'post'
@@ -350,6 +350,16 @@ export default {
   // 支払いキャンセル
   paymentCancel: {
     url: foundation + '/payment/cancel',
+    method: 'post'
+  },
+  // サブスク - プラン作成
+  paymentPlan: {
+    url: foundation + '/payment/plan',
+    method: 'post'
+  },
+  // サブスク - 顧客作成
+  paymentCustomer: {
+    url: foundation + '/payment/customer',
     method: 'post'
   }
 }

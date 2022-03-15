@@ -5,7 +5,7 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <div class="salons">
+    <div v-if="salons.length > 0" class="salons">
       <v-row no-gutters>
         <v-col
           v-for="salon in salons"
@@ -17,8 +17,8 @@
           <router-link :to="`/salons/${salon.id}`" class="salon">
             <v-card class="pb-2">
               <v-img
-                v-if="salon.imageTop"
-                :src="salon.imageTop"
+                v-if="salon.image_top"
+                :src="salon.image_top"
                 max-height="100"
                 max-width="100%"
               />
@@ -36,6 +36,11 @@
           </router-link>
         </v-col>
       </v-row>
+    </div>
+    <div v-else class="d-flex justify-center">
+      <span class="grey--text">
+        登録されているサロンはありません
+      </span>
     </div>
   </div>
 </template>
@@ -64,19 +69,14 @@ export default {
   },
   methods: {
     getSalons () {
-      const list = []
-      for (let i = 0; i < 10; i++) {
-        list.push({
-          id: i,
-          name: 'オンラインサロンオンラインサロンオンラインサロンオンラインサロン',
-          owner: {
-            name: 'オーナー'
-          },
-          caption: 'オンラインサロンの説明が入りますオンラインサロンの説明が入りますオンラインサロンの説明が入ります',
-          imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU'
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'salonIndex'
+        }).then((res) => {
+          if (res.status === 200) {
+            this.salons = res.data.salons
+          }
         })
-      }
-      this.salons = list
     }
   }
 }

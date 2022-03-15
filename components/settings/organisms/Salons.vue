@@ -12,12 +12,12 @@
     </div>
     <div class="subtitle-1 font-weight-bold mt-8">
       <div>参加中のオンラインサロン</div>
-      <div v-if="salons.participating.length > 0" class="mt-2">
-        <router-link v-for="(salon, i) in salons.participating" :key="`salon-${salon.id}-${i}`" :to="`/salons/${salon.id}`" class="salon-link">
+      <div v-for="(salon, i) in salons.participating" :key="`salon-${salon.salon.id}-${i}`" class="mt-2 salon-purchased-item">
+        <router-link :to="`/salons/${salon.salon.id}`" class="salon-link">
           <v-card outlined tile style="margin-top: -1px;" class="salon-card">
             <v-row class="my-1 px-2">
               <v-col cols="12" sm="9" class=" body-2 font-weight-bold">
-                {{ salon.name }}
+                {{ salon.salon.name }} - {{ salon.plans.name }}
               </v-col>
               <v-col cols="12" sm="3" class="d-flex justify-end align-center caption">
                 <v-icon small class="mr-1">
@@ -28,9 +28,18 @@
             </v-row>
           </v-card>
         </router-link>
+        <div class="cancel">
+          <v-btn x-small color="error" icon @click="showPaymentCancelModal(salon)">
+            <v-icon x-small>
+              mdi-close
+            </v-icon>
+          </v-btn>
+        </div>
       </div>
-      <div v-else class="mt-2">
-        参加中のオンラインサロンはありません
+      <div v-if="salons.participating.length === 0" class="d-flex justify-cente mt-2">
+        <span class="grey--text">
+          参加中のオンラインサロンはありません
+        </span>
       </div>
     </div>
     <div class="subtitle-1 font-weight-bold mt-8">
@@ -49,8 +58,8 @@
               {{ salon.name }}
             </v-col>
             <v-col cols="12" sm="3" class="d-flex justify-end align-center">
-              <v-btn x-small class="ml-2 font-weight-bold" :color="salon.approval ? 'error' : 'primary'" elevation="0">
-                {{ salon.approval ? '審査中' : '掲載中' }}
+              <v-btn x-small class="ml-2 font-weight-bold" :color="salon.approval ? 'primary' : 'error'" elevation="0">
+                {{ salon.approval ? '掲載中' : '審査中' }}
               </v-btn>
               <router-link :to="`/salons/${salon.id}`" class="ml-2 salon-link">
                 <v-btn icon small>
@@ -73,8 +82,10 @@
           </v-row>
         </v-card>
       </div>
-      <div v-else class="mt-2">
-        掲載中のオンラインサロンはありません
+      <div v-else class="d-flex justify-cente mt-2">
+        <span class="grey--text">
+          掲載中のオンラインサロンはありません
+        </span>
       </div>
     </div>
     <salon-analytics-modal
@@ -87,15 +98,21 @@
       :salon="selectedSalon"
       @closeModal="closeModal"
     />
+    <salon-payment-cancel-modal
+      :dialog="paymentCancelModal"
+      :salon="selectedSalon"
+      @closeModal="closeModal"
+    />
   </div>
 </template>
 
 <script>
 import SalonAnalyticsModal from '~/components/settings/organisms/SalonAnalyticsModal.vue'
 import SalonEditModal from '~/components/settings/organisms/SalonEditModal.vue'
+import SalonPaymentCancelModal from '~/components/settings/organisms/SalonPaymentCancelModal.vue'
 
 export default {
-  components: { SalonAnalyticsModal, SalonEditModal },
+  components: { SalonAnalyticsModal, SalonEditModal, SalonPaymentCancelModal },
   props: {
     salons: {
       type: Object,
@@ -106,6 +123,7 @@ export default {
     return {
       analyticsModal: false,
       editModal: false,
+      paymentCancelModal: false,
       selectedSalon: null
     }
   },
@@ -113,16 +131,23 @@ export default {
     closeModal (shouldUpdateUser) {
       this.editModal = false
       this.analyticsModal = false
+      this.paymentCancelModal = false
       this.selectedSalon = null
-      // TODO: 必要があればサロン情報を含むユーザー情報を再取得する
+      if (shouldUpdateUser) {
+        this.$emit('getUser')
+      }
     },
-    showAnalyticsModal (salon) {
-      this.selectedSalon = salon
+    showAnalyticsModal (item) {
+      this.selectedSalon = { ...item }
       this.analyticsModal = true
     },
-    showEditModal (salon) {
-      this.selectedSalon = salon
+    showEditModal (item) {
+      this.selectedSalon = { ...item }
       this.editModal = true
+    },
+    showPaymentCancelModal (item) {
+      this.selectedSalon = { ...item }
+      this.paymentCancelModal = true
     }
   }
 }
@@ -136,6 +161,14 @@ export default {
     transition-duration: 0.28s;
     transition-property: background-color;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+.salon-purchased-item {
+  position: relative;
+  .cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 </style>

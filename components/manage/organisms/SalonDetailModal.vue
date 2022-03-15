@@ -81,7 +81,7 @@
             <v-col cols="12" sm="9" class="body-2">
               <v-card outlined tile class="pa-1">
                 <div>
-                  価格: {{ plan.price.toLocaleString() }}円
+                  価格: {{ plan.amount.toLocaleString() }}円
                 </div>
                 <div>
                   {{ plan.caption }}
