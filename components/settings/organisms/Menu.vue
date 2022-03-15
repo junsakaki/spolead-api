@@ -20,11 +20,11 @@
         指導者マッチング
       </div>
     </router-link>
-    <router-link to="/settings/payments" class="subtitle-2 font-weight-bold mt-4 settings-link">
+    <!-- <router-link to="/settings/payments" class="subtitle-2 font-weight-bold mt-4 settings-link">
       <div class="py-3">
         決済情報
       </div>
-    </router-link>
+    </router-link> -->
     <v-divider />
     <v-btn color="error" text class="mt-2" @click="logOut">
       ログアウト
