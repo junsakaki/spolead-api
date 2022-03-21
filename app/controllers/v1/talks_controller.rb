@@ -25,7 +25,7 @@ module V1
     end
 
     def payment_status
-      payment = LessonCommentPayment.find(params[:payment_id])
+      payment = LessonCommentPayment.find(params[:comment_payment_id])
       payment.paid = !payment.paid
       payment.payment_id = params[:payment_id]
       if payment.save
@@ -63,6 +63,7 @@ module V1
           :user_id,
           :lesson_id,
           :payment_id,
+          :comment_payment_id,
           comment: [
             :id,
             :talk_id,
