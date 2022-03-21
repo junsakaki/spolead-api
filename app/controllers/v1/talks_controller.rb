@@ -18,7 +18,7 @@ module V1
         lesson_id: params[:lesson_id]
       )
       if talk.save!
-        render 200
+        render json: {talk: talk, id: talk.id}
       else
         render 500
       end
