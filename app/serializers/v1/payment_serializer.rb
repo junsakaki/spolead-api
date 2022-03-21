@@ -1,5 +1,5 @@
 module V1
   class PaymentSerializer < ActiveModel::Serializer
-    attributes :amount
+    attributes :id, :amount, :paid, :payment_id, :plan_id
   end
 end

@@ -2,7 +2,7 @@ module V1
   class TalksController < ApplicationController
 
     def index
-      talks = LessonsTalkRoom.includes(:user, :lesson, :comments)
+      talks = LessonsTalkRoom.includes(:user, :lesson, :comments).where(user_id: params[:user_id])
       paginated_talks = pagenate(talks, params[:page])
 
       render json: paginated_talks, each_serializer: V1::TalkSerializer, meta: paginated_talks.total_pages
@@ -27,6 +27,7 @@ module V1
     def payment_status
       payment = LessonCommentPayment.find(params[:payment_id])
       payment.paid = !payment.paid
+      payment.payment_id = params[:payment_id]
       if payment.save
         render 200
       else
@@ -43,7 +44,8 @@ module V1
       if params[:payment].present?
         comment.build_payment(
           lesson_comment_id: comment.id,
-          amount: params[:payment][:amount]
+          amount: params[:payment][:amount],
+          plan_id: params[:payment][:plan_id]
         )
       end
       
@@ -60,6 +62,7 @@ module V1
           :id,
           :user_id,
           :lesson_id,
+          :payment_id,
           comment: [
             :id,
             :talk_id,
@@ -67,7 +70,8 @@ module V1
             payment: [
               :id,
               :comment_id,
-              :amount
+              :amount,
+              :plan_id
             ]
           ])
     end
