@@ -3,7 +3,8 @@ module V1
     attributes :id, :users
     
     has_many :comments, serializer: V1::CommentSerializer
-    
+    belongs_to :lesson, serializer: V1::LessonSerializer
+
     def users
       result = []
       user = {
