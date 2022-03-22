@@ -10,7 +10,7 @@
       </template>
     </v-breadcrumbs>
     <div class="container">
-      <lessons-regist-form />
+      <lessons-regist-form @submit="submit" />
     </div>
   </v-layout>
 </template>
@@ -29,7 +29,8 @@ export default {
           text: '指導者マッチングの登録申請',
           disabled: true
         }
-      ]
+      ],
+      userId: null
     }
   },
   head () {
@@ -37,9 +38,39 @@ export default {
       title: '指導者マッチングの登録申請 | '
     }
   },
+  created () {
+    this.getUser()
+  },
   methods: {
-    submit () {
-      console.log(this.form)
+    getUser () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      } else {
+        this.$router.push('/login')
+      }
+    },
+    submit (form) {
+      const data = { ...form }
+      data.owner.user_id = this.userId
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'lessonCreate',
+          data
+        }).then((res) => {
+          if (res.status === 200) {
+            this.$router.push('/lessons')
+          }
+        })
     }
   }
 }

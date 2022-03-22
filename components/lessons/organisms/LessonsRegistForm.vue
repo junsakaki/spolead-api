@@ -30,7 +30,7 @@
             <v-checkbox
               v-for="item in $CONTACT_TYPE"
               :key="`contact-${item.id}`"
-              v-model="form.contactType"
+              v-model="form.contact_type"
               :label="item.type"
               :value="item.id"
               class="ma-0"
@@ -43,7 +43,7 @@
             <v-checkbox
               v-for="item in $PAYMENT_TYPE"
               :key="`payment-${item.id}`"
-              v-model="form.paymentType"
+              v-model="form.payment_type"
               :label="item.type"
               :value="item.id"
               class="ma-0"
@@ -55,11 +55,26 @@
             label="トップ画像"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'imageTop')"
+            @change="f => upload(f, 'image_top')"
           />
           <v-img
-            v-if="form.imageTop"
-            :src="form.imageTop"
+            v-if="form.image_top"
+            :src="form.image_top"
+            max-height="150"
+            max-width="250"
+            contain
+          />
+        </v-col>
+        <v-col v-if="form.recruitment_target === 'student'" cols="12">
+          <v-file-input
+            label="サブ画像"
+            prepend-icon="mdi-camera"
+            required
+            @change="f => upload(f, 'image_sub')"
+          />
+          <v-img
+            v-if="form.image_sub"
+            :src="form.image_sub"
             max-height="150"
             max-width="250"
             contain
@@ -85,7 +100,7 @@
         </v-col>
         <v-col v-if="form.recruitment_target === 'student'" cols="12">
           <v-textarea
-            v-model="form.selfIntroduction"
+            v-model="form.self_introduction"
             autocomplete="自己紹介"
             label="自己紹介"
             dense
@@ -121,11 +136,11 @@
             label="本人確認書類①"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'owner', 'identification1')"
+            @change="f => upload(f, 'owner', 'identification_1')"
           />
           <v-img
-            v-if="form.owner.identification1"
-            :src="form.owner.identification1"
+            v-if="form.owner.identification_1"
+            :src="form.owner.identification_1"
             max-height="150"
             max-width="250"
             contain
@@ -136,18 +151,18 @@
             label="本人確認書類②"
             prepend-icon="mdi-camera"
             required
-            @change="f => upload(f, 'owner', 'identification2')"
+            @change="f => upload(f, 'owner', 'identification_2')"
           />
           <v-img
-            v-if="form.owner.identification2"
-            :src="form.owner.identification2"
+            v-if="form.owner.identification_2"
+            :src="form.owner.identification_2"
             max-height="150"
             max-width="250"
             contain
           />
         </v-col>
         <v-col v-if="form.recruitment_target === 'student'" cols="12">
-          <v-text-field v-model="form.owner.transferAccount" label="振り込み口座情報" required />
+          <v-text-field v-model="form.owner.transfer_account" label="振り込み口座情報" required />
         </v-col>
       </v-container>
     </v-card-text>
@@ -182,13 +197,14 @@ export default {
       form: {
         name: '',
         recruitment_target: 'student', // student(生徒を探す) or coarch(コーチを探す)
-        contactType: [],
-        paymentType: [],
+        contact_type: [],
+        payment_type: [],
         caption: '',
-        imageTop: '',
+        image_top: '',
+        image_sub: '',
         content: '',
         background: '',
-        selfIntroduction: '',
+        self_introduction: '',
         precautions: '',
         owner: {
           name: '',
@@ -196,26 +212,28 @@ export default {
           mail_address: '',
           birthday: '',
           tel: '',
-          identification1: '',
-          identification2: '',
-          transferAccount: ''
+          identification_1: '',
+          identification_2: '',
+          transfer_account: ''
         }
       }
     }
   },
   created () {
-    console.log(this.form)
     if (this.lesson) {
-      this.form = { ...this.lesson }
-      console.log(this.form)
+      this.form = {
+        ...this.lesson,
+        contact_type: this.lesson.contact_type.split(',').map(Number),
+        payment_type: this.lesson.payment_type.split(',').map(Number)
+      }
     }
   },
   methods: {
     submit () {
-      console.log(this.form)
-      if (this.lesson) {
-        this.closeModal(true)
-      }
+      this.form.contact_type = this.form.contact_type.toString()
+      this.form.payment_type = this.form.payment_type.toString()
+      this.$emit('submit', this.form)
+      this.closeModal(true)
     },
     upload (file, p, c) {
       if (file !== undefined && file !== null) {
@@ -239,20 +257,12 @@ export default {
     },
     changeRecruitmentTarget (target) {
       this.form.recruitment_target = target
-      if (target === 'coach') {
-        this.form.imageTop = null
-        this.form.content = null
-        this.form.background = null
-        this.form.selfIntroduction = null
-        this.form.precautions = null
-      }
-      if (target === 'student') {
-        this.form.imageTop = ''
-        this.form.content = ''
-        this.form.background = ''
-        this.form.selfIntroduction = ''
-        this.form.precautions = ''
-      }
+      this.form.image_top = ''
+      this.form.image_sub = ''
+      this.form.content = ''
+      this.form.background = ''
+      this.form.self_introduction = ''
+      this.form.precautions = ''
     },
     closeModal (shouldUpdateUser) {
       this.$emit('closeModal', shouldUpdateUser)

@@ -7,16 +7,17 @@
     <template #activator="{ on, attrs }">
       <div class="comment-button">
         <v-btn
-          fab
+          block
           dark
           color="teal"
-          small
+          large
           v-bind="attrs"
           v-on="on"
         >
           <v-icon dark small>
             mdi-chat-plus
           </v-icon>
+          コメントを投稿
         </v-btn>
       </div>
     </template>
@@ -34,14 +35,18 @@
         />
       </div>
       <div v-if="isPaymentComment" class="mx-4">
+        <v-switch
+          v-model="isSubscription"
+          label="月定額"
+        />
         <div class="form-input">
           <div class="body-1 font-weight-bold">
-            支払い金額
+            {{ isSubscription ? '月額' : '支払い金額' }}
           </div>
           <div>
             <span class="validation-icon px-2">必須</span>
           </div>
-          <input v-model="price" class="px-2" placeholder="支払い金額(円)を入力してください" type="number">
+          <input v-model="amount" class="px-2" placeholder="支払い金額(円)を入力してください" type="number">
           <div class="ml-1 body-1 font-weight-bold">
             円
           </div>
@@ -53,7 +58,7 @@
           color="primary"
           text
           :disabled="comment === ''"
-          @click="onSubmitComment"
+          @click="submit"
         >
           送信
         </v-btn>
@@ -77,7 +82,8 @@ export default {
       comment: '',
       userId: null,
       isPaymentComment: false,
-      price: 0
+      amount: 0,
+      isSubscription: false
     }
   },
   created () {
@@ -99,12 +105,45 @@ export default {
           })
       }
     },
-    onSubmitComment () {
-      console.log({ id: this.userId, comment: this.comment, payment: this.isPaymentComment ? { price: this.price } : null })
-      this.comment = ''
-      this.isPaymentComment = false
-      this.price = 0
-      this.onCloseModal()
+    postComment (planId) {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'talkCommentCreate',
+          query: {
+            id: Number(this.$route.params.id)
+          },
+          data: {
+            user_id: this.userId,
+            content: this.comment,
+            payment: this.isPaymentComment ? { amount: this.amount, plan_id: planId } : null
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.comment = ''
+            this.isPaymentComment = false
+            this.amount = 0
+            this.onCloseModal()
+            this.$emit('complete')
+          }
+        })
+    },
+    submit () {
+      if (this.isSubscription) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'paymentPlan',
+            data: {
+              amount: this.amount,
+              interval: 'month'
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              this.postComment(res.data.data.id)
+            }
+          })
+      } else {
+        this.postComment(null)
+      }
     },
     onCloseModal () {
       this.dialog = false
@@ -116,9 +155,10 @@ export default {
 <style lang="scss" scoped>
 .comment-button {
   position: sticky;
-  text-align: right;
-  margin: 0 16px 16px;
+  text-align: center;
+  margin: 16px auto;
   bottom: 68px;
+  max-width: 200px;
 }
 .form-textarea {
   width: 100%;

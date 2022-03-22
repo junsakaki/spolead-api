@@ -7,7 +7,7 @@
             トークルーム
           </div>
           <div class="text-center grey--text">
-            ユーザー
+            相手
           </div>
         </div>
         <v-divider class="mb-2" />
@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="body-2 font-weight-bold text-center talk-name ">
-            {{ talk.users.find(user => user.id !== testUserId).name }}
+            {{ talk.users.find(user => user.id !== userId).id }}
           </div>
           <div class="filter" />
         </router-link>
@@ -59,15 +59,14 @@ export default {
   },
   data () {
     return {
-      testUserId: 1
     }
   },
   methods: {
     getCommentOwnerName (talk) {
-      if (talk.comments[0].user_id === this.testUserId) {
+      if (talk.comments[0].user.id === this.userId) {
         return 'あなた'
       } else {
-        return talk.users.find(user => user.id === talk.comments[0].user_id).name
+        return talk.users.find(user => user.id === talk.comments[0].user.id).id
       }
     }
   }

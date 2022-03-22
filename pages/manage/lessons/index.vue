@@ -22,12 +22,12 @@
 <script>
 import Menu from '~/components/manage/organisms/Menu.vue'
 import Lessons from '~/components/manage/organisms/Lessons.vue'
-import constants from '~/pages/lessons/constants.js'
 
 export default {
   components: { Menu, Lessons },
   data () {
     return {
+      lessons: [],
       breadcrumbs: [
         ...this.$BREADCRUMBS,
         {
@@ -43,8 +43,7 @@ export default {
           text: 'オンラインサロン',
           disabled: true
         }
-      ],
-      ...constants
+      ]
     }
   },
   head () {
@@ -61,7 +60,27 @@ export default {
   },
   methods: {
     updateApproval (lesson) {
-      console.log('現在は', lesson.approval ? '承認済み' : '未承認', 'なので、値を', !lesson.approval, 'にします')
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'manageLessonApproval',
+          data: {
+            id: lesson.id
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.getLessons()
+          }
+        })
+    },
+    getLessons () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'manageLessonIndex'
+        }).then((res) => {
+          if (res.status === 200) {
+            this.lessons = res.data.lessons
+          }
+        })
     },
     checkRole () {
       if (this.$auth && this.$auth.user) {
@@ -75,6 +94,8 @@ export default {
             if (res.status === 200) {
               if (res.data.user.role !== 'admin') {
                 this.$router.replace('/')
+              } else {
+                this.getLessons()
               }
             }
           })

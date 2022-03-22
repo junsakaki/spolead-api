@@ -295,6 +295,21 @@ export default {
     method: 'post'
   },
   /**
+   * コメント内支払いステータスの更新
+   * @see https://jpkeylink.backlog.jp/alias/wiki/1022936
+   */
+  talkCommentPayment: {
+    url: foundation + '/talks/:id/comment/payment',
+    method: 'patch'
+  },
+  /**
+   * コメント内支払いのキャンセル
+   */
+  talkCommentPaymentCancel: {
+    url: foundation + '/talks/:id/comment/payment/cancel',
+    method: 'patch'
+  },
+  /**
    * サービス管理 - サロン一覧
    * @see https://jpkeylink.backlog.jp/alias/wiki/1017208
    */

@@ -22,8 +22,8 @@
             <v-row no-gutters>
               <v-col cols="12" sm="3">
                 <v-img
-                  v-if="lesson.imageTop"
-                  :src="lesson.imageTop"
+                  v-if="lesson.image_top"
+                  :src="lesson.image_top"
                   height="100%"
                 />
                 <div v-else class="lesson-image" />
@@ -109,30 +109,14 @@ export default {
   },
   methods: {
     getLessons () {
-      const list = []
-      for (let i = 0; i < 10; i++) {
-        list.push({
-          id: i,
-          recruitment_target: 'student',
-          name: 'サッカー、フットサルの為の身体作りサポートしますサッカー、フットサルの為の身体作りサポートします',
-          owner: {
-            name: 'まるやままさひ'
-          },
-          caption: 'フィジカルに悩む方向け！元プロフットサル選手がサポート。',
-          content: 'サッカー、フットサルをプレーする皆さん。食べてるのに身体が大きくならない、フィジカル不足で試合で活躍出来ない、そういった悩みがある方多いことでしょう。かつては私もそうでした。ですが、様々な知識を蓄え、試行錯誤をし身体を鍛え上げ日本のフットサルトップリーグ、『Fリーグ』でフィジカルを武器に闘えるまでになった経験をお伝えします。トレーニングメニュー、食事指導、プレー分析等、何でも遠慮なくご相談ください。',
-          imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU'
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'lessonIndex'
+        }).then((res) => {
+          if (res.status === 200) {
+            this.lessons = res.data.lessons
+          }
         })
-        list.push({
-          id: i + 100,
-          recruitment_target: 'coach',
-          name: 'サッカーを教えてほしいです！小学生です！',
-          owner: {
-            name: 'まるやまこたろう'
-          },
-          caption: '将来の夢はJリーガーです！'
-        })
-      }
-      this.lessons = list
     },
     changeRecruitmentTarget (recruitmentTarget) {
       this.$router.replace(`/lessons?recruitment=${recruitmentTarget}`)

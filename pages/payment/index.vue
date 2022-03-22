@@ -217,8 +217,14 @@ export default {
       if (this.$route.query.type === 'lesson') {
         this.$store
           .dispatch('api/apiRequest', {
-            api: 'lessonPurchase',
-            data
+            api: 'talkCommentPayment',
+            data: {
+              ...data,
+              comment_payment_id: Number(this.$route.query.id)
+            },
+            query: {
+              id: Number(this.$route.query.id)
+            }
           }).then((res) => {
             if (res.status === 200) {
               window.close()

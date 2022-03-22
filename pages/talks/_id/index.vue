@@ -25,7 +25,7 @@
           </v-col>
           <v-col cols="12" sm="10" style="margin-top: -1px;">
             <v-card outlined tile class="pa-2">
-              <v-chip v-for="contactType in talk.lesson.contactType" :key="`contactType-${contactType}`" color="primary font-weight-bold" x-small class="mx-1">
+              <v-chip v-for="contactType in talk.lesson.contact_type.split(',').map(Number)" :key="`contactType-${contactType}`" color="primary font-weight-bold" x-small class="mx-1">
                 {{ getContactType(contactType) }}
               </v-chip>
             </v-card>
@@ -37,43 +37,70 @@
           </v-col>
           <v-col cols="12" sm="10" style="margin-top: -1px;">
             <v-card outlined tile class="pa-2">
-              <v-chip v-for="paymentType in talk.lesson.paymentType" :key="`paymentType-${paymentType}`" color="primary font-weight-bold" x-small class="mx-1">
+              <v-chip v-for="paymentType in talk.lesson.payment_type.split(',').map(Number)" :key="`paymentType-${paymentType}`" color="primary font-weight-bold" x-small class="mx-1">
                 {{ getPaymentType(paymentType) }}
               </v-chip>
             </v-card>
           </v-col>
         </v-row>
         <div class="d-flex justify-center align-center mt-2">
-          <router-link :to="`/talks/${talk.id}`" class="detail-link caption">
+          <router-link :to="`/lessons/${talk.lesson.id}`" class="detail-link caption">
             詳細を確認
           </router-link>
         </div>
       </div>
     </div>
-    <div class="mt-4 body-1">
+    <div v-if="!!userId" class="mt-4 body-1">
       <div v-if="talk.comments.length > 0">
         <div v-for="comment in talk.comments" :key="`comment-${comment.id}`" class="mt-4">
           <div class="comment-wrapper">
             <div class="caption">
-              {{ !isMyComment(comment.user_id) ? talk.users.find(user => user.id === comment.user_id).name : '' }}
+              <!-- {{ !isMyComment(comment.user.id) ? talk.users.find(user => user.id === comment.user.id).name : '' }} -->
+              {{ !isMyComment(comment.user.id) ? `id: ${comment.user.id}` : '' }}
             </div>
-            <v-card outlined :class="`pa-2 comment ${isMyComment(comment.user_id) ? 'mine ml-4' : 'mr-4'}`">
-              <p class="ma-0" v-html="transformTextToHtml(comment.content)" />
+            <v-card outlined :class="`pa-2 comment ${isMyComment(comment.user.id) ? 'mine ml-4' : 'mr-4'}`">
+              <p class="ma-0 comment-content" v-html="transformTextToHtml(comment.content)" />
             </v-card>
             <div class="caption text-right">
-              {{ isMyComment(comment.user_id) ? 'あなた' : '' }}
+              {{ isMyComment(comment.user.id) ? 'あなた' : '' }}
             </div>
           </div>
           <div class="comment-wrapper">
             <div />
             <div>
-              <v-card v-if="comment.payment" :class="`pa-4 mt-4 ${isMyComment(comment.user_id) ? 'ml-4' : 'mr-4'} text-center`" color="blue-grey" dark>
-                <div>支払い金額: {{ comment.payment.price.toLocaleString() }}円</div>
-                <router-link :to="`/payment?type=lesson&id=${talk.lesson.id}`" style="text-decoration: none;">
-                  <v-btn class="mt-4" color="blue-grey darken-2" dark>
-                    決済へ進む
-                  </v-btn>
-                </router-link>
+              <v-card v-if="comment.payment" :class="`pa-4 mt-4 ${isMyComment(comment.user.id) ? 'ml-4' : 'mr-4'} text-center`" color="blue-grey" dark>
+                <div>{{ `${!!comment.payment.plan_id ? '月額' : '支払い金額'}` }}: {{ comment.payment.amount.toLocaleString() }}円</div>
+                <div v-if="comment.payment.cancel">
+                  キャンセル済み
+                </div>
+                <div v-else>
+                  <router-link
+                    v-if="!comment.payment.payment_id"
+                    :to="`/payment?type=lesson&id=${comment.payment.id}${comment.payment.plan_id ? `&subscriptionPlanId=${comment.payment.plan_id}` : ''}&name=${talk.lesson.name}&amount=${comment.payment.amount}&paymentType=${comment.payment.plan_id ? 'subscription' : 'charge'}`"
+                    target="_blank"
+                    style="text-decoration: none;"
+                  >
+                    <v-btn
+                      class="mt-4"
+                      color="blue-grey darken-2"
+                      dark
+                      :disabled="!!comment.payment.payment_id || isUsedPaymentButton"
+                      @click="onClickPaymentButton()"
+                    >
+                      決済へ進む
+                    </v-btn>
+                  </router-link>
+                  <div v-else>
+                    <v-btn
+                      class="mt-4"
+                      color="error"
+                      dark
+                      @click="onClickCancelButton(comment)"
+                    >
+                      キャンセル
+                    </v-btn>
+                  </div>
+                </div>
               </v-card>
             </div>
             <div />
@@ -84,14 +111,22 @@
         メッセージはまだありません
       </div>
     </div>
+    <comment-button @complete="getTalkDetail()" />
+    <payment-cancel-modal
+      :dialog="paymentCancelModal"
+      :comment="selectedComment"
+      @closeModal="closeModal"
+    />
   </div>
 </template>
 
 <script>
-import constants from '../constants'
 import transformTextToHtml from '~/utils/transformTextToHtml'
+import CommentButton from '~/components/talks/atoms/CommentButton.vue'
+import PaymentCancelModal from '~/components/talks/organisms/PaymentCancelModal.vue'
 
 export default {
+  components: { CommentButton, PaymentCancelModal },
   data () {
     return {
       transformTextToHtml,
@@ -107,14 +142,21 @@ export default {
           }
         },
         {
-          text: 'しょうた',
+          text: '詳細',
           disabled: true
         }
       ],
-      testUserId: 1,
       lessonDetail: false,
-      ...constants
+      talk: { comments: [] },
+      userId: null,
+      isUsedPaymentButton: false,
+      paymentCancelModal: false,
+      selectedComment: null
     }
+  },
+  created () {
+    this.getUser()
+    this.getTalkDetail()
   },
   methods: {
     getUser () {
@@ -131,7 +173,22 @@ export default {
               this.userId = Number(res.data.user.id)
             }
           })
+      } else {
+        this.$router.push('/login')
       }
+    },
+    getTalkDetail () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'talkDetail',
+          query: {
+            id: Number(this.$route.params.id)
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            this.talk = res.data.lessons_talk_room
+          }
+        })
     },
     showLessonDetail () {
       this.lessonDetail = !this.lessonDetail
@@ -145,7 +202,22 @@ export default {
       return target ? target.type : null
     },
     isMyComment (id) {
-      return id === this.testUserId
+      return id === this.userId
+    },
+    onClickPaymentButton () {
+      this.isUsedPaymentButton = true
+    },
+    onClickCancelButton (comment) {
+      this.selectedComment = comment
+      this.paymentCancelModal = true
+    },
+    closeModal (shouldUpdateUser) {
+      this.paymentCancelModal = false
+      this.selectedComment = null
+      if (shouldUpdateUser) {
+        this.getUser()
+        this.getTalkDetail()
+      }
     }
   }
 }
@@ -176,5 +248,10 @@ export default {
   text-align: right;
   top: 0;
   bottom: 0;
+}
+.comment-content {
+  span {
+    overflow-wrap: anywhere;
+  }
 }
 </style>

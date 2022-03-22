@@ -96,7 +96,9 @@ export default {
       this.editModal = false
       this.analyticsModal = false
       this.selectedLesson = null
-      // TODO: 必要があればサロン情報を含むユーザー情報を再取得する
+      if (shouldUpdateUser) {
+        this.$emit('getUser')
+      }
     },
     showEditModal (salon) {
       this.selectedLesson = salon

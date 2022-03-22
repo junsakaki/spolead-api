@@ -8,35 +8,35 @@
     <v-row no-gutters>
       <v-col cols="12" md="8">
         <div class="text-h5 font-weight-bold">
-          {{ salon.name }}
+          {{ lesson.name }}
         </div>
         <div class="body-1 mt-8">
-          {{ salon.caption }}
+          {{ lesson.caption }}
         </div>
         <div class="body-2 mt-8">
-          {{ salon.owner.name }}
+          {{ lesson.owner.name }}
         </div>
         <v-img
-          v-if="salon.imageTop"
-          :src="salon.imageTop"
+          v-if="lesson.image_top"
+          :src="lesson.image_top"
           max-height="200"
           max-width="100%"
-          class="salon-image mt-8"
+          class="lesson-image mt-8"
         />
-        <div v-else class="salon-image mt-8" />
-        <!-- <v-img
-          v-if="salon.imageSub"
-          :src="salon.imageSub"
+        <div v-else class="lesson-image mt-8" />
+        <v-img
+          v-if="lesson.image_sub"
+          :src="lesson.image_sub"
           max-height="200"
           max-width="100%"
-          class="salon-image mt-8"
+          class="lesson-image mt-8"
         />
-        <div v-else class="salon-image mt-8" /> -->
+        <div v-else class="lesson-image mt-8" />
         <div class="mt-8 d-flex align-center">
           <div class="body-1 font-weight-bold mr-4">
             受講タイプ
           </div>
-          <v-chip v-for="contactType in salon.contactType" :key="`contactType-${contactType}`" color="primary" x-small class="mx-1">
+          <v-chip v-for="contactType in lesson.contact_type.split(',')" :key="`contactType-${contactType}`" color="primary" x-small class="mx-1">
             {{ getContactType(contactType) }}
           </v-chip>
         </div>
@@ -44,7 +44,7 @@
           <div class="body-1 font-weight-bold mr-4">
             支払いタイプ
           </div>
-          <v-chip v-for="paymentType in salon.paymentType" :key="`paymentType-${paymentType}`" color="primary" x-small class="mx-1">
+          <v-chip v-for="paymentType in lesson.payment_type.split(',')" :key="`paymentType-${paymentType}`" color="primary" x-small class="mx-1">
             {{ getPaymentType(paymentType) }}
           </v-chip>
         </div>
@@ -53,7 +53,7 @@
             サロン概要
           </div>
           <div class="mt-2">
-            <p v-html="transformTextToHtml(salon.content)" />
+            <p v-html="transformTextToHtml(lesson.content)" />
           </div>
         </div>
         <div class="background mt-8">
@@ -61,7 +61,7 @@
             背景
           </div>
           <div class="mt-2">
-            <p class="body-1" v-html="transformTextToHtml(salon.background)" />
+            <p class="body-1" v-html="transformTextToHtml(lesson.background)" />
           </div>
         </div>
         <div class="selfIntroduction mt-8">
@@ -69,7 +69,7 @@
             自己紹介
           </div>
           <div class="mt-2">
-            <p class="body-1" v-html="transformTextToHtml(salon.selfIntroduction)" />
+            <p class="body-1" v-html="transformTextToHtml(lesson.self_introduction)" />
           </div>
         </div>
       </v-col>
@@ -86,7 +86,7 @@
               追加オプション
             </div>
             <v-textarea
-              v-model="form.content"
+              v-model="form.option"
               dense
               required
             />
@@ -94,10 +94,10 @@
               注意事項
             </div>
             <div class="caption">
-              {{ salon.precautions }}
+              {{ lesson.precautions }}
             </div>
             <div class="text-center mt-4">
-              <common-button button-color="primary" @click="startTalkroom(salon.id)">
+              <common-button button-color="primary" @click="startTalkroom(lesson)">
                 依頼
               </common-button>
             </div>
@@ -118,54 +118,68 @@ export default {
     return {
       transformTextToHtml,
       breadcrumbs: [],
-      salon: {},
+      lesson: { owner: {}, contact_type: '', payment_type: '' },
       form: {
-        option: ''
-      }
+        option: null
+      },
+      userId: null
     }
   },
   head () {
     return {
-      title: `${this.salon.name} - 指導者マッチング | `
+      title: `${this.lesson.name} - 指導者マッチング | `
     }
   },
   created () {
-    this.getSalonDetail()
+    this.getLessonDetail()
+    this.getUser()
   },
   methods: {
-    getSalonDetail () {
-      this.salon = { // 指導内容・購入注意事項・追加オプション・オンライン/直接・スポット/月定額等
-        id: 101,
-        name: 'サッカー、フットサルの為の身体作りサポートします',
-        caption: 'フィジカルに悩む方向け！元プロフットサル選手がサポート。',
-        imageTop: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
-        // imageSub: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa3404Eb2IpfFK6JPahYOKqTnG02RnISWSWA&usqp=CAU',
-        content: '<h1>タイトル</h1><h2>サブタイトル</h2><div>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a</div>',
-        background: 'フィジカルに悩む方向け！元プロフットサル選手がサポート。する背景',
-        selfIntroduction: 'まるやままさひです！サッカーコーチです！',
-        contactType: '1,2'.split(','),
-        paymentType: '1,2'.split(','),
-        precautions: 'オンラインか直接かは追加オプションに記入をお願いします。',
-        owner: {
-          name: 'まるやままさひ'
-        }
+    getUser () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      } else {
+        this.$router.push('/login')
       }
-      this.breadcrumbs = [
-        ...this.$BREADCRUMBS,
-        {
-          text: '指導者マッチング',
-          link: true,
-          exact: true,
-          disabled: false,
-          to: {
-            path: '/lessons'
+    },
+    getLessonDetail () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'lessonDetail',
+          query: {
+            id: Number(this.$route.params.id)
           }
-        },
-        {
-          text: this.salon.name,
-          disabled: true
-        }
-      ]
+        }).then((res) => {
+          if (res.status === 200) {
+            this.lesson = res.data.lesson
+          }
+          this.breadcrumbs = [
+            ...this.$BREADCRUMBS,
+            {
+              text: '指導者マッチング',
+              link: true,
+              exact: true,
+              disabled: false,
+              to: {
+                path: '/lessons'
+              }
+            },
+            {
+              text: this.lesson.name,
+              disabled: true
+            }
+          ]
+        })
     },
     getContactType (contactType) {
       const target = this.$CONTACT_TYPE.find(item => item.id === Number(contactType))
@@ -175,17 +189,41 @@ export default {
       const target = this.$PAYMENT_TYPE.find(item => item.id === Number(paymentType))
       return target ? target.type : null
     },
-    startTalkroom (lessonId) {
-      // TODO: lessonIdを元にトークルームを作成した上でデフォルトのメッセージを送る（==引用==を見ました！的な）
-      // TODO: 受け取ったルームIDヘ遷移する
-      this.$router.push(`/talks/${1}`)
+    startTalkroom (lesson) {
+      // lessonIdを元にトークルームを作成する
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'talkCreate',
+          data: {
+            user_id: this.userId,
+            lesson_id: lesson.id
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            // デフォルトのメッセージを送る
+            this.$store
+              .dispatch('api/apiRequest', {
+                api: 'talkCommentCreate',
+                query: {
+                  id: res.data.talk.id
+                },
+                data: {
+                  user_id: this.userId,
+                  content: `「${this.lesson.name}」から依頼しました！（追加オプション： ${this.form.option ?? '記載なし'}）`
+                }
+              }).then(() => {
+              // 受け取ったルームIDヘ遷移する
+                this.$router.push(`/talks/${res.data.talk.id}`)
+              })
+          }
+        })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.salon-image {
+.lesson-image {
   width: 100%;
   height: 200px;
   background: grey;
