@@ -35,6 +35,16 @@ module V1
       end
     end
 
+    def cancel_status
+      payment = LessonCommentPayment.find(params[:comment_payment_id])
+      payment.cancel = !payment.cancel
+      if payment.save
+        render 200
+      else
+        render 500
+      end
+    end
+
     def create_comment
       comment = LessonComment.new(
         talk_id: params[:id],

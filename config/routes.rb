@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       collection do
         post ':id/comment',  to: 'talks#create_comment'
         patch ':id/comment/payment',  to: 'talks#payment_status'
+        patch ':id/comment/payment/cancel',  to: 'talks#cancel_status'
       end
     end
     resource :manage do
