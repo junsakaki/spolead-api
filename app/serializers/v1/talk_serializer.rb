@@ -1,9 +1,7 @@
 module V1
   class TalkSerializer < ActiveModel::Serializer
-    attributes :id, :users
-    
-    has_many :comments, serializer: V1::CommentSerializer
-    belongs_to :lesson, serializer: V1::LessonSerializer
+    attributes :id
+    attribute :users
 
     def users
       result = []
@@ -19,5 +17,8 @@ module V1
       result.push(owner)
       return result
     end
+    
+    has_many :comments, serializer: V1::CommentSerializer
+    belongs_to :lesson, serializer: V1::LessonSerializer
   end
 end
