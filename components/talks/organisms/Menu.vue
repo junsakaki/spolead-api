@@ -66,7 +66,7 @@ export default {
       if (talk.comments[0].user.id === this.userId) {
         return 'あなた'
       } else {
-        return talk.users.find(user => user.id === talk.comments[0].user.id).id
+        return talk.comments[0].user.id
       }
     }
   }
