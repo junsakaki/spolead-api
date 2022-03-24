@@ -135,13 +135,11 @@ const TEAM_TYPE = [
 ]
 
 const CONTACT_TYPE = [
-  { type: '直接', id: 0 },
   { type: '直接', id: 1 },
   { type: 'オンライン', id: 2 }
 ]
 
 const PAYMENT_TYPE = [
-  { type: 'スポット', id: 0 },
   { type: 'スポット', id: 1 },
   { type: '月定額', id: 2 }
 ]
