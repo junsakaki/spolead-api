@@ -70,7 +70,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="1" class="d-flex align-center justify-center">
-                <v-btn icon @click="startTalkroom(lesson.id)">
+                <v-btn icon @click="startTalkroom(lesson)">
                   <v-icon>
                     mdi-message-text
                   </v-icon>
@@ -106,8 +106,27 @@ export default {
   },
   created () {
     this.getLessons()
+    this.getUser()
   },
   methods: {
+    getUser () {
+      if (this.$auth && this.$auth.user) {
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'userIndex',
+            query: {
+              id: this.$auth.user.sub
+            }
+          }).then((res) => {
+            this.isLoading = false
+            if (res.status === 200) {
+              this.userId = Number(res.data.user.id)
+            }
+          })
+      } else {
+        this.$router.push('/login')
+      }
+    },
     getLessons () {
       this.$store
         .dispatch('api/apiRequest', {
@@ -121,10 +140,34 @@ export default {
     changeRecruitmentTarget (recruitmentTarget) {
       this.$router.replace(`/lessons?recruitment=${recruitmentTarget}`)
     },
-    startTalkroom (lessonId) {
-      // TODO: lessonIdを元にトークルームを作成した上でデフォルトのメッセージを送る（==引用==を見ました！的な）
-      // TODO: 受け取ったルームIDヘ遷移する
-      this.$router.push(`/talks/${1}`)
+    startTalkroom (lesson) {
+      // lessonIdを元にトークルームを作成する
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'talkCreate',
+          data: {
+            user_id: this.userId,
+            lesson_id: lesson.id
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            // デフォルトのメッセージを送る
+            this.$store
+              .dispatch('api/apiRequest', {
+                api: 'talkCommentCreate',
+                query: {
+                  id: res.data.talk.id
+                },
+                data: {
+                  user_id: this.userId,
+                  content: `「${lesson.name}」から依頼しました！`
+                }
+              }).then(() => {
+              // 受け取ったルームIDヘ遷移する
+                this.$router.push(`/talks/${res.data.talk.id}`)
+              })
+          }
+        })
     }
   }
 }
