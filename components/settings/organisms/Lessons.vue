@@ -63,7 +63,7 @@
         </div>
       </div>
       <div v-else class="mt-2">
-        参加中のオンラインサロンはありません
+        公開中のマッチングはありません
       </div>
     </div>
     <lesson-edit-modal
