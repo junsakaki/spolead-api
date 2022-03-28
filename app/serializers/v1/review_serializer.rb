@@ -1,6 +1,5 @@
 module V1
   class ReviewSerializer < ActiveModel::Serializer
-    belongs_to :team, serializer: V1::TeamSerializer
 
     attributes :id, 
       :general_post, 
@@ -25,6 +24,11 @@ module V1
       :age_group,
       :enrollment_period,
       :player_flag,
-      :username
+      :username,
+      :team
+
+      def team
+        object.team
+      end
   end
 end

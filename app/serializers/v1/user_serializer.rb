@@ -1,7 +1,11 @@
 module V1
   class UserSerializer < ActiveModel::Serializer
-    attributes :id, :email, :created_at, :updated_at, :role, :salons, :funds, :lessons
-    has_many :fav, key: :favorite_teams
+    attributes :id, :email, :created_at, :updated_at, :role, :salons, :funds, :lessons, :favorite_teams
+    def favorite_teams
+      object.favorite_teams.map{|fav_team|
+        fav_team.team
+      }
+    end
 
     def salons
       participating_array = []
