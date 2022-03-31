@@ -13,7 +13,7 @@
                 <v-text-field v-model="name" label="チーム名*" required />
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="mail_address" label="メールアドレス*" required />
+                <v-text-field v-model="mail_address" label="メールアドレス*" />
               </v-col>
               <v-col cols="12">
                 <v-text-field v-model="url" label="ホームページ" />
