@@ -51,13 +51,13 @@ export default {
     }
   },
   created () {
-    if (localStorage.getItem('selectedCity')) {
-      this.mode = 'city'
-      this.cityCards = JSON.parse(localStorage.getItem('selectedCity'))
-    }
-    if (localStorage.getItem('selectedPrefecture')) {
-      this.selectedPrefecture = JSON.parse(localStorage.getItem('selectedPrefecture'))
-    }
+    // if (localStorage.getItem('selectedCity')) {
+    //   this.mode = 'city'
+    //   this.cityCards = JSON.parse(localStorage.getItem('selectedCity'))
+    // }
+    // if (localStorage.getItem('selectedPrefecture')) {
+    //   this.selectedPrefecture = JSON.parse(localStorage.getItem('selectedPrefecture'))
+    // }
   },
   methods: {
     registUserPage () {
