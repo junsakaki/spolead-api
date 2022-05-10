@@ -3,7 +3,7 @@
    padding-bottom:  30px;
    display: flex;
  }
- 
+
  .box{
    width: 50%;
    float: left;
@@ -13,7 +13,7 @@
    justify-content: center;
    align-items: center;
  }
- 
+
  .welcome{
    text-align: center;
    width: 80%;
@@ -25,23 +25,17 @@
    font-weight: bold;
    border: solid 1px #000000;
  }
- 
+
  .totop{
-   padding-left:  60px;
-   padding-top:  100px;
-   padding-bottom:  100px;
+  padding-top:  20px;
+  padding-bottom:  20px;
    text-align: center;
-   width: 80%;
    margin: 0 auto;
    max-width: 500px;
    font-size: 26px;
-   padding: 1rem 3rem;
-   border-radius: 100vh;
-   background-image: -webkit-gradient(linear, right top, left top, from(#d4bb84), to(#e38100dc));
-   background-image: -webkit-linear-gradient(right, #d4bb84 0%, #e38100dc 100%);
-   background-image: linear-gradient(to left, #d4bb84 0%, #e38100dc 100%);
+   background-color:#e67307;
  }
- 
+
  a{
    color: #fff;
  }
