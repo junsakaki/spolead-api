@@ -222,7 +222,6 @@ export default {
   },
   created () {
     if (this.salon) {
-      console.log(this.salon)
       this.form = { ...this.salon }
     }
   },
