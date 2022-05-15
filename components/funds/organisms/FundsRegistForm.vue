@@ -5,185 +5,195 @@
     </v-card-title>
     <v-card-text>
       <v-container>
-        <div class="subtitle-1 font-weight-bold">
-          概要
-        </div>
-        <v-col cols="12">
-          <v-text-field v-model="form.name" label="タイトル" required />
-        </v-col>
-        <v-col cols="12">
-          <v-text-field v-model="form.caption" label="概要" required />
-        </v-col>
-        <v-col cols="12">
-          <v-file-input
-            label="トップ画像"
-            prepend-icon="mdi-camera"
-            required
-            @change="f => upload(f, 'image_top')"
-          />
-          <v-img
-            v-if="form.image_top"
-            :src="form.image_top"
-            max-height="150"
-            max-width="250"
-            contain
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-file-input
-            label="サブ画像"
-            prepend-icon="mdi-camera"
-            required
-            @change="f => upload(f, 'image_sub')"
-          />
-          <v-img
-            v-if="form.image_sub"
-            :src="form.image_sub"
-            max-height="150"
-            max-width="250"
-            contain
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-textarea
-            v-model="form.content"
-            autocomplete="コミュニティ内容"
-            label="コミュニティ内容"
-            dense
-            required
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-text-field v-model.number="form.target_money" label="目標金額" type="number" required />
-        </v-col>
-        <v-col cols="12">
-          <v-menu
-            v-model="dateMenu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template #activator="{ on, attrs }">
-              <v-text-field
-                v-model="form.limit_date"
-                label="期限日"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              />
-            </template>
-            <v-date-picker
-              v-model="form.limit_date"
-              :day-format="date => new Date(date).getDate()"
-              locale="ja-jp"
-              @input="dateMenu = false"
-            />
-          </v-menu>
-        </v-col>
-        <v-col cols="12">
-          <v-textarea
-            v-model="form.background"
-            autocomplete="背景・経緯"
-            label="背景・経緯"
-            dense
-            required
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-textarea
-            v-model="form.self_introduction"
-            autocomplete="自己紹介"
-            label="自己紹介"
-            dense
-            required
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-textarea
-            v-model="form.precautions"
-            autocomplete="注意事項等"
-            label="注意事項等"
-            dense
-            required
-          />
-        </v-col>
-        <div class="subtitle-1 font-weight-bold">
-          料金プラン
-        </div>
-        <v-card v-for="(reduction, i) in form.reductions" :key="`reduction-${reduction.id}`" outlined tile class="mb-4">
-          <div v-if="i !== 0" class="text-right">
-            <v-btn class="submit-button" color="error" icon @click="reduceReduction(i)">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
+        <v-form v-model="isFormValid">
+          <div class="subtitle-1 font-weight-bold">
+            概要
           </div>
           <v-col cols="12">
-            <v-text-field v-model="reduction.name" label="リターンの名前" required />
+            <v-text-field v-model="form.name" label="タイトル" required />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="reduction.caption" label="リターンの説明" required />
+            <v-text-field v-model="form.caption" label="概要" required />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model.number="reduction.amount" label="価格" type="number" required />
+            <v-file-input
+              label="トップ画像"
+              prepend-icon="mdi-camera"
+              required
+              @change="f => upload(f, 'image_top')"
+            />
+            <v-img
+              v-if="form.image_top"
+              :src="form.image_top"
+              max-height="150"
+              max-width="250"
+              contain
+            />
           </v-col>
-        </v-card>
-        <v-btn color="primary" outlined block @click="addReduction">
-          リターンを追加
-        </v-btn>
-        <div class="subtitle-1 font-weight-bold mt-8">
-          主催者情報
-        </div>
-        <v-col cols="12">
-          <v-text-field v-model="form.owner.name" label="氏名" required />
-        </v-col>
-        <v-col cols="12">
-          <v-text-field v-model="form.owner.address" label="住所" required />
-        </v-col>
-        <v-col cols="12">
-          <v-text-field v-model="form.owner.birthday" label="生年月日" required />
-        </v-col>
-        <v-col cols="12">
-          <v-text-field v-model="form.owner.tel" label="電話番号" required />
-        </v-col>
-        <v-col cols="12">
-          <v-file-input
-            label="本人確認書類①"
-            prepend-icon="mdi-camera"
-            required
-            @change="f => upload(f, 'owner', 'identification_1')"
-          />
-          <v-img
-            v-if="form.owner.identification_1"
-            :src="form.owner.identification_1"
-            max-height="150"
-            max-width="250"
-            contain
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-file-input
-            label="本人確認書類②"
-            prepend-icon="mdi-camera"
-            required
-            @change="f => upload(f, 'owner', 'identification_2')"
-          />
-          <v-img
-            v-if="form.owner.identification_2"
-            :src="form.owner.identification_2"
-            max-height="150"
-            max-width="250"
-            contain
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-text-field v-model="form.owner.transfer_account" label="振り込み口座情報" required />
-        </v-col>
+          <v-col cols="12">
+            <v-file-input
+              label="サブ画像"
+              prepend-icon="mdi-camera"
+              required
+              @change="f => upload(f, 'image_sub')"
+            />
+            <v-img
+              v-if="form.image_sub"
+              :src="form.image_sub"
+              max-height="150"
+              max-width="250"
+              contain
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              v-model="form.content"
+              autocomplete="コミュニティ内容"
+              label="コミュニティ内容"
+              dense
+              required
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field v-model.number="form.target_money" label="目標金額" type="number" required />
+          </v-col>
+          <v-col cols="12">
+            <v-menu
+              v-model="dateMenu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template #activator="{ on, attrs }">
+                <v-text-field
+                  v-model="form.limit_date"
+                  label="期限日"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker
+                v-model="form.limit_date"
+                :day-format="date => new Date(date).getDate()"
+                locale="ja-jp"
+                @input="dateMenu = false"
+              />
+            </v-menu>
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              v-model="form.background"
+              autocomplete="背景・経緯"
+              label="背景・経緯"
+              dense
+              required
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              v-model="form.self_introduction"
+              autocomplete="自己紹介"
+              label="自己紹介"
+              dense
+              required
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              v-model="form.precautions"
+              autocomplete="注意事項等"
+              label="注意事項等"
+              dense
+              required
+            />
+          </v-col>
+          <div class="subtitle-1 font-weight-bold">
+            料金プラン
+          </div>
+          <v-card v-for="(reduction, i) in form.reductions" :key="`reduction-${reduction.id}`" outlined tile class="mb-4">
+            <div v-if="i !== 0" class="text-right">
+              <v-btn class="submit-button" color="error" icon @click="reduceReduction(i)">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </div>
+            <v-col cols="12">
+              <v-text-field v-model="reduction.name" label="リターンの名前" required />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field v-model="reduction.caption" label="リターンの説明" required />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model.number="reduction.amount"
+                label="価格"
+                type="number"
+                min="50"
+                max="9999999"
+                required
+                :rules="amountRules"
+              />
+            </v-col>
+          </v-card>
+          <v-btn color="primary" outlined block @click="addReduction">
+            リターンを追加
+          </v-btn>
+          <div class="subtitle-1 font-weight-bold mt-8">
+            主催者情報
+          </div>
+          <v-col cols="12">
+            <v-text-field v-model="form.owner.name" label="氏名" required />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field v-model="form.owner.address" label="住所" required />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field v-model="form.owner.birthday" label="生年月日" required />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field v-model="form.owner.tel" label="電話番号" required />
+          </v-col>
+          <v-col cols="12">
+            <v-file-input
+              label="本人確認書類①"
+              prepend-icon="mdi-camera"
+              required
+              @change="f => upload(f, 'owner', 'identification_1')"
+            />
+            <v-img
+              v-if="form.owner.identification_1"
+              :src="form.owner.identification_1"
+              max-height="150"
+              max-width="250"
+              contain
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-file-input
+              label="本人確認書類②"
+              prepend-icon="mdi-camera"
+              required
+              @change="f => upload(f, 'owner', 'identification_2')"
+            />
+            <v-img
+              v-if="form.owner.identification_2"
+              :src="form.owner.identification_2"
+              max-height="150"
+              max-width="250"
+              contain
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field v-model="form.owner.transfer_account" label="振り込み口座情報" required />
+          </v-col>
+        </v-form>
       </v-container>
     </v-card-text>
     <v-card-actions class="submit-button-area">
-      <v-btn class="submit-button" color="primary" @click="submit">
+      <v-btn class="submit-button" color="primary" :disabled="!isFormValid" @click="submit">
         申請
       </v-btn>
       <v-btn v-if="fund" class="submit-button" color="grey" dark @click="closeModal(false)">
@@ -223,7 +233,7 @@ export default {
         target_money: 1,
         limit_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         reductions: [
-          { id: 1, name: '', caption: '', amount: 0 }
+          { id: 1, name: '', caption: '', amount: 50 }
         ],
         owner: {
           name: '',
@@ -235,7 +245,12 @@ export default {
           identification_2: '',
           transfer_account: ''
         }
-      }
+      },
+      amountRules: [
+        v => (v && v >= 50) || '50 ~ 9,999,999 の間で設定してください',
+        v => (v && v <= 9999999) || '50 ~ 9,999,999 の間で設定してください'
+      ],
+      isFormValid: false
     }
   },
   created () {
@@ -273,7 +288,7 @@ export default {
       if (lastValue.name === '' || lastValue.caption === '') {
         return
       }
-      this.form.reductions.push({ id: this.form.reductions.length + 1, name: '', caption: '', amount: 0 })
+      this.form.reductions.push({ id: this.form.reductions.length + 1, name: '', caption: '', amount: 50 })
     },
     reduceReduction (index) {
       this.form.form.splice(index, 1)

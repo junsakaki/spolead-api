@@ -34,30 +34,39 @@
           label="購入フォームを追加する"
         />
       </div>
-      <div v-if="isPaymentComment" class="mx-4">
-        <v-switch
-          v-model="isSubscription"
-          label="月定額"
-        />
-        <div class="form-input">
-          <div class="body-1 font-weight-bold">
-            {{ isSubscription ? '月額' : '支払い金額' }}
-          </div>
-          <div>
-            <span class="validation-icon px-2">必須</span>
-          </div>
-          <input v-model="amount" class="px-2" placeholder="支払い金額(円)を入力してください" type="number">
-          <div class="ml-1 body-1 font-weight-bold">
-            円
+      <v-form v-model="isFormValid">
+        <div v-if="isPaymentComment" class="mx-4">
+          <v-switch
+            v-model="isSubscription"
+            label="月定額"
+          />
+          <div class="form-input">
+            <div class="body-1 font-weight-bold">
+              {{ isSubscription ? '月額' : '支払い金額' }}
+            </div>
+            <div>
+              <span class="validation-icon px-2">必須</span>
+            </div>
+            <v-text-field
+              v-model.number="amount"
+              type="number"
+              min="50"
+              max="9999999"
+              required
+              :rules="amountRules"
+            />
+            <div class="ml-1 body-1 font-weight-bold">
+              円
+            </div>
           </div>
         </div>
-      </div>
+      </v-form>
       <v-card-actions>
         <v-spacer />
         <v-btn
           color="primary"
           text
-          :disabled="comment === ''"
+          :disabled="comment === '' || !isFormValid"
           @click="submit"
         >
           送信
@@ -82,8 +91,13 @@ export default {
       comment: '',
       userId: null,
       isPaymentComment: false,
-      amount: 0,
-      isSubscription: false
+      amount: 50,
+      isSubscription: false,
+      amountRules: [
+        v => (v && v >= 50) || '50 ~ 9,999,999 の間で設定してください',
+        v => (v && v <= 9999999) || '50 ~ 9,999,999 の間で設定してください'
+      ],
+      isFormValid: false
     }
   },
   created () {
@@ -170,6 +184,7 @@ export default {
 .form-input {
   display: grid;
   grid-template-columns: 100px 50px 1fr 10px;
+  align-items: center;
   input {
     border: solid 1px rgba(156, 156, 156, 0.37);
     border-radius: 4px;
