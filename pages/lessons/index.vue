@@ -36,7 +36,7 @@
                   <v-icon small>
                     mdi-account
                   </v-icon>
-                  {{ lesson.owner.name }}
+                  {{ lesson.owner ? lesson.owner.name : '' }}
                 </div>
                 <div class="caption font-weight-bold lesson-caption px-2">
                   {{ lesson.caption }}
