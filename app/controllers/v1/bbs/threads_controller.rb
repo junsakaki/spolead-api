@@ -3,6 +3,8 @@ module V1
 
     def show
       thread = BbsThread.where(id: params[:id])
+      thread.first.views_count_up!
+
       if(!!params[:search_word])
         thread = thread.search_columns(params[:search_word])
       end

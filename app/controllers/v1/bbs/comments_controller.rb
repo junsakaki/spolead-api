@@ -3,8 +3,8 @@ module V1
 
     def show
       comment = BbsComment.find(params[:id])
-      thread = comment.bbs_thread
-      thread.views_count_up!
+      # thread = comment.bbs_thread
+      # thread.views_count_up!
 
       if(!!params[:search_word])
         comment = comment.search_columns(params[:search_word])

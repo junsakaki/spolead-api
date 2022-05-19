@@ -1,7 +1,7 @@
 module V1
   class Bbs::ForumsController < ApplicationController
     def index
-      forum = BbsForum.where(sports_id: params[:sports_id])
+      forum = BbsForum.where(sports_id: params[:sports_id]).order(desc: :created_at)
       page_per = 20 #display team number per 1page
       page = params[:page] || 1 #start page number
       paginated_forum = forum.order(created_at: :desc).page(page).per(page_per) #execute pagenation
