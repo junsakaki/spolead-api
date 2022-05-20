@@ -15,7 +15,7 @@ module V1
       total_pages = paginated_thread.total_pages #obtain all page number that paginated_teams teamss
 
 
-      render json: thread, each_serializer: V1::Bbs::ThreadSerializer, meta: total_pages
+      render json: thread, each_serializer: V1::Bbs::ThreadSerializer, parent: true, meta: total_pages
     end
 
     def create

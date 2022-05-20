@@ -10,6 +10,6 @@ module V1
       :created_at
 
     has_many :bbs_comments, key: :comments, serializer: V1::Bbs::CommentSerializer
-    belongs_to :bbs_forum, key: :forum, serializer: V1::Bbs::ForumSerializer
+    belongs_to :bbs_forum, key: :forum, serializer: V1::Bbs::ForumSerializer, if: -> { instance_options[:parent] }
   end
 end
