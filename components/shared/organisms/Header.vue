@@ -45,6 +45,14 @@
         >
       </router-link>
       <div class="links">
+        <router-link :to="`/lp.html`" class="link icon-button">
+          <v-icon>
+            mdi-cursor-pointer
+          </v-icon>
+          <p class="icon-button-link">
+            はじめての方へ
+          </p>
+        </router-link>
         <button class="link icon-button align-center">
           <v-icon>
             mdi-account-group
