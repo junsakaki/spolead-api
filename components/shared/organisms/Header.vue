@@ -135,6 +135,14 @@ export default {
 .icon-button-wrapper.SP {
   padding-right: 14px;
 }
+.a{
+  .icon-button-link {
+    display: block;
+    margin: 0 !important; //.v-application p の定義に上書きされる可能性があるため!important
+    font-size: 10px;
+    text-align: center;
+  }
+}
 .icon-button {
   display: flex;
   flex-direction: column;
