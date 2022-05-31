@@ -45,7 +45,7 @@
         >
       </router-link>
       <div class="links">
-        <a href="https://spoleader.com/lp.html">
+        <a href="https://spoleader.com/lp.html" class="logo">
           <v-icon>
             mdi-cursor-pointer
           </v-icon>
