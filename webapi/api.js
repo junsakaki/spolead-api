@@ -1,6 +1,5 @@
 const foundation = 'https://develop.spoleader.com/api/v1'
 
-
 export default {
   // 都道府県取得外部API
   getPrefApi: {

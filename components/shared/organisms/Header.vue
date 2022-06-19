@@ -76,7 +76,7 @@
             はじめての方へ
           </p>
         </a>
-        <button class="link icon-button align-center">
+        <button class="link icon-button align-center" />
         <div class="d-flex align-center justify-center">
           <v-menu
             open-on-hover
