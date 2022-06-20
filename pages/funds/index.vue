@@ -27,7 +27,7 @@
                 {{ fund.name }}
               </div>
               <div class="body-2 font-weight-bold owner-name mt-2 px-2">
-                {{ fund.owner ? fund.owner.name : '' }}
+                {{ !!fund.owner ? fund.owner.name : '' }}
               </div>
               <div class="caption fund-caption mt-2 px-2">
                 {{ fund.caption }}

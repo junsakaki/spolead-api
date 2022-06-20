@@ -27,7 +27,7 @@
                 {{ salon.name }}
               </div>
               <div class="body-2 font-weight-bold owner-name mt-2 px-2">
-                {{ salon.owner ? salon.owner.name : '' }}
+                {{ !!salon.owner ? salon.owner.name : '' }}
               </div>
               <div class="caption salon-caption mt-2 px-2">
                 {{ salon.caption }}
