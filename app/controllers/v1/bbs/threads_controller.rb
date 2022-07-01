@@ -11,7 +11,7 @@ module V1
 
       page_per = 20 #display team number per 1page
       page = params[:page] || 1 #start page number
-      paginated_thread = thread.order(created_at: :desc).page(page).per(page_per) #execute pagenation
+      paginated_thread = thread.order(created_at: :asc).page(page).per(page_per) #execute pagenation
       total_pages = paginated_thread.total_pages #obtain all page number that paginated_teams teamss
 
 
