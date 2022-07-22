@@ -13,8 +13,9 @@
         <div class="body-1 mt-8">
           {{ salon.caption }}
         </div>
-        <div class="body-2 mt-8">
-          {{ salon.owner.name }}
+        <div class="body-2 mt-8 d-flex justify-space-between">
+          <div>{{ salon.owner.name }}</div>
+          <div>現在の参加者数: {{ salon.users_count }}人</div>
         </div>
         <v-img
           v-if="salon.image_top"

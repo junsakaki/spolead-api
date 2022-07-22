@@ -29,6 +29,9 @@
               <div class="body-2 font-weight-bold owner-name mt-2 px-2">
                 {{ !!salon.owner ? salon.owner.name : '' }}
               </div>
+              <div class="caption mt-2 px-2 text-right">
+                現在の参加者数： {{ salon.users_count }}人
+              </div>
               <div class="caption salon-caption mt-2 px-2">
                 {{ salon.caption }}
               </div>
