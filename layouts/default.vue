@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
-    <Header />
+    <OrganizerHeader v-if="!$route.path.indexOf('/organizer')" />
+    <Header v-else />
     <v-content>
       <v-container :class="$vuetify.breakpoint.smAndDown && 'SP'">
         <nuxt />
@@ -41,11 +42,13 @@
 
 <script>
 import Header from '~/components/shared/organisms/Header.vue'
+import OrganizerHeader from '~/components/organizer/organisms/Header.vue'
 import ScrollTopButton from '~/components/shared/atoms/ScrollTopButton.vue'
 
 export default {
   components: {
     Header,
+    OrganizerHeader,
     ScrollTopButton
   },
   data () {
@@ -105,15 +108,15 @@ export default {
           ...this.footerLinks,
           {
             title: 'チームを登録する',
-            to: '/teams/new'
+            to: '/organizer/teams/new'
           },
           {
             title: 'オンラインサロンを申請する',
-            to: '/salons/new'
+            to: '/organizer/salons/new'
           },
           {
             title: 'クラウドファンディングを申請する',
-            to: '/funds/new'
+            to: '/organizer/funds/new'
           }
         ]
       } else {
