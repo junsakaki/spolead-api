@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       breadcrumbs: [
-        ...this.$BREADCRUMBS,
+        ...this.$ORGANIZER_BREADCRUMBS,
         {
           text: 'オンラインサロンの登録申請',
           disabled: true
@@ -35,7 +35,7 @@ export default {
   },
   head () {
     return {
-      title: 'オンラインサロンの登録申請 | '
+      title: 'オンラインサロンの登録申請 | 管理者ページ | '
     }
   },
   created () {
