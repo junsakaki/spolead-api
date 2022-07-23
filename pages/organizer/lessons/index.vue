@@ -5,39 +5,19 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <div v-if="$vuetify.breakpoint.smAndDown" class="mb-6">
-      <Lessons :lessons="user.lessons.lessons" @getUser="getUser" />
-    </div>
-    <v-row v-else class="mb-6">
-      <v-col cols="12" sm="3">
-        <Menu />
-      </v-col>
-      <v-col cols="12" sm="9">
-        <Lessons :lessons="user.lessons.lessons" @getUser="getUser" />
-      </v-col>
-    </v-row>
+    <Lessons :lessons="user.lessons.lessons" @getUser="getUser" />
   </div>
 </template>
 
 <script>
-import Menu from '~/components/settings/organisms/Menu.vue'
-import Lessons from '~/components/settings/organisms/Lessons.vue'
+import Lessons from '~/components/organizer/organisms/Lessons.vue'
 
 export default {
-  components: { Menu, Lessons },
+  components: { Lessons },
   data () {
     return {
       breadcrumbs: [
-        ...this.$BREADCRUMBS,
-        {
-          text: '各種設定',
-          link: true,
-          exact: true,
-          disabled: false,
-          to: {
-            path: '/settings'
-          }
-        },
+        ...this.$ORGANIZER_BREADCRUMBS,
         {
           text: '指導者マッチング',
           disabled: true
@@ -48,7 +28,7 @@ export default {
   },
   head () {
     return {
-      title: '指導者マッチング - 各種設定 | '
+      title: '指導者マッチング | 管理者ページ | '
     }
   },
   created () {
