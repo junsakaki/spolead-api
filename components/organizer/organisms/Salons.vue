@@ -3,9 +3,12 @@
     <div class="subtitle-1 font-weight-bold">
       <div>オンラインサロンを掲載する</div>
       <div class="text-center px-4 mt-2">
-        <router-link to="/organizer/salons/new" class="salon-link">
+        <router-link to="/salons/new" class="salon-link" target="_blank">
           <v-btn color="primary" outlined block>
             掲載情報入力フォームへ
+            <v-icon small class="ml-1">
+              mdi-open-in-new
+            </v-icon>
           </v-btn>
         </router-link>
       </div>

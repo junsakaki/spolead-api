@@ -3,9 +3,12 @@
     <div class="subtitle-1 font-weight-bold">
       <div>クラウドファンディングを開始する</div>
       <div class="text-center px-4 mt-2">
-        <router-link to="/organizer/funds/new" class="fund-link">
+        <router-link to="/funds/new" class="fund-link" target="_blank">
           <v-btn color="primary" outlined block>
             ファンド情報入力フォームへ
+            <v-icon small class="ml-1">
+              mdi-open-in-new
+            </v-icon>
           </v-btn>
         </router-link>
       </div>

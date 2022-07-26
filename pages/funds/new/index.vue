@@ -35,7 +35,7 @@ export default {
   },
   head () {
     return {
-      title: 'クラウドファンディングの登録申請 | 管理者ページ | '
+      title: 'クラウドファンディングの登録申請 | '
     }
   },
   created () {
@@ -55,8 +55,6 @@ export default {
               this.userId = Number(res.data.user.id)
             }
           })
-      } else {
-        this.$router.push('/login')
       }
     },
     submit (form) {

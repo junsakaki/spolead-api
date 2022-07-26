@@ -10,23 +10,23 @@
       </template>
     </v-breadcrumbs>
     <div class="container">
-      <salons-regist-form @submit="submit" />
+      <lessons-regist-form @submit="submit" />
     </div>
   </v-layout>
 </template>
 
 <script>
-import SalonsRegistForm from '~/components/salons/organisms/SalonsRegistForm.vue'
+import LessonsRegistForm from '~/components/lessons/organisms/LessonsRegistForm.vue'
 export default {
   components: {
-    SalonsRegistForm
+    LessonsRegistForm
   },
   data () {
     return {
       breadcrumbs: [
         ...this.$ORGANIZER_BREADCRUMBS,
         {
-          text: 'オンラインサロンの登録申請',
+          text: '指導者マッチングの登録申請',
           disabled: true
         }
       ],
@@ -35,7 +35,7 @@ export default {
   },
   head () {
     return {
-      title: 'オンラインサロンの登録申請 | 管理者ページ | '
+      title: '指導者マッチングの登録申請 | '
     }
   },
   created () {
@@ -55,46 +55,20 @@ export default {
               this.userId = Number(res.data.user.id)
             }
           })
-      } else {
-        this.$router.push('/login')
       }
-    },
-    beforeSalonCreate (data) {
-      const nextData = { ...data }
-      data.plans.forEach((plan, index) => {
-        this.$store
-          .dispatch('api/apiRequest', {
-            api: 'paymentPlan',
-            data: {
-              amount: plan.amount,
-              interval: 'month'
-            }
-          }).then((res) => {
-            if (res.status === 200) {
-              nextData.plans[index].plan_id = res.data.data.id
-              if (index === nextData.plans.length - 1) {
-                console.log(nextData)
-                this.salonCreate(nextData)
-              }
-            }
-          })
-      })
-    },
-    salonCreate (data) {
-      this.$store
-        .dispatch('api/apiRequest', {
-          api: 'salonCreate',
-          data
-        }).then((res) => {
-          if (res.status === 200) {
-            this.$router.push('/salons')
-          }
-        })
     },
     submit (form) {
       const data = { ...form }
       data.owner.user_id = this.userId
-      this.beforeSalonCreate(data)
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'lessonCreate',
+          data
+        }).then((res) => {
+          if (res.status === 200) {
+            this.$router.push('/lessons')
+          }
+        })
     }
   }
 }
