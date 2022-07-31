@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
-    <OrganizerHeader v-if="!$route.path.indexOf('/organizer')" />
-    <Header v-else />
+    <OrganizerHeader v-if="shouldShowOrganizerHeader" />
+    <Header v-else-if="shouldShowNormalHeader" />
     <v-content>
       <v-container :class="$vuetify.breakpoint.smAndDown && 'SP'">
         <nuxt />
@@ -99,6 +99,12 @@ export default {
       } else {
         return ''
       }
+    },
+    shouldShowOrganizerHeader () {
+      return !this.$route.path.indexOf('/organizer') && !!this.$route.path.indexOf('/organizer/login')
+    },
+    shouldShowNormalHeader () {
+      return !!this.$route.path.indexOf('/organizer') && !!this.$route.path.indexOf('/organizer/login')
     }
   },
   methods: {
