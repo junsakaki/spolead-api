@@ -101,10 +101,10 @@ export default {
       }
     },
     shouldShowOrganizerHeader () {
-      return !this.$route.path.indexOf('/organizer') && !!this.$route.path.indexOf('/organizer/login')
+      return this.$route.path.startsWith('/organizer') && !this.$route.path.startsWith('/organizer/login')
     },
     shouldShowNormalHeader () {
-      return !!this.$route.path.indexOf('/organizer') && !!this.$route.path.indexOf('/organizer/login')
+      return !this.$route.path.startsWith('/organizer') && !this.$route.path.startsWith('/organizer/login')
     }
   },
   methods: {

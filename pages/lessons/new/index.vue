@@ -24,7 +24,6 @@ export default {
   data () {
     return {
       breadcrumbs: [
-        ...this.$ORGANIZER_BREADCRUMBS,
         {
           text: '指導者マッチングの登録申請',
           disabled: true
