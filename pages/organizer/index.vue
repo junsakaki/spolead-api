@@ -15,9 +15,10 @@ export default {
     }
   },
   created () {
-    // 未ログインの場合はトップ画面へリダイレクトする
-    if (!this.$auth.loggedIn) {
-      this.$router.replace('/login')
+    // 未ログインの場合は主催者側ログイン画面へリダイレクトする
+    const isLoggedIn = true
+    if (!isLoggedIn) {
+      this.$router.push('/organizer/login')
     }
   }
 }

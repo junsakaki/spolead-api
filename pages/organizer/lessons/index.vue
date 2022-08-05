@@ -32,27 +32,26 @@ export default {
     }
   },
   created () {
-    // 未ログインの場合はトップ画面へリダイレクトする
-    if (!this.$auth.loggedIn) {
-      this.$router.replace('/login')
+    // 未ログインの場合は主催者側ログイン画面へリダイレクトする
+    const isLoggedIn = true
+    if (!isLoggedIn) {
+      this.$router.push('/organizer/login')
     }
-    this.getUser()
+    this.getOrganizer()
   },
   methods: {
-    getUser () {
-      if (this.$auth && this.$auth.user) {
-        this.$store
-          .dispatch('api/apiRequest', {
-            api: 'userIndex',
-            query: {
-              id: this.$auth.user.sub
-            }
-          }).then((res) => {
-            if (res.status === 200) {
-              this.user = res.data.user
-            }
-          })
-      }
+    getOrganizer () {
+      // this.$store
+      //   .dispatch('api/apiRequest', {
+      //     api: 'userIndex',
+      //     query: {
+      //       id: this.$auth.user.sub
+      //     }
+      //   }).then((res) => {
+      //     if (res.status === 200) {
+      //       this.user = res.data.user
+      //     }
+      //   })
     }
   }
 }

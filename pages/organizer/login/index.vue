@@ -84,25 +84,26 @@ export default {
   methods: {
     login () {
       if (this.validate()) {
-        this.$store
-          .dispatch('api/apiRequest', {
-            api: 'login',
-            data: {
-              email: this.email,
-              password: this.password
-            }
-          }).then((res) => {
-            if (res.status === 200) {
-              localStorage.setItem('token', res.data.user.access_token)
-              localStorage.setItem('userId', res.data.user.user_id)
-              localStorage.setItem('loginDateTime', new Date())
-              // location.replace('http://localhost:8000/')
-              location.replace('https://spolead.com/')
-              // location.replace('http://develop01.spolead-sv.net/')
-            }
-          }).catch(() => {
-            this.invalidAuth = true
-          })
+        // this.$store
+        //   .dispatch('api/apiRequest', {
+        //     api: 'login',
+        //     data: {
+        //       email: this.email,
+        //       password: this.password
+        //     }
+        //   }).then((res) => {
+        //     if (res.status === 200) {
+        //       localStorage.setItem('token', res.data.user.access_token)
+        //       localStorage.setItem('userId', res.data.user.user_id)
+        //       localStorage.setItem('loginDateTime', new Date())
+        //       // location.replace('http://localhost:8000/')
+        //       location.replace('https://spolead.com/')
+        //       // location.replace('http://develop01.spolead-sv.net/')
+        //     }
+        //   }).catch(() => {
+        //     this.invalidAuth = true
+        //   })
+        this.$router.push('/organizer')
       }
     },
     validate () {
