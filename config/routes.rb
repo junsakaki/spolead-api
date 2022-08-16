@@ -3,8 +3,25 @@ Rails.application.routes.draw do
 
   namespace :v1, defaults: { format: :json } do
     resource :login, only: [:create], controller: :sessions
+    resource :organizer, only: [:create], controller: :organizers do 
+      collection do
+        post 'login', action: :create, controller: :sessions
+        post 'logout', action: :destroy, controller: :sessions
+      end
+      resource :users do
+        member do
+          patch ':id/:target', action: :update, controller: :organizers
+        end
+      end
+      resource :manage do
+        collection do
+          get 'reports', action: :reports, controller: :organizers
+          get 'withdrawals', action: :withdrawals, controller: :organizers
+        end
+      end
+    end
     resource :logout, only: [:destroy], controller: :sessions
-    resources :users, only: [:index, :create, :show]
+    resources :users, only: [:index, :create, :show, :update]
     resources :teams, only: [:index, :show, :create, :update]
     resources :reviews, only: [:index, :create]
     resources :salons do

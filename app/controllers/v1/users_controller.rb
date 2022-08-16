@@ -47,10 +47,19 @@ module V1
       end
     end
 
+    def update 
+      @user = User.find(params[:id])
+      if @user.update(user_params)
+        render 200
+      else
+        render json: { error: t('user_info_update_error') }, status: :unprocessable_entity
+      end
+    end
+
     private
 
     def user_params
-      params.permit(:nickname, :email, :password)
+      params.permit(:nickname, :email, :password, :tel)
     end
   end
 end

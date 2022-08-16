@@ -5,7 +5,7 @@ module V1
     # POST /v1/login 
     # example USER --- user@example.com/ mypass
     def create
-      @user = User.find_for_database_authentication(email: params[:email])
+      @user = User.find_for_database_authentication(email: params[:email], role: "organizer")
 
       # once error handle
       # return invalid_email unless @user
@@ -24,10 +24,9 @@ module V1
 
     end
 
-    # def destroy
-    #   super
-    #   session[:keep_signed_out] = true
-    # end 
+    def destroy
+      render status: 200
+    end 
 
     private
 
