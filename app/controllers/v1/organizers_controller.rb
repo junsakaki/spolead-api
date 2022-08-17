@@ -1,6 +1,6 @@
 module V1
   class OrganizersController < ApplicationController
-    # skip_before_action :authenticate_user_from_token!, only: [:create]
+    before_action :authenticate_user_from_token!, except: :create
 
     # POST
     # Create an organizer
@@ -34,7 +34,22 @@ module V1
       end
     end
 
+    def show
+      @user = User.find(params[:id]) 
+      render json: @user, serializer: V1::OrganizerSerializer, root: nil
+    end
+
     def reports
+      @user = User.find(params[:userId]) 
+      puts "@user: #{@user.inspect}" 
+      term = params[:term].present? ? Date.new(params[:term][:year].to_i, params[:term][:month].to_i) : nil
+      if term.present?
+        term_reports = {
+          salons: @user.salon_owned.where(created_at: (term)..(term.end_of_month)).includes(:plans),
+          funds: @user.fund_owned.where(created_at: (term)..(term.end_of_month)).includes(:reductions),
+          lessons: @user.lesson_owned.where(created_at: (term)..(term.end_of_month)),
+        }
+      end
     end
 
     def withdrawals

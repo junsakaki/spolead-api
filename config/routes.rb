@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       end
       resource :users do
         member do
+          get ':id', action: :show, controller: :organizers
           patch ':id/:target', action: :update, controller: :organizers
         end
       end
