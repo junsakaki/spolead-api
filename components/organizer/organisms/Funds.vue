@@ -15,9 +15,9 @@
     </div>
     <div class="subtitle-1 font-weight-bold mt-8 mb-8">
       <div>公開中のファンド</div>
-      <div v-if="funds.owned.length > 0" class="mt-2">
+      <div v-if="funds.length > 0" class="mt-2">
         <v-card
-          v-for="fund in funds.owned"
+          v-for="fund in funds"
           :key="fund.id"
           outlined
           tile
@@ -80,7 +80,7 @@ export default {
   components: { FundAnalyticsModal, FundEditModal },
   props: {
     funds: {
-      type: Object,
+      type: Array,
       default: null
     }
   },
@@ -99,7 +99,7 @@ export default {
       this.selectedFund = null
       this.selectedReduction = null
       if (shouldUpdateUser) {
-        this.$emit('getUser')
+        this.$methods.getOrganizerUser()
       }
     },
     showAnalyticsModal (fund) {

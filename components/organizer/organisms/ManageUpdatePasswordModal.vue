@@ -3,7 +3,7 @@
     <v-dialog v-if="dialog" :value="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title class="justify-space-between">
-          <span class="headline">メールアドレス変更</span>
+          <span class="headline">パスワード変更</span>
         </v-card-title>
         <v-card-text>
           <v-form
@@ -12,12 +12,23 @@
             lazy-validation
             class="ml-4"
           >
-            現在のメールアドレス: {{ user.email }}
             <v-row no-gutters>
               <v-text-field
-                v-model="newEmail"
-                label="新しいメールアドレスを入力"
-                :rules="[rules.email]"
+                v-model="newPassword"
+                label="新しいパスワードを入力"
+                :type="showNewPassword ? 'text' : 'password'"
+                :append-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showNewPassword = !showNewPassword"
+              />
+            </v-row>
+            <v-row no-gutters>
+              <v-text-field
+                v-model="verify"
+                label="（確認用）新しいパスワードを入力"
+                :rules="[rules.passwordVerify]"
+                :type="showVerify ? 'text' : 'password'"
+                :append-icon="showVerify ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showVerify = !showVerify"
               />
             </v-row>
           </v-form>
@@ -42,18 +53,17 @@ export default {
     dialog: {
       type: Boolean,
       default: false
-    },
-    user: {
-      type: Object,
-      default: undefined
     }
   },
   data () {
     return {
       valid: true,
-      newEmail: '',
+      newPassword: '',
+      verify: '',
+      showNewPassword: false,
+      showVerify: false,
       rules: {
-        email: v => /.+@.+\..+/.test(v) || 'メールアドレスの形式が正しくありません'
+        passwordVerify: v => v === this.newPassword || '同じパスワードを入力してください'
       }
     }
   },
@@ -69,15 +79,18 @@ export default {
       }
       this.$store
         .dispatch('api/apiRequest', {
-          api: 'patchOrganizerUserEmail',
+          api: 'patchOrganizerUserPassword',
           query: {
             user_id: Number(localStorage.getItem('organizer_user_id'))
           },
           params: {
-            email: this.newEmail
+            password: this.newPassword
           }
         }).then((res) => {
-          this.newEmail = ''
+          this.newPassword = ''
+          this.verify = ''
+          this.showNewPassword = false
+          this.showVerify = false
           this.$methods.getOrganizerUser()
           this.closeModal()
         })

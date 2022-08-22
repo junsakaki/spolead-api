@@ -376,5 +376,40 @@ export default {
   paymentCustomer: {
     url: foundation + '/payment/customer',
     method: 'post'
+  },
+  // 主催者 - ログイン
+  organizerLogin: {
+    url: foundation + '/organizer/login',
+    method: 'post'
+  },
+  // 主催者 - ログアウト
+  organizerLogout: {
+    url: foundation + '/organizer/logout',
+    method: 'post'
+  },
+  // 主催者 - ユーザー情報取得
+  getOrganizerUser: {
+    url: foundation + '/organizer/users/:user_id',
+    method: 'get'
+  },
+  // 主催者 - メールアドレス変更
+  patchOrganizerUserEmail: {
+    url: foundation + '/organizer/users/:user_id/email',
+    method: 'patch'
+  },
+  // 主催者 - パスワード変更
+  patchOrganizerUserPassword: {
+    url: foundation + '/organizer/users/:user_id/password',
+    method: 'patch'
+  },
+  // 主催者 - 売上報告取得
+  getOrganizerManageReports: {
+    url: foundation + '/organizer/manage/reports',
+    method: 'get'
+  },
+  // 主催者 - 出金履歴取得
+  getOrganizerManageWithdrawals: {
+    url: foundation + '/organizer/manage/withdrawals',
+    method: 'get'
   }
 }

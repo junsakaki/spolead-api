@@ -48,7 +48,7 @@
               <v-btn
                 text
                 color="primary"
-                @click="$refs.selectYearMonthModal.save(selectedYearMonth)"
+                @click="selectYearMonth"
               >
                 選択
               </v-btn>
@@ -204,10 +204,27 @@ export default {
     }
   },
   created () {
+    this.load()
   },
   methods: {
     closeModal () {
       this.$emit('closeModal')
+    },
+    load () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'getOrganizerManageReports',
+          params: {
+            userId: Number(localStorage.getItem('organizer_user_id')),
+            term: null
+          }
+        }).then((res) => {
+          // テストデータを挿入する
+        })
+    },
+    selectYearMonth () {
+      this.$refs.selectYearMonthModal.save(this.selectedYearMonth)
+      this.load()
     }
   }
 }

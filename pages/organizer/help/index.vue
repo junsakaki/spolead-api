@@ -37,27 +37,8 @@ export default {
     }
   },
   created () {
-    // 未ログインの場合は主催者側ログイン画面へリダイレクトする
-    const isLoggedIn = true
-    if (!isLoggedIn) {
-      this.$router.push('/organizer/login')
-    }
-    this.getOrganizer()
   },
   methods: {
-    getOrganizer () {
-      // this.$store
-      //   .dispatch('api/apiRequest', {
-      //     api: 'userIndex',
-      //     query: {
-      //       id: this.$auth.user.sub
-      //     }
-      //   }).then((res) => {
-      //     if (res.status === 200) {
-      //       this.user = res.data.user
-      //     }
-      //   })
-    }
   }
 }
 </script>

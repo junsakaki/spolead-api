@@ -111,6 +111,11 @@
             ヘルプ・Q&A
           </p>
         </router-link>
+        <div class="ml-2">
+          <v-btn color="error" outlined x-small @click="logout">
+            ログアウト
+          </v-btn>
+        </div>
       </div>
     </div>
   </div>
@@ -132,6 +137,21 @@ export default {
   created () {
   },
   methods: {
+    logout () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'organizerLogout',
+          data: {
+            user_id: Number(localStorage.getItem('organizer_user_id'))
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            localStorage.removeItem('organizer_token')
+            localStorage.removeItem('organizer_user_id')
+            this.$router.push('/organizer/login')
+          }
+        })
+    }
   }
 }
 </script>
@@ -165,6 +185,7 @@ export default {
 }
 .links {
   display: flex;
+  align-items: center;
 }
 .link {
   position: relative;

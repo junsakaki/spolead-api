@@ -30,10 +30,6 @@ export default {
     }
   },
   created () {
-    // 未ログインの場合はトップ画面へリダイレクトする
-    if (!localStorage.getItem('token')) {
-      this.$router.replace('/')
-    }
   }
 }
 </script>

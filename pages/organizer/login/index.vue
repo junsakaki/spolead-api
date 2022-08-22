@@ -1,5 +1,6 @@
 <template>
   <v-layout
+    v-if="!!beforeLogin"
     column
     justify-center
     align-center
@@ -41,6 +42,9 @@
           :rules="passwordRules"
           label="パスワード"
           required
+          :append-icon="passwordDisplay ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="passwordDisplay ? 'text' : 'password'"
+          @click:append="passwordDisplay = !passwordDisplay"
         />
       </v-form>
       <common-button button-size="large" button-color="primary" class="login-button" @click="login">
@@ -66,6 +70,7 @@ export default {
       valid: true,
       email: '',
       password: '',
+      passwordDisplay: false,
       emailRules: [
         v => !!v || 'Emailは必須項目です。',
         v => /.+@.+\..+/.test(v) || 'Emailの形式が正しくありません。'
@@ -73,7 +78,8 @@ export default {
       passwordRules: [
         v => (v && v.length >= 5) || 'パスワードは6文字以上です。'
       ],
-      invalidAuth: false
+      invalidAuth: false,
+      beforeLogin: false
     }
   },
   head () {
@@ -81,29 +87,34 @@ export default {
       title: 'ログイン | '
     }
   },
+  created () {
+    // ログイン済の場合は主催者トップ画面へリダイレクトする
+    if (localStorage.getItem('organizer_token')) {
+      this.$router.replace('/organizer')
+    } else {
+      this.beforeLogin = true
+    }
+  },
   methods: {
     login () {
       if (this.validate()) {
-        // this.$store
-        //   .dispatch('api/apiRequest', {
-        //     api: 'login',
-        //     data: {
-        //       email: this.email,
-        //       password: this.password
-        //     }
-        //   }).then((res) => {
-        //     if (res.status === 200) {
-        //       localStorage.setItem('token', res.data.user.access_token)
-        //       localStorage.setItem('userId', res.data.user.user_id)
-        //       localStorage.setItem('loginDateTime', new Date())
-        //       // location.replace('http://localhost:8000/')
-        //       location.replace('https://spolead.com/')
-        //       // location.replace('http://develop01.spolead-sv.net/')
-        //     }
-        //   }).catch(() => {
-        //     this.invalidAuth = true
-        //   })
-        this.$router.push('/organizer')
+        this.$store
+          .dispatch('api/apiRequest', {
+            api: 'organizerLogin',
+            data: {
+              email: this.email,
+              password: this.password
+            }
+          }).then((res) => {
+            if (res.status === 200) {
+              localStorage.setItem('organizer_token', res.data.user.access_token)
+              localStorage.setItem('organizer_user_id', res.data.user.user_id)
+              this.$methods.getOrganizerUser()
+              this.$router.push('/organizer')
+            }
+          }).catch(() => {
+            this.invalidAuth = true
+          })
       }
     },
     validate () {

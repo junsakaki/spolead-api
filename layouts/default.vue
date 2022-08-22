@@ -11,19 +11,19 @@
     <v-footer padless>
       <div class="a8">
         <a href="https://px.a8.net/svt/ejp?a8mat=3HP98U+2FIQPE+4ABU+6EMGX" rel="nofollow">
-        <img border="0" width="300" height="250" alt="" src="https://www27.a8.net/svt/bgt?aid=211130382147&wid=001&eno=01&mid=s00000020001001076000&mc=1"></a>
+          <img border="0" width="300" height="250" alt="" src="https://www27.a8.net/svt/bgt?aid=211130382147&wid=001&eno=01&mid=s00000020001001076000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3HP98U+2FIQPE+4ABU+6EMGX" alt="">
         <a href="https://px.a8.net/svt/ejp?a8mat=3N202Z+11IBW2+2DDC+7XTCO1" rel="nofollow">
-        <img border="0" width="300" height="250" alt="" src="https://www24.a8.net/svt/bgt?aid=220123115063&wid=001&eno=01&mid=s00000011064048006000&mc=1"></a>
+          <img border="0" width="300" height="250" alt="" src="https://www24.a8.net/svt/bgt?aid=220123115063&wid=001&eno=01&mid=s00000011064048006000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=3N202Z+11IBW2+2DDC+7XTCO1" alt="">
         <a href="https://px.a8.net/svt/ejp?a8mat=3N202Z+19UECY+2S1O+1ZHAW1" rel="nofollow">
-        <img border="0" width="300" height="250" alt="" src="https://www23.a8.net/svt/bgt?aid=220123115077&wid=001&eno=01&mid=s00000012966012006000&mc=1"></a>
+          <img border="0" width="300" height="250" alt="" src="https://www23.a8.net/svt/bgt?aid=220123115077&wid=001&eno=01&mid=s00000012966012006000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=3N202Z+19UECY+2S1O+1ZHAW1" alt="">
         <a href="https://px.a8.net/svt/ejp?a8mat=3N202Z+1VVFQQ+2SIW+6EER5" rel="nofollow">
-        <img border="0" width="300" height="250" alt="" src="https://www25.a8.net/svt/bgt?aid=220123115114&wid=001&eno=01&mid=s00000013028001075000&mc=1"></a>
+          <img border="0" width="300" height="250" alt="" src="https://www25.a8.net/svt/bgt?aid=220123115114&wid=001&eno=01&mid=s00000013028001075000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=3N202Z+1VVFQQ+2SIW+6EER5" alt="">
         <a href="https://px.a8.net/svt/ejp?a8mat=3N1YIG+68GFUA+4J66+BYT9D" rel="nofollow">
-        <img border="0" width="300" height="250" alt="" src="https://www26.a8.net/svt/bgt?aid=220121080377&wid=001&eno=01&mid=s00000021147002010000&mc=1"></a>
+          <img border="0" width="300" height="250" alt="" src="https://www26.a8.net/svt/bgt?aid=220121080377&wid=001&eno=01&mid=s00000021147002010000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3N1YIG+68GFUA+4J66+BYT9D" alt="">
       </div>
       <div v-if="!!$route.path.indexOf('/organizer')" class="footer-links">
@@ -107,6 +107,9 @@ export default {
       return !this.$route.path.startsWith('/organizer') && !this.$route.path.startsWith('/organizer/login')
     }
   },
+  created () {
+    this.checkOrganizerToken()
+  },
   methods: {
     filteredFooterLinks () {
       if (this.$auth.loggedIn) {
@@ -133,6 +136,14 @@ export default {
             to: '/login'
           }
         ]
+      }
+    },
+    checkOrganizerToken () {
+      if (localStorage.getItem('organizer_user_id') && localStorage.getItem('organizer_token')) {
+        this.$methods.getOrganizerUser()
+      } else {
+        // 未ログインの場合は主催者側ログイン画面へリダイレクトする
+        this.$router.push('/organizer/login')
       }
     }
   }

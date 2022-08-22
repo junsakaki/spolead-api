@@ -100,7 +100,7 @@ export default {
       this.analyticsModal = false
       this.selectedLesson = null
       if (shouldUpdateUser) {
-        this.$emit('getUser')
+        this.$methods.getOrganizerUser()
       }
     },
     showEditModal (salon) {

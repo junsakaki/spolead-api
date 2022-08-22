@@ -93,10 +93,22 @@ export default {
     }
   },
   created () {
+    this.load()
   },
   methods: {
     closeModal () {
       this.$emit('closeModal')
+    },
+    load () {
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'getOrganizerManageWithdrawals',
+          params: {
+            userId: Number(localStorage.getItem('organizer_user_id'))
+          }
+        }).then((res) => {
+          // 実データを疎通できるようになったらレスポンスを挿入する
+        })
     }
   }
 }

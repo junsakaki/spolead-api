@@ -23,6 +23,9 @@ export const actions = {
         // req.headers['X-API-KEY'] = process.env.GET_CITY_APIKEY
         req.headers['X-API-KEY'] = 'UTcSHZB4MAnbEfmMQznGeiFmyapUsZjwhz9ulUrv'
       }
+      if (~reqData.api.indexOf('Organizer')) {
+        req.headers.Authorization = localStorage.getItem('organizer_token')
+      }
       axios(req)
         .then((response) => {
           resolve(response)

@@ -15,9 +15,9 @@
     </div>
     <div class="subtitle-1 font-weight-bold mt-8 mb-8">
       <div>掲載中のオンラインサロン</div>
-      <div v-if="salons.owned.length > 0" class="mt-2">
+      <div v-if="salons.length > 0" class="mt-2">
         <v-card
-          v-for="salon in salons.owned"
+          v-for="salon in salons"
           :key="salon.id"
           outlined
           tile
@@ -80,7 +80,7 @@ export default {
   components: { SalonAnalyticsModal, SalonEditModal },
   props: {
     salons: {
-      type: Object,
+      type: Array,
       default: null
     }
   },
@@ -97,7 +97,7 @@ export default {
       this.analyticsModal = false
       this.selectedSalon = null
       if (shouldUpdateUser) {
-        this.$emit('getUser')
+        this.$methods.getOrganizerUser()
       }
     },
     showAnalyticsModal (item) {

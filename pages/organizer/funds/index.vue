@@ -5,7 +5,7 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <Funds :funds="user.funds" @getUser="getUser" />
+    <Funds :funds="$store.state.organizer.user.owned.funds" />
   </div>
 </template>
 
@@ -22,14 +22,7 @@ export default {
           text: 'クラウドファンディング',
           disabled: true
         }
-      ],
-      user: {
-        funds: {
-          owned: [],
-          purchased: []
-        }
-
-      }
+      ]
     }
   },
   head () {
@@ -38,27 +31,8 @@ export default {
     }
   },
   created () {
-    // 未ログインの場合は主催者側ログイン画面へリダイレクトする
-    const isLoggedIn = true
-    if (!isLoggedIn) {
-      this.$router.push('/organizer/login')
-    }
-    this.getOrganizer()
   },
   methods: {
-    getOrganizer () {
-      // this.$store
-      //   .dispatch('api/apiRequest', {
-      //     api: 'userIndex',
-      //     query: {
-      //       id: this.$auth.user.sub
-      //     }
-      //   }).then((res) => {
-      //     if (res.status === 200) {
-      //       this.user = res.data.user
-      //     }
-      //   })
-    }
   }
 }
 </script>
