@@ -41,15 +41,22 @@ module V1
 
     def reports
       @user = User.find(params[:userId]) 
-      puts "@user: #{@user.inspect}" 
       term = params[:term].present? ? Date.new(params[:term][:year].to_i, params[:term][:month].to_i) : nil
-      if term.present?
-        term_reports = {
-          salons: @user.salon_owned.where(created_at: (term)..(term.end_of_month)).includes(:plans),
-          funds: @user.fund_owned.where(created_at: (term)..(term.end_of_month)).includes(:reductions),
-          lessons: @user.lesson_owned.where(created_at: (term)..(term.end_of_month)),
+      total = {
+        salons: calc_salons,
+        funds: calc_funds,
+        lessons: @user.lesson_owned.present? ? @user.lesson_owned.map{|lesson|
+          {id: lesson.id,  amount: lesson.lesson_amount}
+        } :  nil
+      }
+      term = term.nil? ? nil : {
+        salons: calc_salons(term),
+        funds: calc_funds(term),
+        lessons: @user.lesson_owned.map{|lesson|
+          {id: lesson.id,  amount: lesson.lesson_amount(term)}
         }
-      end
+      }
+      render json: {total: total, term: term}
     end
 
     def withdrawals
@@ -59,6 +66,36 @@ module V1
 
     def organizer_params
       params.permit(:nickname, :email, :password, :tel)
+    end
+
+    def calc_salons(term = nil)
+      @user.salon_owned.map{|salon|
+        participations = term.present? ? salon.participations.where(created_at: (term)..(term.end_of_month)) : salon.participations
+        participations = participations.group_by{|p| p[:plan_id]}.values
+        if participations.present?
+          plan_amounts = participations.map{|participation|
+            amount = 0
+            participation.each{|p| amount += p.amount * p.count}
+            return {id: participation.first.plan_id, amount: amount}
+          }        
+        end
+        return {id: salon.id, plans: plan_amounts} 
+      }
+    end
+
+    def calc_funds(term = nil)
+      @user.fund_owned.map{|fund|
+        reductions = fund.reductions
+        reductions = term.present? ? reductions.map{|r| r.purchases.where(created_at: (term)..(term.end_of_month))} : reductions.map{|r| r.purchases}
+        if reductions.first.present?
+          reduction_amounts = reductions.map{|reduction|
+            amount = 0
+            reduction.each{|r| amount += r.amount * r.count}
+            return {id: reduction.first.reduction_id, amount: amount}
+          }        
+        end
+        return {id: fund.id, plans: reduction_amounts} 
+      } 
     end
   end
 end

@@ -1,7 +1,17 @@
 class Lesson < ApplicationRecord
     has_one :lesson_owner
-    # has_many :talks_comments
+    has_many :lessons_talk_rooms
 
+    def lesson_amount(term = nil)
+        result_amount = 0
+        rooms = term.present? ? lessons_talk_rooms.includes([{comments: [:payment]}]).where(created_at: (term)..(term.end_of_month)) : lessons_talk_rooms.includes([{comments: [:payment]}])
+        rooms.each{|room|
+            room.comments.each{|comment|
+                result_amount += comment.payment.amount
+            }
+        }
+        result_amount
+    end
 
     def upsert_owner(owner)
         new_owner = LessonOwner.find_or_initialize_by(id: owner[:id])
@@ -23,4 +33,6 @@ class Lesson < ApplicationRecord
         end
         new_owner
     end
+
+
 end
