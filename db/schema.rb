@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_16_105427) do
+ActiveRecord::Schema.define(version: 2022_08_30_070954) do
 
   create_table "careers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content"
@@ -160,6 +160,19 @@ ActiveRecord::Schema.define(version: 2022_08_16_105427) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "organizer_pools", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "content"
+    t.integer "amount", null: false
+    t.integer "organizer_id", null: false
+    t.integer "participant_id"
+    t.integer "subscribable_id"
+    t.string "subscribable_type"
+    t.integer "month", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["content", "amount", "organizer_id", "participant_id", "subscribable_id", "subscribable_type", "month", "created_at", "updated_at"], name: "cover"
+  end
+
   create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "salon_id"
     t.string "name"
@@ -277,6 +290,18 @@ ActiveRecord::Schema.define(version: 2022_08_16_105427) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["content", "name"], name: "index_threads_on_content_and_name"
+  end
+
+  create_table "user_subscriptions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "content"
+    t.integer "amount", null: false
+    t.integer "user_id", null: false
+    t.integer "subscribable_id"
+    t.string "subscribable_type"
+    t.integer "month", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["content", "amount", "user_id", "subscribable_id", "subscribable_type", "month", "created_at", "updated_at"], name: "cover"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

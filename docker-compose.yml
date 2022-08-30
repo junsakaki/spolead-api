@@ -8,16 +8,16 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: app_development
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: app_development
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
   app:
     tty: true
     stdin_open: true
     build: .
     command: >
-      bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0' -d && rake jobs:work"
+      bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
       PAY_JP_KEY: sk_test_5caceb80b05a2b4dd40b9e33
     volumes:

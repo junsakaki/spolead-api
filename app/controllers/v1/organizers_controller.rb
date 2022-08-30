@@ -1,6 +1,7 @@
 module V1
   class OrganizersController < ApplicationController
-    before_action :authenticate_user_from_token!, except: :create
+    before_action :authenticate_user_from_token!, except: [:create, :apply, :reset]
+    require 'securerandom'
 
     # POST
     # Create an organizer
@@ -34,6 +35,23 @@ module V1
       end
     end
 
+    def reset
+      begin
+          @user = User.find(params[:id]) 
+          new_password = SecureRandom.alphanumeric
+          @user.password = new_password
+          @user.password_confirmation = new_password
+        if @user.save!
+          PasswordResetMailer.send_reset_email(@user, new_password).deliver
+          render status: 200
+        else
+          render json: { error: t('organizer_reset_passowrd_error') }, status: :unprocessable_entity
+        end
+      rescue
+        render json: { error: t('organizer_reset_passowrd_error') }, status: :unprocessable_entity
+      end
+  end
+
     def show
       @user = User.find(params[:id]) 
       render json: @user, serializer: V1::OrganizerSerializer, root: nil
@@ -60,6 +78,25 @@ module V1
     end
 
     def withdrawals
+      organizer = User.includes(:organizer_withdrawal).find(params[:userId])
+      item = organizer.organizer_withdrawal.where("amount < ?", 0).select(:amount, :content, :created_at).map{|withdrawal|
+        withdrawal_attr = withdrawal.attributes
+        withdrawal_attr["amount"] = withdrawal_attr["amount"] * -1
+        withdrawal_attr.delete("id")
+        withdrawal_attr
+      }
+      render json: {item: item}
+    end
+
+    def apply
+      organizer_info = {
+        name: params["name"],
+        email: params["email"],
+        phone_number: params["phone_number"],
+        desired_service: params["desired_service"].join(",")
+      }
+      OrganizerApplyMailer.send_apply_email(organizer_info).deliver
+      render status: 200
     end
     
     private

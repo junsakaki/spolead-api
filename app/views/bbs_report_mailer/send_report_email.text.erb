@@ -1,1 +1,4 @@
-hello worldaaaaaaaaaaaaaaaaaa
+【通報したユーザー】<%= @report.user_name %>
+【通報されたスレッド】<%= @report.bbs_comment.bbs_thread.name %>
+【通報されたコメント】<%= @report.bbs_comment.content %>
+【通報理由】<%= @report.content %>

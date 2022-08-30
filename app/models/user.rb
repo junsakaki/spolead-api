@@ -15,6 +15,9 @@ class User < ApplicationRecord
   has_many :lesson
   has_many :lesson_owners
   has_many :lesson_owned, through: :lesson_owners, class_name: 'Lesson', source: :lesson
+  has_many :lesson_comments
+  has_many :organizer_pools
+  has_many :organizer_withdrawal, class_name: 'OrganizerPool', foreign_key: 'organizer_id'
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable

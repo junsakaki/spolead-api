@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       collection do
         post 'login', action: :create, controller: :sessions
         post 'logout', action: :destroy, controller: :sessions
+        post 'apply', action: :apply, controller: :organizers
+        post 'reset/:id', action: :reset, controller: :organizers
       end
       resource :users do
         member do
