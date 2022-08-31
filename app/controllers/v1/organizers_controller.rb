@@ -37,7 +37,7 @@ module V1
 
     def reset
       begin
-          @user = User.find_by(email: params[:email]) 
+          @user = User.find_by(email: params[:email], role: 'organizer') 
           new_password = SecureRandom.alphanumeric
           @user.password = new_password
           @user.password_confirmation = new_password
@@ -49,7 +49,7 @@ module V1
         end
       rescue
         if @user.blank?
-          render json: { error: 'missiing user with request email'}, status: :not_found if @user.blank? 
+          render json: { error: 'missiing organizer with request email'}, status: :not_found if @user.blank? 
         else
           render json: { error: 'organizer_reset_passowrd_error' }, status: :unprocessable_entity
         end
