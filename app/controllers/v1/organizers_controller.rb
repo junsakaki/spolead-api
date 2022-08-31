@@ -37,7 +37,7 @@ module V1
 
     def reset
       begin
-          @user = User.find(params[:id]) 
+          @user = User.find_by(email: params[:email]) 
           new_password = SecureRandom.alphanumeric
           @user.password = new_password
           @user.password_confirmation = new_password
@@ -45,10 +45,14 @@ module V1
           PasswordResetMailer.send_reset_email(@user, new_password).deliver
           render status: 200
         else
-          render json: { error: t('organizer_reset_passowrd_error') }, status: :unprocessable_entity
+          render json: { error: 'organizer_reset_passowrd_error' }, status: :unprocessable_entity
         end
       rescue
-        render json: { error: t('organizer_reset_passowrd_error') }, status: :unprocessable_entity
+        if @user.blank?
+          render json: { error: 'missiing user with request email'}, status: :not_found if @user.blank? 
+        else
+          render json: { error: 'organizer_reset_passowrd_error' }, status: :unprocessable_entity
+        end
       end
   end
 
