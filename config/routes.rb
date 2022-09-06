@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         collection do
           get 'reports', action: :reports, controller: :organizers
           get 'withdrawals', action: :withdrawals, controller: :organizers
+          post 'withdrawals', action: :create_withdrawals, controller: :organizers
         end
       end
     end

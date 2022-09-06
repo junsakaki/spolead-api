@@ -1,6 +1,6 @@
 module V1
   class OrganizersController < ApplicationController
-    before_action :authenticate_user_from_token!, except: [:create, :apply, :reset]
+    before_action :authenticate_user_from_token!, except: [:create, :apply, :reset, :create_withdrawals]
     require 'securerandom'
 
     # POST
@@ -69,7 +69,7 @@ module V1
         funds: calc_funds,
         lessons: @user.lesson_owned.present? ? @user.lesson_owned.map{|lesson|
           {id: lesson.id,  amount: lesson.lesson_amount}
-        } :  nil
+        } :  []
       }
       term = term.nil? ? nil : {
         salons: calc_salons(term),
@@ -100,6 +100,17 @@ module V1
         desired_service: params["desired_service"].join(",")
       }
       OrganizerApplyMailer.send_apply_email(organizer_info).deliver
+      render status: 200
+    end
+
+    def create_withdrawals
+      organizer = User.find(params["id"])
+      OrganizerPool.create!({
+        content: params["content"],
+        amount: params["amount"],
+        organizer: organizer,
+        month: Time.new.strftime("%Y%m")
+      })
       render status: 200
     end
     
