@@ -3,16 +3,15 @@
     <v-dialog
       v-if="dialog"
       :value="dialog"
-      fullscreen
-      max-width="600px"
       hide-overlay
+      scrollable
       transition="dialog-bottom-transition"
     >
       <v-card class="d-flex align-start flex-column">
         <v-card-title class="justify-space-between">
           <span>出金履歴</span>
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="pb-0">
           <div class="withdrawal main mb-1">
             <div class="text-center grey--text">
               取引日時
@@ -25,29 +24,33 @@
             </div>
           </div>
           <v-divider class="mb-2" />
-          <div v-for="withdrawal in withdrawals" :key="`withdrawal-${withdrawal.id}`" class="withdrawal py-1">
+        </v-card-text>
+        <v-card-text style="height: 300px;">
+          <div v-for="(withdrawal, i) in filteredWithdrawals" :key="`withdrawal-${i}`" class="withdrawal py-1">
             <div class="withdrawal-name text-center ml-2">
-              {{ withdrawal.date }}
+              {{ format(new Date(withdrawal.created_at), 'yyyy年MM月dd日') }}
             </div>
             <div class="text-center">
               {{ withdrawal.amount.toLocaleString() }}円
             </div>
-            <div class="">
-              {{ withdrawal.token }}
+            <div class="text-center">
+              {{ withdrawal.content }}
             </div>
             <div class="filter" />
           </div>
-          <div class="text-center mt-4">
+        </v-card-text>
+        <v-card-actions class="d-flex flex-column" style="width: 100%;">
+          <div v-if="total_rows > perPage" class="text-center mt-4">
             <v-pagination
               v-model="page"
               :length="Math.ceil(total_rows / perPage)"
             />
           </div>
-        </v-card-text>
-        <v-card-actions class="mt-auto ml-auto justify-end">
-          <v-btn color="blue darken-1" text @click="closeModal(false)">
-            閉じる
-          </v-btn>
+          <div class="d-flex justify-end mt-2" style="width: 100%;">
+            <v-btn color="blue darken-1" text @click="closeModal(false)">
+              閉じる
+            </v-btn>
+          </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -55,6 +58,8 @@
 </template>
 
 <script>
+import { format } from 'date-fns'
+
 export default {
   props: {
     dialog: {
@@ -66,30 +71,17 @@ export default {
     return {
       page: 1,
       perPage: 20,
-      total_rows: 95,
-      withdrawals: [
-        { id: 0, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 1, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 2, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 3, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 4, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 5, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 6, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 7, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 8, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 9, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 10, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 11, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 12, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 13, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 14, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 15, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 16, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 17, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 18, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 19, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' },
-        { id: 20, date: '2022-01-01 12:00:00', amount: 100000, token: 'aidsd87a6d876a876687a / 四菱UFJ銀行 島根支店 口座番号: 119229600' }
-      ]
+      total_rows: 0,
+      withdrawals: [],
+      filteredWithdrawals: [],
+      format
+    }
+  },
+  watch: {
+    page (newVal) {
+      const startIndex = (newVal - 1) * this.perPage
+      const endIndex = startIndex + this.perPage
+      this.filteredWithdrawals = this.withdrawals.slice(startIndex, endIndex)
     }
   },
   created () {
@@ -107,7 +99,9 @@ export default {
             userId: Number(localStorage.getItem('organizer_user_id'))
           }
         }).then((res) => {
-          // 実データを疎通できるようになったらレスポンスを挿入する
+          this.withdrawals = res.data.item.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          this.filteredWithdrawals = this.withdrawals.slice(0, this.perPage)
+          this.total_rows = res.data.item.length
         })
     }
   }
