@@ -38,24 +38,8 @@ export default {
     }
   },
   created () {
-    this.getUser()
   },
   methods: {
-    getUser () {
-      if (this.$auth && this.$auth.user) {
-        this.$store
-          .dispatch('api/apiRequest', {
-            api: 'userIndex',
-            query: {
-              id: this.$auth.user.sub
-            }
-          }).then((res) => {
-            if (res.status === 200) {
-              this.userId = Number(res.data.user.id)
-            }
-          })
-      }
-    },
     beforeSalonCreate (data) {
       const nextData = { ...data }
       data.plans.forEach((plan, index) => {
@@ -70,7 +54,6 @@ export default {
             if (res.status === 200) {
               nextData.plans[index].plan_id = res.data.data.id
               if (index === nextData.plans.length - 1) {
-                console.log(nextData)
                 this.salonCreate(nextData)
               }
             }
@@ -84,13 +67,14 @@ export default {
           data
         }).then((res) => {
           if (res.status === 200) {
-            this.$router.push('/salons')
+            this.$methods.getOrganizerUser()
+            this.$router.push('/organizer/salons')
           }
         })
     },
     submit (form) {
       const data = { ...form }
-      data.owner.user_id = this.userId
+      data.owner.user_id = Number(localStorage.getItem('organizer_user_id'))
       this.beforeSalonCreate(data)
     }
   }

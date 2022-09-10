@@ -3,18 +3,15 @@
     <div class="subtitle-1 font-weight-bold">
       <div>クラウドファンディングを開始する</div>
       <div class="text-center px-4 mt-2">
-        <router-link to="/funds/new" class="fund-link" target="_blank">
+        <router-link to="/organizer/funds/new" class="fund-link">
           <v-btn color="primary" outlined block>
-            ファンド情報入力フォームへ
-            <v-icon small class="ml-1">
-              mdi-open-in-new
-            </v-icon>
+            ファンド情報入力フォーム
           </v-btn>
         </router-link>
       </div>
     </div>
     <div class="subtitle-1 font-weight-bold mt-8 mb-8">
-      <div>公開中のファンド</div>
+      <div>申請済のファンド</div>
       <div v-if="funds.length > 0" class="mt-2">
         <v-card
           v-for="fund in funds"
@@ -32,7 +29,7 @@
               <v-btn x-small class="ml-2 font-weight-bold" :color="fund.approval ? 'primary' : 'error'" elevation="0">
                 {{ fund.approval ? '掲載中' : '審査中' }}
               </v-btn>
-              <router-link :to="`/funds/${fund.id}`" class="ml-2 fund-link">
+              <router-link :to="`/funds/${fund.id}`" class="ml-2 fund-link" target="_blank">
                 <v-btn icon small>
                   <v-icon small>
                     mdi-eye
@@ -55,7 +52,7 @@
       </div>
       <div v-else class="d-flex justify-cente mt-2">
         <span class="grey--text">
-          掲載中のオンラインサロンはありません
+          申請中のファンドはありません
         </span>
       </div>
     </div>

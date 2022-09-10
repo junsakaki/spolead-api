@@ -3,18 +3,15 @@
     <div class="subtitle-1 font-weight-bold">
       <div>オンラインサロンを掲載する</div>
       <div class="text-center px-4 mt-2">
-        <router-link to="/salons/new" class="salon-link" target="_blank">
+        <router-link to="/organizer/salons/new" class="salon-link">
           <v-btn color="primary" outlined block>
-            掲載情報入力フォームへ
-            <v-icon small class="ml-1">
-              mdi-open-in-new
-            </v-icon>
+            掲載情報入力フォーム
           </v-btn>
         </router-link>
       </div>
     </div>
     <div class="subtitle-1 font-weight-bold mt-8 mb-8">
-      <div>掲載中のオンラインサロン</div>
+      <div>申請済のサロン</div>
       <div v-if="salons.length > 0" class="mt-2">
         <v-card
           v-for="salon in salons"
@@ -32,7 +29,7 @@
               <v-btn x-small class="ml-2 font-weight-bold" :color="salon.approval ? 'primary' : 'error'" elevation="0">
                 {{ salon.approval ? '掲載中' : '審査中' }}
               </v-btn>
-              <router-link :to="`/salons/${salon.id}`" class="ml-2 salon-link">
+              <router-link :to="`/salons/${salon.id}`" class="ml-2 salon-link" target="_blank">
                 <v-btn icon small>
                   <v-icon small>
                     mdi-eye
@@ -55,7 +52,7 @@
       </div>
       <div v-else class="d-flex justify-cente mt-2">
         <span class="grey--text">
-          掲載中のオンラインサロンはありません
+          申請中のサロンはありません
         </span>
       </div>
     </div>

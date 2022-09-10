@@ -3,18 +3,15 @@
     <div class="subtitle-1 font-weight-bold">
       <div>指導者/生徒を募集する</div>
       <div class="text-center px-4 mt-2">
-        <router-link to="/lessons/new" class="lesson-link" target="_blank">
+        <router-link to="/organizer/lessons/new" class="lesson-link">
           <v-btn color="primary" outlined block>
-            募集情報入力フォームへ
-            <v-icon small class="ml-1">
-              mdi-open-in-new
-            </v-icon>
+            募集情報入力フォーム
           </v-btn>
         </router-link>
       </div>
     </div>
     <div class="subtitle-1 font-weight-bold mt-8 mb-8">
-      <div>公開中のマッチング一覧</div>
+      <div>申請済のマッチング</div>
       <div v-if="lessons.length > 0" class="mt-2">
         <div v-for="lesson in lessons" :key="lesson.id">
           <v-card outlined tile style="margin-top: -1px;">
@@ -23,10 +20,10 @@
                 {{ lesson.name }}
               </v-col>
               <v-col cols="12" sm="3" class="d-flex justify-end align-center">
-                <v-btn x-small class="ml-2 font-weight-bold" :color="lesson.approval ? 'error' : 'primary'" elevation="0">
+                <v-btn x-small class="ml-2 font-weight-bold" :color="lesson.approval ? 'primary' : 'error'" elevation="0">
                   {{ lesson.approval ? '掲載中' : '審査中' }}
                 </v-btn>
-                <router-link :to="`/lessons/${lesson.id}`" class="ml-2 lesson-link">
+                <router-link :to="`/lessons/${lesson.id}`" class="ml-2 lesson-link" target="_blank">
                   <v-btn icon small>
                     <v-icon small>
                       mdi-eye
@@ -65,8 +62,8 @@
           </v-card>
         </div>
       </div>
-      <div v-else class="mt-2">
-        公開中のマッチングはありません
+      <div v-else class="mt-2 grey--text">
+        申請中のマッチングはありません
       </div>
     </div>
     <lesson-edit-modal

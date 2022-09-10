@@ -10,22 +10,22 @@
       </template>
     </v-breadcrumbs>
     <div class="container">
-      <funds-regist-form @submit="submit" />
+      <lessons-regist-form @submit="submit" />
     </div>
   </v-layout>
 </template>
 
 <script>
-import FundsRegistForm from '~/components/funds/organisms/FundsRegistForm.vue'
+import LessonsRegistForm from '~/components/lessons/organisms/LessonsRegistForm.vue'
 export default {
   components: {
-    FundsRegistForm
+    LessonsRegistForm
   },
   data () {
     return {
       breadcrumbs: [
         {
-          text: 'クラウドファンディングの登録申請',
+          text: '指導者マッチングの登録申請',
           disabled: true
         }
       ],
@@ -34,38 +34,23 @@ export default {
   },
   head () {
     return {
-      title: 'クラウドファンディングの登録申請 | '
+      title: '指導者マッチングの登録申請 | '
     }
   },
   created () {
-    this.getUser()
   },
   methods: {
-    getUser () {
-      if (this.$auth && this.$auth.user) {
-        this.$store
-          .dispatch('api/apiRequest', {
-            api: 'userIndex',
-            query: {
-              id: this.$auth.user.sub
-            }
-          }).then((res) => {
-            if (res.status === 200) {
-              this.userId = Number(res.data.user.id)
-            }
-          })
-      }
-    },
     submit (form) {
       const data = { ...form }
-      data.owner.user_id = this.userId
+      data.owner.user_id = Number(localStorage.getItem('organizer_user_id'))
       this.$store
         .dispatch('api/apiRequest', {
-          api: 'fundCreate',
+          api: 'lessonCreate',
           data
         }).then((res) => {
           if (res.status === 200) {
-            this.$router.push('/funds')
+            this.$methods.getOrganizerUser()
+            this.$router.push('/organizer/lessons')
           }
         })
     }
