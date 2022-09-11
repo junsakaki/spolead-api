@@ -8,7 +8,7 @@
     </v-content>
     <ScrollTopButton />
     <v-footer padless>
-      <div class="a8">
+      <div v-if="withoutBilling" class="a8">
         <a href="https://px.a8.net/svt/ejp?a8mat=3HP98U+2FIQPE+4ABU+6EMGX" rel="nofollow">
         <img border="0" width="300" height="250" alt="" src="https://www27.a8.net/svt/bgt?aid=211130382147&wid=001&eno=01&mid=s00000020001001076000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3HP98U+2FIQPE+4ABU+6EMGX" alt="">
@@ -84,7 +84,8 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'SpoLeadeR',
-      subTitle: 'ALL SPORTS BEGINING SpoLedeR'
+      subTitle: 'ALL SPORTS BEGINING SpoLedeR',
+      withoutBilling: false
     }
   },
   computed: {
@@ -97,6 +98,14 @@ export default {
         return ''
       }
     }
+  },
+  watch: {
+    '$route' () {
+      this.checkBilling()
+    }
+  },
+  created () {
+    this.checkBilling()
   },
   methods: {
     filteredFooterLinks () {
@@ -124,6 +133,15 @@ export default {
             to: '/login'
           }
         ]
+      }
+    },
+    checkBilling () {
+      if (this.$route.name === 'teams-id' && this.$route.query.tab === '1') {
+        this.withoutBilling = true
+      } else if (this.$route.path.startsWith('/forums')) {
+        this.withoutBilling = true
+      } else {
+        this.withoutBilling = false
       }
     }
   }
