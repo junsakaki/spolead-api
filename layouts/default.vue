@@ -108,7 +108,9 @@ export default {
     }
   },
   created () {
-    this.checkOrganizerToken()
+    if (this.$route.path.startsWith('/organizer')) {
+      this.checkOrganizerToken()
+    }
   },
   methods: {
     filteredFooterLinks () {
