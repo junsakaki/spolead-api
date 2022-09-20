@@ -138,19 +138,7 @@ export default {
   },
   methods: {
     logout () {
-      this.$store
-        .dispatch('api/apiRequest', {
-          api: 'organizerLogout',
-          data: {
-            user_id: Number(localStorage.getItem('organizer_user_id'))
-          }
-        }).then((res) => {
-          if (res.status === 200) {
-            localStorage.removeItem('organizer_token')
-            localStorage.removeItem('organizer_user_id')
-            this.$router.push('/organizer/login')
-          }
-        })
+      this.$methods.logoutOrganizerUser()
     }
   }
 }

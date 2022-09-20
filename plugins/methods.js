@@ -14,6 +14,20 @@ export default ({ store }, inject) => {
           store.dispatch('organizer/setOrganizer', { user: res.data.user })
         }
       })
+    },
+    logoutOrganizerUser: () => {
+      store.dispatch('api/apiRequest', {
+        api: 'organizerLogout',
+        data: {
+          user_id: Number(localStorage.getItem('organizer_user_id'))
+        }
+      }).then((res) => {
+        if (res.status === 200) {
+          localStorage.removeItem('organizer_token')
+          localStorage.removeItem('organizer_user_id')
+          window.location = '/organizer/login'
+        }
+      })
     }
   }
   inject('methods', methods)

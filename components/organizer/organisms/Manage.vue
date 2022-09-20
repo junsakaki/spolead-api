@@ -16,7 +16,7 @@
         表示
       </v-btn>
     </div>
-    <div class="d-flex align-centermt-8 mb-8">
+    <div class="d-flex align-center mt-8 mb-8">
       <div class="subtitle-1 font-weight-bold">
         メールアドレス変更
       </div>
@@ -29,15 +29,44 @@
         </v-btn>
       </div>
     </div>
-    <div class="d-flex align-centermt-8 mb-8">
-      <div class="subtitle-1 font-weight-bold">
-        パスワード変更
+    <div class="mt-8 mb-8">
+      <div class="d-flex align-center mt-8">
+        <div class="subtitle-1 font-weight-bold">
+          パスワードリセット
+        </div>
+        <div class="d-flex align-center ml-4">
+          <v-btn
+            v-if="!passwordResetAlert"
+            color="error"
+            x-small
+            text
+            @click="passwordResetAlert = true"
+          >
+            リセット
+          </v-btn>
+        </div>
       </div>
-      <div class="d-flex align-center ml-4">
-        <v-btn x-small text color="primary" class="ml-4" @click="showManageUpdatePasswordModal">
-          変更
-        </v-btn>
-      </div>
+      <v-alert
+        v-model="passwordResetAlert"
+        prominent
+        type="error"
+        dismissible
+      >
+        <v-row align="center">
+          <v-col class="grow body-2">
+            パスワードをリセットすると、自動でログアウトします。登録されているメールアドレスに送付される新しいパスワードで、再度ログインしてください。
+          </v-col>
+          <v-col class="shrink">
+            <v-btn
+              color="white"
+              outlined
+              @click="resetPassword"
+            >
+              実行
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-alert>
     </div>
     <manage-earnings-report-modal
       :dialog="manageEarningsReportModal"
@@ -52,10 +81,6 @@
       :user="user"
       @closeModal="closeModal"
     />
-    <manage-update-password-modal
-      :dialog="manageUpdatePasswordModal"
-      @closeModal="closeModal"
-    />
   </div>
 </template>
 
@@ -63,14 +88,12 @@
 import ManageEarningsReportModal from '~/components/organizer/organisms/ManageEarningsReportModal.vue'
 import ManageWithdrawalHistoryModal from '~/components/organizer/organisms/ManageWithdrawalHistoryModal.vue'
 import ManageUpdateEmailAddressModal from '~/components/organizer/organisms/ManageUpdateEmailAddressModal.vue'
-import ManageUpdatePasswordModal from '~/components/organizer/organisms/ManageUpdatePasswordModal.vue'
 
 export default {
   components: {
     ManageEarningsReportModal,
     ManageWithdrawalHistoryModal,
-    ManageUpdateEmailAddressModal,
-    ManageUpdatePasswordModal
+    ManageUpdateEmailAddressModal
   },
   data () {
     return {
@@ -78,7 +101,8 @@ export default {
       manageWithdrawalHistoryModal: false,
       manageUpdateEmailAddressModal: false,
       manageUpdatePasswordModal: false,
-      user: { email: '' }
+      user: { email: '' },
+      passwordResetAlert: false
     }
   },
   watch: {
@@ -106,6 +130,18 @@ export default {
     },
     showManageUpdatePasswordModal () {
       this.manageUpdatePasswordModal = true
+    },
+    resetPassword () {
+      this.passwordResetAlert = false
+      this.$store
+        .dispatch('api/apiRequest', {
+          api: 'postOrganizerPasswordReset',
+          params: {
+            email: this.$store.state.organizer.user.email
+          }
+        }).then((res) => {
+          this.$methods.logoutOrganizerUser()
+        })
     }
   }
 }

@@ -397,10 +397,10 @@ export default {
     url: foundation + '/organizer/users/:user_id/email',
     method: 'patch'
   },
-  // 主催者 - パスワード変更
-  patchOrganizerUserPassword: {
-    url: foundation + '/organizer/users/:user_id/password',
-    method: 'patch'
+  // 主催者 - パスワードリセット
+  postOrganizerPasswordReset: {
+    url: foundation + '/organizer/reset',
+    method: 'post'
   },
   // 主催者 - 売上報告取得
   getOrganizerManageReports: {
