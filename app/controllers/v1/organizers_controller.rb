@@ -113,6 +113,11 @@ module V1
       })
       render status: 200
     end
+
+    def request_withdrawals
+      RequestWithdrawalMailer.send_request_email(params["account"], params["amount"]).deliver
+      render status: 200
+    end
     
     private
 
