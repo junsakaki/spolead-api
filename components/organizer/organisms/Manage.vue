@@ -8,12 +8,17 @@
         表示
       </v-btn>
     </div>
-    <div class="d-flex align-center mt-8 mb-8">
-      <div class="subtitle-1 font-weight-bold">
-        出金履歴
+    <div class="mt-8 mb-8">
+      <div class="d-flex align-center">
+        <div class="subtitle-1 font-weight-bold">
+          出金履歴
+        </div>
+        <v-btn x-small text color="primary" class="ml-4" @click="showManageWithdrawalHistoryModal">
+          表示
+        </v-btn>
       </div>
-      <v-btn x-small text color="primary" class="ml-4" @click="showManageWithdrawalHistoryModal">
-        表示
+      <v-btn color="primary" class="ml-4" block outlined @click="showManageWithdrawalRequestModal">
+        出金依頼
       </v-btn>
     </div>
     <div class="d-flex align-center mt-8 mb-8">
@@ -76,6 +81,10 @@
       :dialog="manageWithdrawalHistoryModal"
       @closeModal="closeModal"
     />
+    <manage-withdrawal-request-modal
+      :dialog="manageWithdrawalRequestModal"
+      @closeModal="closeModal"
+    />
     <manage-update-email-address-modal
       :dialog="manageUpdateEmailAddressModal"
       :user="user"
@@ -87,18 +96,21 @@
 <script>
 import ManageEarningsReportModal from '~/components/organizer/organisms/ManageEarningsReportModal.vue'
 import ManageWithdrawalHistoryModal from '~/components/organizer/organisms/ManageWithdrawalHistoryModal.vue'
+import ManageWithdrawalRequestModal from '~/components/organizer/organisms/ManageWithdrawalRequestModal.vue'
 import ManageUpdateEmailAddressModal from '~/components/organizer/organisms/ManageUpdateEmailAddressModal.vue'
 
 export default {
   components: {
     ManageEarningsReportModal,
     ManageWithdrawalHistoryModal,
+    ManageWithdrawalRequestModal,
     ManageUpdateEmailAddressModal
   },
   data () {
     return {
       manageEarningsReportModal: false,
       manageWithdrawalHistoryModal: false,
+      manageWithdrawalRequestModal: false,
       manageUpdateEmailAddressModal: false,
       manageUpdatePasswordModal: false,
       user: { email: '' },
@@ -116,6 +128,7 @@ export default {
     closeModal () {
       this.manageEarningsReportModal = false
       this.manageWithdrawalHistoryModal = false
+      this.manageWithdrawalRequestModal = false
       this.manageUpdateEmailAddressModal = false
       this.manageUpdatePasswordModal = false
     },
@@ -124,6 +137,9 @@ export default {
     },
     showManageWithdrawalHistoryModal () {
       this.manageWithdrawalHistoryModal = true
+    },
+    showManageWithdrawalRequestModal () {
+      this.manageWithdrawalRequestModal = true
     },
     showManageUpdateEmailAddressModal () {
       this.manageUpdateEmailAddressModal = true

@@ -411,5 +411,10 @@ export default {
   getOrganizerManageWithdrawals: {
     url: foundation + '/organizer/manage/withdrawals',
     method: 'get'
+  },
+  // 主催者 - 出金依頼
+  postOrganizerManageWithdrawals: {
+    url: foundation + '/organizer/manage/request_withdrawals',
+    method: 'post'
   }
 }
