@@ -159,6 +159,12 @@ const RECRUITMENT_TYPE = [
   { target: 'coach', name: 'コーチを探す', id: 2 }
 ]
 
+const SERVICE_TYPE = [
+  { type: 'オンラインサロン', id: 1 },
+  { type: 'クラウドファンディング', id: 2 },
+  { type: '指導者マッチング', id: 3 }
+]
+
 export default (context, inject) => {
   inject('SPORTS', SPORTS)
   inject('AREA', AREA)
@@ -170,4 +176,5 @@ export default (context, inject) => {
   inject('CONTACT_TYPE', CONTACT_TYPE)
   inject('PAYMENT_TYPE', PAYMENT_TYPE)
   inject('RECRUITMENT_TYPE', RECRUITMENT_TYPE)
+  inject('SERVICE_TYPE', SERVICE_TYPE)
 }

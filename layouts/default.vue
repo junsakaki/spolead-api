@@ -101,14 +101,25 @@ export default {
       }
     },
     shouldShowOrganizerHeader () {
-      return this.$route.path.startsWith('/organizer') && !this.$route.path.startsWith('/organizer/login')
+      return (
+        this.$route.path.startsWith('/organizer') &&
+        !this.$route.path.startsWith('/organizer/login') &&
+        !this.$route.path.startsWith('/organizer/apply')
+      )
     },
     shouldShowNormalHeader () {
-      return !this.$route.path.startsWith('/organizer') && !this.$route.path.startsWith('/organizer/login')
+      return (
+        !this.$route.path.startsWith('/organizer') &&
+        !this.$route.path.startsWith('/organizer/login')
+      ) || this.$route.path.startsWith('/organizer/apply')
     }
   },
   created () {
-    if (this.$route.path.startsWith('/organizer')) {
+    if (
+      this.$route.path.startsWith('/organizer') &&
+      !this.$route.path.startsWith('/organizer/login') &&
+      !this.$route.path.startsWith('/organizer/apply')
+    ) {
       this.checkOrganizerToken()
     }
   },

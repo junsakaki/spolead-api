@@ -377,6 +377,11 @@ export default {
     url: foundation + '/payment/customer',
     method: 'post'
   },
+  // 主催者 - 申し込み
+  postOrganizerApply: {
+    url: foundation + '/organizer/apply',
+    method: 'post'
+  },
   // 主催者 - ログイン
   organizerLogin: {
     url: foundation + '/organizer/login',
