@@ -32,6 +32,14 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="snackbar" :color="snackbarColor" timeout="3000" top>
+      {{ snackbarText }}
+      <template #action="{ attrs }">
+        <v-btn text v-bind="attrs" icon @click="snackbar = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-row>
 </template>
 
@@ -53,7 +61,10 @@ export default {
         v => (v && v >= 1) || '1 ~ 1,000,000 の間で設定してください',
         v => (v && v <= 1000000) || '1 ~ 1,000,000 の間で設定してください'
       ],
-      isFormValid: false
+      isFormValid: false,
+      snackbar: false,
+      snackbarText: '',
+      snackbarColor: 'primary'
     }
   },
   methods: {
@@ -68,7 +79,18 @@ export default {
             ...this.params
           }
         }).then((res) => {
-          console.log(res)
+          this.snackbar = true
+          this.snackbarText = '出金の依頼が完了しました'
+          this.snackbarColor = 'success'
+          this.form = {
+            amount: '0',
+            account: ''
+          }
+          this.closeModal()
+        }).catch(() => {
+          this.snackbar = true
+          this.snackbarText = '出金の依頼に失敗しました'
+          this.snackbarColor = 'error'
         })
     }
   }
