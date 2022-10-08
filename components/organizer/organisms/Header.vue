@@ -71,7 +71,7 @@
         </div>
       </router-link>
       <div class="links">
-        <router-link to="/organizer/salons" class="link icon-button align-center">
+        <router-link v-if="!!$store.state.organizer.user.owned.salons" to="/organizer/salons" class="link icon-button align-center">
           <v-icon>
             mdi-home-outline
           </v-icon>
@@ -79,7 +79,7 @@
             オンラインサロン
           </p>
         </router-link>
-        <router-link to="/organizer/funds" class="link icon-button align-center">
+        <router-link v-if="!!$store.state.organizer.user.owned.funds" to="/organizer/funds" class="link icon-button align-center">
           <v-icon>
             mdi-cash-multiple
           </v-icon>
@@ -87,7 +87,7 @@
             クラウドファンディング
           </p>
         </router-link>
-        <router-link to="/organizer/lessons" class="link icon-button align-center">
+        <router-link v-if="!!$store.state.organizer.user.owned.lessons" to="/organizer/lessons" class="link icon-button align-center">
           <v-icon>
             mdi-handshake-outline
           </v-icon>

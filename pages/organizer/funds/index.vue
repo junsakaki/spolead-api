@@ -5,15 +5,17 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <Funds :funds="$store.state.organizer.user.owned.funds" />
+    <Funds v-if="!!$store.state.organizer.user.owned.funds" :funds="$store.state.organizer.user.owned.funds" />
+    <UnapplyedService v-else />
   </div>
 </template>
 
 <script>
 import Funds from '~/components/organizer/organisms/Funds.vue'
+import UnapplyedService from '~/components/shared/organisms/UnapplyedService.vue'
 
 export default {
-  components: { Funds },
+  components: { Funds, UnapplyedService },
   data () {
     return {
       breadcrumbs: [

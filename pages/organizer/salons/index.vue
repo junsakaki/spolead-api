@@ -5,15 +5,17 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <Salons :salons="$store.state.organizer.user.owned.salons" />
+    <Salons v-if="!!$store.state.organizer.user.owned.salons" :salons="$store.state.organizer.user.owned.salons" />
+    <UnapplyedService v-else />
   </div>
 </template>
 
 <script>
 import Salons from '~/components/organizer/organisms/Salons.vue'
+import UnapplyedService from '~/components/shared/organisms/UnapplyedService.vue'
 
 export default {
-  components: { Salons },
+  components: { Salons, UnapplyedService },
   data () {
     return {
       breadcrumbs: [

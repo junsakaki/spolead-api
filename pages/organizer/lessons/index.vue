@@ -5,15 +5,17 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <Lessons :lessons="$store.state.organizer.user.owned.lessons" />
+    <Lessons v-if="!!$store.state.organizer.user.owned.lessons" :lessons="$store.state.organizer.user.owned.lessons" />
+    <UnapplyedService v-else />
   </div>
 </template>
 
 <script>
 import Lessons from '~/components/organizer/organisms/Lessons.vue'
+import UnapplyedService from '~/components/shared/organisms/UnapplyedService.vue'
 
 export default {
-  components: { Lessons },
+  components: { Lessons, UnapplyedService },
   data () {
     return {
       breadcrumbs: [
