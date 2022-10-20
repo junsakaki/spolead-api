@@ -27,7 +27,7 @@
       </v-flex>
     </div>
     <div v-else>
-      <div class="h2 text-left page-content-title">
+      <div class="h2 text-left page-content-title" id="bbs">
         掲示板
       </div>
       <v-flex

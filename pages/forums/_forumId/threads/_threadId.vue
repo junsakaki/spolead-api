@@ -201,7 +201,7 @@ export default {
     execPagination (page) {
       window.scrollTo(0, 0)
       this.page = page
-      this.displayComments = this.bbs_thread.comments.slice((page - 1) * this.paginationLimit, (page - 1) * this.paginationLimit + this.paginationLimit)
+      this.displayComments = this.bbs_thread.comments.slice((page - 1) * this.paginationLimit, (page - 1) * this.paginationLimit + this.paginationLimit).reverse();
       this.$router.replace({ path: this.$router.path, query: { ...this.$route.query, page } }, () => {})
     },
     createComment () {

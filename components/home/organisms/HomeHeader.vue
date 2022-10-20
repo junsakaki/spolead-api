@@ -3,17 +3,17 @@
     <div v-if="$vuetify.breakpoint.smAndDown" class="page-header SP">
       <div class="layer" />
       <div class="page-title">
-        ALL SPORTS BEGINING
+        さぁ、スタートラインに立とう！
         <br>
-        SpoLeadeR
+        チーム・スクール探しはSpoLeadeR
       </div>
     </div>
     <div v-else class="page-header">
       <div class="layer" />
       <div class="page-title">
-        ALL SPORTS BEGINING
+        さぁ、スタートラインに立とう！
         <br>
-        SpoLeadeR
+        チーム・スクール探しはSpoLeadeR
       </div>
     </div>
   </div>

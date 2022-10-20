@@ -127,7 +127,10 @@ export default {
   },
   head () {
     return {
-      title: this.pageTitle
+      title: this.pageTitle,
+      meta: [
+        { keyword: 'キッズ,小学生,中学生,高校生,専門・大学生,社会人,シニア', content: '地域クラブ・スクールの口コミ・評判が検索可能なサイト' }
+      ]
     }
   },
   watch: {
