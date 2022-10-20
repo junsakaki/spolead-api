@@ -9,7 +9,8 @@ module V1
       :background, 
       :self_introduction,
       :precautions,
-      :owner
+      :owner,
+      :users_count
 
     attribute :approval
 
@@ -27,6 +28,10 @@ module V1
           {name: object.salon_owner.name}
         end  
       end
+    end
+
+    def users_count
+      object.users.size
     end
 
     has_many :plans, serializer: V1::PlanSerializer
