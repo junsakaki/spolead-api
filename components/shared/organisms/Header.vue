@@ -68,6 +68,15 @@
         >
       </router-link>
       <div v-if="!$route.path.endsWith('/new')" class="links">
+        <a href="https://spoleader.com/lp.html" class="link icon-button align-center">
+          <v-icon>
+            mdi-cursor-pointer
+          </v-icon>
+          <p class="icon-button-link">
+            はじめての方へ
+          </p>
+        </a>
+        <button class="link icon-button align-center" />
         <div class="d-flex align-center justify-center">
           <v-menu
             open-on-hover
