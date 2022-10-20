@@ -87,7 +87,7 @@
       <div v-else-if="mode === 'city'">
         <div class="city-select-area SP">
           <div class="area-title">
-            {{ selectedPrefecture.title }}の市区町村一覧
+            <a class="area-link ma-0" @click="showTeamsRelatedToCity(null)">{{ selectedPrefecture.title }}</a>の市区町村一覧 
           </div>
           <v-flex d-flex flex-wrap class="list">
             <a

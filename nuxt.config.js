@@ -10,17 +10,17 @@ export default {
       lang: 'ja',
       prefix: 'og: http://ogp.me/ns#'
     },
-    titleTemplate: '%s' + 'SpoLeadeR',
+    title: '【スポリーダー】スポーツ特化型情報ポータルサービス・口コミ・掲示板',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'SpoLeadeR(スポリーダー)は育成年代を始めとしたお住いの地域から全国のスポーツチーム・スクールのクチコミまで網羅した情報データベースです。国内最大級のスポーツチーム・スクールを掲載し・検索・情報収集ができます！子供の習い事をはじめ、大人まで通えるチーム・スクール情報も掲載できます。また、スポーツBBS掲示板も掲載しており、悩みや相談事も自由にスレッド形式で利用が可能です。' },
-      { hid: 'keywords', name: 'keywords', content: 'スポーツ,チーム,スクール,口コミ,情報,データベース,サッカー,野球,バスケット,バレーボール,水泳,ラグビー,ダンス,キッズ,小学生,中学生,高校生,大学生,社会人,シニア,BBS,掲示板' },
+      { hid: 'description', name: 'description', content: 'SpoLeadeR(スポリーダー)は育成年代を始めとしたお住いの地域から全国のスポーツチーム・スクールの口コミ・評判まで網羅した国内最大級の情報データベースです。子供の習い事をはじめ、大人まで通える情報を検索し情報収集できます。また、スポーツBBS掲示板も掲載しており、悩みや相談事も自由にスレッド形式で利用が可能です。' },
+      { hid: 'keywords', name: 'keywords', content: 'スポーツ,チーム,スクール,口コミ,習い事,評判,掲示板' },
       { hid: 'og:site_name', property: 'og:site_name', content: 'Spoleader' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:url', property: 'og:url', content: 'https://spoleader.com/' },
       { hid: 'og:title', property: 'og:title', content: 'Spoleader' },
-      { hid: 'og:description', property: 'og:description', content: 'SpoLeadeR(スポリーダー)は育成年代を始めとしたお住いの地域から全国のスポーツチーム・スクールのクチコミまで網羅した情報データベース>です。国内最大級のスポーツチーム・スクールを掲載し・検索・情報収集ができます！子供の習い事をはじめ、大人まで通えるチーム・スクール情報も掲載できます。また、スポーツBBS掲示板も掲載しており、悩みや相談事も自由にスレッド形式で利用が可能です。' },
+      { hid: 'og:description', property: 'og:description', content: 'SpoLeadeR(スポリーダー)は育成年代を始めとしたお住いの地域から全国のスポーツチーム・スクールの口コミ・評判まで網羅した国内最大級の情報データベースです。子供の習い事をはじめ、大人まで通える情報を検索し情報収集できます。また、スポーツBBS掲示板も掲載しており、悩みや相談事も自由にスレッド形式で利用が可能です。' },
       { hid: 'og:image', property: 'og:image', content: 'https://spoleader.com/ogp.png' }
     ],
     link: [
@@ -28,7 +28,7 @@ export default {
     ],
     script: [
       {
-        src: 'https://www.googletagmanager.com/gtag/js?id=G-NXPNETVMNR',
+        src: 'https://www.googletagmanager.com/gtag/js?id=UA-209743486-1',
         async: true
       },
       {
@@ -37,7 +37,7 @@ export default {
         crossorigin: 'anonymous'
       },
       {
-        innerHTML: 'window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag(\'js\', new Date());gtag(\'config\', \'G-NXPNETVMNR\');'
+        innerHTML: 'window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag(\'js\', new Date());gtag(\'config\', \'UA-209743486-1\');'
       }
     ]
   },

@@ -11,6 +11,9 @@
       <div class="a8">        
         <a href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3626167&pid=887715132" rel="nofollow">
 	<img src="//ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3626167&pid=887715132" border="0"></a>
+	<a href="https://rpx.a8.net/svt/ejp?a8mat=3HP98T+EPVT6A+2HOM+68U4X&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2F0ea62065.34400275.0ea62066.204f04c0%2Fa21113093292_3HP98T_EPVT6A_2HOM_68U4X%3Fpc%3Dhttp%253A%252F%252Fwww.rakuten.co.jp%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252F" rel="nofollow">
+	<img src="http://hbb.afl.rakuten.co.jp/hsb/0eb4bbc3.a22f6535.0eb4bbaa.95151395/" border="0"></a>
+	<img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=3HP98T+EPVT6A+2HOM+68U4X" alt="">
 	<a href="https://px.a8.net/svt/ejp?a8mat=3HP98U+2FIQPE+4ABU+5ZU29" rel="nofollow">
 	<img border="0" width="234" height="60" alt="" src="https://www26.a8.net/svt/bgt?aid=211130382147&wid=001&eno=01&mid=s00000020001001007000&mc=1"></a>
 	<img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=3HP98U+2FIQPE+4ABU+5ZU29" alt="">
