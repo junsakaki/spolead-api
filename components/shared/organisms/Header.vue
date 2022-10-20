@@ -152,15 +152,6 @@
           </v-menu>
         </div>
         <router-link to="/salons" class="link icon-button align-center">
-      <div class="links">
-        <a href="https://spoleader.com/lp.html" class="link icon-button align-center">
-          <v-icon>
-            mdi-cursor-pointer
-          </v-icon>
-          <p class="icon-button-link">
-            はじめての方へ
-          </p>
-        </a>
         <button class="link icon-button align-center">
           <v-icon>
             mdi-home
