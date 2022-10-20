@@ -10,6 +10,7 @@
     <ScrollTopButton />
     <v-footer padless>
       <div class="a8">
+      <div v-if="withoutBilling" class="a8">
         <a href="https://px.a8.net/svt/ejp?a8mat=3HP98U+2FIQPE+4ABU+6EMGX" rel="nofollow">
           <img border="0" width="300" height="250" alt="" src="https://www27.a8.net/svt/bgt?aid=211130382147&wid=001&eno=01&mid=s00000020001001076000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3HP98U+2FIQPE+4ABU+6EMGX" alt="">
@@ -25,7 +26,7 @@
         <a href="https://px.a8.net/svt/ejp?a8mat=3N1YIG+68GFUA+4J66+BYT9D" rel="nofollow">
           <img border="0" width="300" height="250" alt="" src="https://www26.a8.net/svt/bgt?aid=220121080377&wid=001&eno=01&mid=s00000021147002010000&mc=1"></a>
         <img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3N1YIG+68GFUA+4J66+BYT9D" alt="">
-      <div class="a8">        
+      <div class="a8">
         <a href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3626167&pid=887715132" rel="nofollow">
 	<img src="//ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid=3626167&pid=887715132" border="0"></a>
 	<a href="https://px.a8.net/svt/ejp?a8mat=3HP98U+2FIQPE+4ABU+5ZU29" rel="nofollow">
@@ -99,7 +100,8 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'SpoLeadeR',
-      subTitle: 'ALL SPORTS BEGINING SpoLedeR'
+      subTitle: 'ALL SPORTS BEGINING SpoLedeR',
+      withoutBilling: false
     }
   },
   computed: {
@@ -135,6 +137,14 @@ export default {
       this.checkOrganizerToken()
     }
   },
+  watch: {
+    '$route' () {
+      this.checkBilling()
+    }
+  },
+  created () {
+    this.checkBilling()
+  },
   methods: {
     filteredFooterLinks () {
       if (this.$auth.loggedIn) {
@@ -161,6 +171,15 @@ export default {
       } else {
         // 未ログインの場合は主催者側ログイン画面へリダイレクトする
         this.$router.push('/organizer/login')
+      }
+    },
+    checkBilling () {
+      if (this.$route.name === 'teams-id' && this.$route.query.tab === '1') {
+        this.withoutBilling = true
+      } else if (this.$route.path.startsWith('/forums')) {
+        this.withoutBilling = true
+      } else {
+        this.withoutBilling = false
       }
     }
   }
