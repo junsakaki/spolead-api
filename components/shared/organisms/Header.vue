@@ -152,13 +152,14 @@
           </v-menu>
         </div>
         <router-link to="/salons" class="link icon-button align-center">
-        <button class="link icon-button align-center">
-          <v-icon>
-            mdi-home
-          </v-icon>
-          <p class="icon-button-link">
-            オンラインサロン
-          </p>
+          <button class="link icon-button align-center">
+            <v-icon>
+              mdi-home
+            </v-icon>
+            <p class="icon-button-link">
+              オンラインサロン
+            </p>
+          </button>
         </router-link>
         <router-link to="/funds" class="link icon-button align-center">
           <v-icon>

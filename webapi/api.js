@@ -4,7 +4,7 @@ const foundation = 'https://develop.spoleader.com/api/v1'
 
 // productionVer
 // const foundation = process.env.FOUNDATION
-const foundation = 'https://spoleader.com/api/v1'
+// const foundation = 'https://spoleader.com/api/v1'
 
 export default {
   // 都道府県取得外部API
