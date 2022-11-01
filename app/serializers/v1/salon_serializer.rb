@@ -13,6 +13,10 @@ module V1
 
     attribute :approval
 
+    attribute :participations do |salon|
+      salon.object.participations.size
+    end
+
     def initialize(object, options = {})
       super
       @options = options
