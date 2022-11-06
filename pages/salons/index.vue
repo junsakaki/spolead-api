@@ -30,7 +30,7 @@
                 {{ !!salon.owner ? salon.owner.name : '' }}
               </div>
               <div class="caption mt-2 px-2 text-right">
-                現在の参加者数： {{ salon.users_count }}人
+                現在の参加者数： {{ salon.participations }}人
               </div>
               <div class="caption salon-caption mt-2 px-2">
                 {{ salon.caption }}
