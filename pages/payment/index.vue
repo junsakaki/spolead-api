@@ -59,7 +59,7 @@
               type="text/javascript"
               src="https://checkout.pay.jp/"
               class="payjp-button"
-              data-key="pk_test_9b25bd2b15791cf0db83bb03"
+              data-key="pk_test_caed59573903278ce796531a"
               data-text="カード情報をしてください"
               data-submit-text="カード情報を確定する"
               data-partial="true"
