@@ -54,7 +54,7 @@ export default {
   data () {
     return {
       form: {
-        amount: '0',
+        amount: '5000',
         account: ''
       },
       amountRules: [
@@ -76,14 +76,15 @@ export default {
         .dispatch('api/apiRequest', {
           api: 'postOrganizerManageWithdrawals',
           params: {
-            ...this.params
+                    amount: this.form.amount,
+                    account: this.form.account
           }
         }).then((res) => {
           this.snackbar = true
           this.snackbarText = '出金の依頼が完了しました'
           this.snackbarColor = 'success'
           this.form = {
-            amount: '0',
+            amount: '5000',
             account: ''
           }
           this.closeModal()
