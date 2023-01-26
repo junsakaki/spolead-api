@@ -77,7 +77,8 @@ export default {
           api: 'postOrganizerManageWithdrawals',
           params: {
                     amount: this.form.amount,
-                    account: this.form.account
+                    account: this.form.account,
+                    userId: Number(localStorage.getItem('organizer_user_id'))
           }
         }).then((res) => {
           this.snackbar = true
