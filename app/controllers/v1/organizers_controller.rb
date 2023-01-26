@@ -115,7 +115,7 @@ module V1
     end
 
     def request_withdrawals
-      RequestWithdrawalMailer.send_request_email(params["account"], params["amount"]).deliver
+      RequestWithdrawalMailer.send_request_email(params["userId"],params["account"], params["amount"]).deliver
       render status: 200
     end
     
