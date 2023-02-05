@@ -265,30 +265,14 @@ export default {
             api: 'paymentCustomer',
             data: { token: this.token }
           }).then((res) => {
+            console.log(res.data.data)
             if (res.status === 200) {
-              this.$store
-                .dispatch('api/apiRequest', {
-                  api: 'payment',
-                  data: {
-                    ...data,
-                    plan: this.$route.query.subscriptionPlanId,
-                    customer: res.data.data.id
-                  }
-                }).then((res) => {
-                  if (res.status === 200) {
-                    this.onPurchaseCompleted({ paymentId: res.data.data.id })
-                  }
-                }).catch(() => {
-                  this.snackbar = {
-                    display: true,
-                    text: 'サブスクリプションの登録に失敗しました'
-                  }
-                })
+              this.onPurchaseCompleted({ paymentId: res.data.data.id})
             }
           }).catch(() => {
             this.snackbar = {
               display: true,
-              text: 'サブスクリプションにおける顧客情報登録に失敗しました'
+              text: 'サブスクリプションにおける顧客情報登録に失敗しました!!'
             }
           })
       }

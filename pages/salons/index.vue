@@ -5,6 +5,10 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
+    <div class="salons-head">
+    オンラインレッスンやファンクラブの新しいカタチを目指して提供している オンラインサロンについての説明がここに入ります。
+    <router-link :to="`/salons/about`" >はじめての方</router-link>
+    </div>
     <div v-if="salons.length > 0" class="salons">
       <v-row no-gutters>
         <v-col
@@ -85,6 +89,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.salon-head {
+  width: 100%;
+  height: 100px;
+  background: grey;
+}
 .salon {
   text-decoration: none;
 }
