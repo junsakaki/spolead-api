@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_30_070954) do
+ActiveRecord::Schema.define(version: 2023_02_05_070141) do
 
   create_table "careers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2022_08_30_070954) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "approval", default: false
+    t.string "payjp_tenant"
     t.index ["name", "caption", "content", "precautions", "target_money", "limit_date"], name: "cover_funds_index"
   end
 
@@ -255,6 +256,7 @@ ActiveRecord::Schema.define(version: 2022_08_30_070954) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "approval", default: false
+    t.string "payjp_tenant"
     t.index ["name", "caption", "content", "precautions"], name: "index_salons_on_name_and_caption_and_content_and_precautions"
   end
 
@@ -339,6 +341,7 @@ ActiveRecord::Schema.define(version: 2022_08_30_070954) do
     t.integer "amount"
     t.integer "plan_id"
     t.integer "count"
+    t.string "customer_id"
     t.index ["user_id", "salon_id"], name: "index_users_salons_participations_on_user_id_and_salon_id"
   end
 

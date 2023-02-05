@@ -33,12 +33,20 @@ module V1
             :amount => params[:amount],
             :card => params[:token],
             :currency => 'jpy',
+            :tenant => 'ten_a1cc589e0f53f151782310768302',
           )
         else
-          charge = Payjp::Subscription.create(
-            :plan => params[:plan],
-            :customer => params[:customer]
-          )
+          # charge = Payjp::Customers.retrieve(
+          #   :description  => 'j-kubo+test@keylink.co.jp',
+          #   :card => params[:token],
+          #   :customer => params[:customer]
+          # )
+          Rails.logger.debug '@@@@@@@@@@@@@@@@@@@@'
+          charge = Payjp::Customers.retrieve(params[:customer])
+          charge.card = params[:token]
+          charge.save
+
+
         end
         render json: {data: charge}, status: 200
       rescue => e

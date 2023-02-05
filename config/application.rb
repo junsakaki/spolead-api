@@ -44,13 +44,11 @@ module App
       end
     end
 
-    config.active_job.queue_adapter = :delayed_job
-
-    config.hosts << 'spolead-sv.net'
+    config.hosts << 'develop.spoleader.com'
 
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
-      'Access-Control-Allow-Origin' => 'https://spolead.com', # アクセス元のURL
+      'Access-Control-Allow-Origin' => 'http://127.0.0.1:8000', # アクセス元のURL
       'Access-Control-Request-Method' => '*'
     }
 

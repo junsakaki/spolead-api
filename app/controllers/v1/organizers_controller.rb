@@ -67,16 +67,16 @@ module V1
       total = {
         salons: calc_salons,
         funds: calc_funds,
-        lessons: @user.lesson_owned.present? ? @user.lesson_owned.map{|lesson|
-          {id: lesson.id,  amount: lesson.lesson_amount}
-        } :  []
+        # lessons: @user.lesson_owned.present? ? @user.lesson_owned.map{|lesson|
+        #   {id: lesson.id,  amount: lesson.lesson_amount}
+        # } :  []
       }
       term = term.nil? ? nil : {
         salons: calc_salons(term),
         funds: calc_funds(term),
-        lessons: @user.lesson_owned.map{|lesson|
-          {id: lesson.id,  amount: lesson.lesson_amount(term)}
-        }
+        # lessons: @user.lesson_owned.map{|lesson|
+        #   {id: lesson.id,  amount: lesson.lesson_amount(term)}
+        # }
       }
       render json: {total: total, term: term}
     end
@@ -115,7 +115,7 @@ module V1
     end
 
     def request_withdrawals
-      RequestWithdrawalMailer.send_request_email(params["account"], params["amount"]).deliver
+      RequestWithdrawalMailer.send_request_email(params["userId"],params["account"], params["amount"]).deliver
       render status: 200
     end
     

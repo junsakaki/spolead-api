@@ -103,7 +103,7 @@ module V1
         plan_id: params[:plan_id],
         amount: params[:amount],
         count: params[:count],
-        payment_id: params[:payment_id]
+        customer_id: params[:payment_id]
       )
       if participation.save
         render 200
@@ -138,6 +138,7 @@ module V1
           :amount,
           :count,
           :payment_id,
+          :customer_id,
           plans: [
             :id,
             :name,

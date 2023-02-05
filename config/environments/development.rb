@@ -29,7 +29,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 
@@ -43,15 +43,25 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # smtpの情報を記載
-  # config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => 'AKIAYQRMGVSBNX7F6VTK',
+    :password => 'BGndOC7xY5Om3B22HOtwYc5qPf1gPgGB7rcWtBxOKpRB',
+    :address => 'email-smtp.ap-northeast-1.amazonaws.com',
+    :domain => 'spoleader.com',
+    :port => 587,
+    # :authentication => 'plain',
+    :enable_starttls_auto => true,
+  }
+  config.action_mailer.delivery_method = :smtp
+
   # config.action_mailer.smtp_settings = {
-  #   :user_name => 'XXXXXXXXXXXXXXXXXXXXxx',
-  #   :password => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-  #   :address => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-  #   :domain => 'xxxxxxxxxxxxxx',
-  #   :port => 587,
-  #   :authentication => 'plain',
-  #   :enable_starttls_auto => true,
+  #   :user_name => 'e7f6e4129c75fb',
+  #   :password => '7fd5000698f10c',
+  #   :address => 'smtp.mailtrap.io',
+  #   :domain => 'smtp.mailtrap.io',
+  #   :port => '2525',
+  #   :authentication => :cram_md5
   # }
 
   # Raises error for missing translations.
@@ -60,4 +70,6 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  config.hosts << "develop.spoleader.com"
+  Rails.application.config.relative_url_root = "/api"
 end

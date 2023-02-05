@@ -58,7 +58,7 @@ module V1
           transfer_account: params[:owner][:transfer_account]
         )
       end
-
+      OrganizerServiceApplyMailer.send_apply_email().deliver
       if fund.save!
         render 200
       else
