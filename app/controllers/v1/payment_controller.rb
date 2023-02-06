@@ -60,8 +60,8 @@ module V1
           charge = Payjp::Charge.retrieve(params[:payment_id])
           charge.refund
         else
-          charge = Payjp::Subscription.retrieve(params[:payment_id])
-          charge.cancel
+          # charge = Payjp::Subscription.retrieve(params[:payment_id])
+          # charge.cancel
         end
         render json: {data: charge}, status: 200
       rescue => e
