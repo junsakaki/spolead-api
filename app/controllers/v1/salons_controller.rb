@@ -57,6 +57,7 @@ module V1
           transfer_account: params[:owner][:transfer_account]
         )
       end
+      OrganizerServiceApplyMailer.send_apply_email().deliver
 
       if salon.save!
         render 200
