@@ -48,6 +48,7 @@ module V1
           transfer_account: params[:owner][:transfer_account]
         )
       end
+      OrganizerServiceApplyMailer.send_apply_email().deliver
 
       if lesson.save!
         render 200
