@@ -11,10 +11,12 @@ module V1
     def create
       @user = User.new user_params
       @user.role = 'member'
-      
+      p user_params
+      p @user
       if @user.save!
         sign_in :user, @user # login automaticaly
         @user = User.find_for_database_authentication(email: @user.email)
+        p @user
 
         render json: @user, serializer: V1::SessionSerializer, root: nil
       else
@@ -27,7 +29,9 @@ module V1
         user = User.includes(:teams).find_by(social_login_id: params[:id])
         if user.blank?
           user = User.new(
-            social_login_id: params[:id]
+            social_login_id: params[:id],
+            nickname: params[:nickname],
+            email: params[:email]
           )
           if user.save!
           render json: user, each_serializer: V1::UserSerializer
