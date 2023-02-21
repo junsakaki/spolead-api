@@ -247,12 +247,17 @@ export default {
   },
   methods: {
     checkRole () {
+      console.log(this.$auth.user)
       if (this.$auth && this.$auth.user) {
         this.$store
           .dispatch('api/apiRequest', {
             api: 'userIndex',
             query: {
-              id: this.$auth.user.sub
+              id: this.$auth.user.sub,
+            },
+            params: {
+              email: this.$auth.user.email,
+              nickname: this.$auth.user.nickname
             }
           }).then((res) => {
             if (res.status === 200) {

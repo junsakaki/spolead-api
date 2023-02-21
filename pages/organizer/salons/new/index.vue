@@ -75,7 +75,7 @@ export default {
     submit (form) {
       const data = { ...form }
       data.owner.user_id = Number(localStorage.getItem('organizer_user_id'))
-      this.beforeSalonCreate(data)
+      this.salonCreate(data)
     }
   }
 }

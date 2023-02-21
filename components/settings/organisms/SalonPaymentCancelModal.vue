@@ -36,7 +36,7 @@ export default {
     onPaymentCancel () {
       const data = {
         type: 'subscription',
-        payment_id: this.salon.payment_id
+        custmer_id: this.salon.payment_id
       }
       this.$store
         .dispatch('api/apiRequest', {

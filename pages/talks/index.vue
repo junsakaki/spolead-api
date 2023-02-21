@@ -41,7 +41,11 @@ export default {
           .dispatch('api/apiRequest', {
             api: 'userIndex',
             query: {
-              id: this.$auth.user.sub
+              id: this.$auth.user.sub,
+            },
+            params: {
+              email: this.$auth.user.email,
+              nickname: this.$auth.user.nickname
             }
           }).then((res) => {
             this.isLoading = false
