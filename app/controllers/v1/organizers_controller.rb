@@ -1,6 +1,6 @@
 module V1
   class OrganizersController < ApplicationController
-    before_action :authenticate_user_from_token!, except: [:create, :apply, :reset, :create_withdrawals]
+    # before_action :authenticate_user_from_token!, except: [:create, :apply, :reset, :create_withdrawals]
     require 'securerandom'
 
     # POST
@@ -62,8 +62,10 @@ module V1
     end
 
     def reports
+      Rails.logger.debug("-aaa-----------------")
       @user = User.find(params[:userId]) 
-      term = params[:term].present? ? Date.new(params[:term][:year].to_i, params[:term][:month].to_i) : nil
+
+      term = params[:term_year].present? ? Date.new(params[:term_year].to_i, params[:term_month].to_i) : nil
       total = {
         salons: calc_salons,
         funds: calc_funds,
@@ -73,7 +75,7 @@ module V1
       }
       term = term.nil? ? nil : {
         salons: calc_salons(term),
-        funds: calc_funds(term),
+        # funds: calc_funds(term),
         # lessons: @user.lesson_owned.map{|lesson|
         #   {id: lesson.id,  amount: lesson.lesson_amount(term)}
         # }
@@ -126,18 +128,21 @@ module V1
     end
 
     def calc_salons(term = nil)
+
+      @calc_salons = []
       @user.salon_owned.map{|salon|
         participations = term.present? ? salon.participations.where(created_at: (term)..(term.end_of_month)) : salon.participations
         participations = participations.group_by{|p| p[:plan_id]}.values
+       
+        amount = 0
         if participations.present?
           plan_amounts = participations.map{|participation|
-            amount = 0
             participation.each{|p| amount += p.amount * p.count}
-            return {id: participation.first.plan_id, amount: amount}
-          }        
+          }
         end
-        return {id: salon.id, plans: plan_amounts} 
+        @calc_salons.push({salon: salon ,total_amount: amount})
       }
+      return @calc_salons
     end
 
     def calc_funds(term = nil)
